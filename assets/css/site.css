@@ -1,5 +1,5 @@
 /* site.css — thedottie.app, direction A: night, then your day.
-   Colour tokens come from tokens.css (the app's four themes, verbatim). The
+   Color tokens come from tokens.css (the app's four themes, verbatim). The
    night sections use Midnight fixed (--m-*); the day sections follow the
    visitor's theme pick (--bg1 ... --dust2), and so does the demo phone.
    Type: Fraunces for display (soft, a little wonky), Bricolage Grotesque for
@@ -159,7 +159,7 @@ h1 { font-size: clamp(44px, 8.5vw, 104px); line-height: 0.98; letter-spacing: -0
 .phone-stage { width: 100%; max-width: 430px; position: relative; min-width: 0; }
 @media (min-width: 960px) { .dawn { padding: 140px 64px 72px; } .explore__inner { grid-template-columns: 1fr 1fr; align-items: center; } }
 
-/* ---- the phone (the prototype, recoloured by the tokens) ---------------------- */
+/* ---- the phone (the prototype, recolored by the tokens) ---------------------- */
 .phone { --scale: 1; width: 430px; height: 880px; zoom: var(--scale); position: relative; border-radius: 70px;
   background: linear-gradient(160deg, #d9d5cf 0%, #8e8a85 18%, #c8c4be 40%, #6f6c68 62%, #bdb9b3 82%, #807c78 100%);
   box-shadow: 0 40px 80px rgba(20,18,32,0.45), 0 8px 24px rgba(20,18,32,0.25), inset 0 0 0 2px rgba(255,255,255,0.35), inset 0 0 0 6px #1a1a1c; }

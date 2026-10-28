@@ -1,6 +1,6 @@
 /* ring.js — the hero ring for the direction mocks. The launch moment's dust
    field (LaunchMoment.tsx: seed 1337, 360 motes, the same scatter and density
-   curve, Midnight's dust colours), drawn large. Motes drift in from the sky and
+   curve, Midnight's dust colors), drawn large. Motes drift in from the sky and
    settle onto the ring in sweep order, 12 o'clock round. Reduced motion shows
    the settled ring. Also: the note of the day, picked the way the app picks
    (hashSeed over the day) from the first-run warmth pool. */

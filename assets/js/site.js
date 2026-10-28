@@ -167,7 +167,7 @@
       if (k < 4) { dots[k].classList.add('on'); k++; if (reduce) next(); else setTimeout(next, 140); return; }
       setTimeout(function () {
         pin.hidden = true; pinResult.hidden = false;
-        if (kind === 'real') { pinCal.innerHTML = miniCal(14, 5, 31); pinWhich.textContent = 'Her calendar: the period she logged on Oct 14 to 18.'; }
+        if (kind === 'real') { pinCal.innerHTML = miniCal(14, 5, 31); pinWhich.textContent = 'Your calendar: the period you logged on Oct 14 to 18.'; }
         else { pinCal.innerHTML = miniCal(5, 4, 29); pinWhich.textContent = 'The decoy: a believable history that is not hers. Same screen, same speed, no tell.'; }
       }, reduce ? 0 : 220);
     }
