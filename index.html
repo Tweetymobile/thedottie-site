@@ -5,61 +5,318 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src 'self' data:; style-src 'self'; script-src 'self'; font-src 'self'; connect-src 'none'; form-action 'none'; base-uri 'none'; object-src 'none'; manifest-src 'self'; frame-src 'none'; upgrade-insecure-requests">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="color-scheme" content="light dark">
-  <meta name="theme-color" content="#F7F2E7" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#2A2620" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#141220">
   <title>Dottie · Private, from first period to last</title>
-  <meta name="description" content="Dottie is a cycle tracker for iPhone that keeps everything on your phone. No account, no cloud, nothing to leak.">
+  <meta name="description" content="Dottie is a cycle tracker for iPhone with no account and no cloud. Nothing you log leaves your device, so there is nothing to leak.">
   <meta name="referrer" content="no-referrer">
+  <link rel="canonical" href="https://thedottie.app/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Dottie">
+  <meta property="og:title" content="Dottie · Private, from first period to last">
+  <meta property="og:description" content="A cycle tracker for iPhone with no account and no cloud. Nothing you log leaves your device.">
+  <meta property="og:url" content="https://thedottie.app/">
+  <meta property="og:image" content="https://thedottie.app/assets/img/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Dottie · Private, from first period to last">
+  <meta name="twitter:description" content="A cycle tracker for iPhone with no account and no cloud. Nothing you log leaves your device.">
+  <meta name="twitter:image" content="https://thedottie.app/assets/img/og.png">
   <link rel="icon" href="assets/img/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/img/icon-180.png">
+  <link rel="stylesheet" href="assets/css/tokens.css">
   <link rel="stylesheet" href="assets/css/site.css">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Dottie","operatingSystem":"iOS 16.4 or later","applicationCategory":"HealthApplication","description":"A cycle tracker for iPhone with no account and no cloud. Nothing you log leaves your device.","url":"https://thedottie.app/"}</script>
 </head>
 <body>
   <a class="skip" href="#explore">Skip to the demo</a>
 
-  <header class="hero" id="top">
+  <!-- 1 · the night -->
+  <header class="hero night" id="top">
+    <div class="hero__ring"><div class="ring" id="hero-ring"></div></div>
     <div class="hero__copy">
-      <img class="hero__logo" src="assets/img/logo-mark.svg" width="168" height="168" alt="Dottie">
-      <h1 class="hero__title">Private, from first period to last.</h1>
-      <p class="hero__lede">Dottie is a cycle tracker for iPhone that keeps everything on your phone. No account, no cloud, nothing to leak.</p>
-      <p class="hero__cta">
-        <!-- When the App Store link is live, set APP_STORE_URL in assets/js/site.js and this becomes the badge. -->
-        <span class="badge" id="app-store">Coming soon to the App Store</span>
-      </p>
-      <ul class="promises" aria-label="Dottie's promises">
-        <li>Your data never leaves your device.</li>
-        <li>Your own history is free to see.</li>
-        <li>No pop-ups, and no fake discounts.</li>
-        <li>Safety features are free for everyone.</li>
-        <li>Delete everything in two taps. There is no server copy, so nothing can be recovered.</li>
-        <li>Dottie never diagnoses you.</li>
-      </ul>
+      <p class="wordmark">Dottie</p>
+      <h1>Private, from first&nbsp;period to&nbsp;last.</h1>
+      <p class="lede">A cycle tracker for iPhone with no account and no cloud. Nothing you log leaves your device, so there is nothing to leak.</p>
+      <p class="cta"><span class="js-appstore cta__main">Coming soon to the App Store</span> <a class="cta__quiet" href="#cycle">See how it works ↓</a></p>
     </div>
-    <div class="hero__phone">
-      <div class="stage" id="stage">
-        <div class="phone" id="phone" aria-label="A demo of the Dottie app" role="region">
-          <div class="phone__screen">
-            <div class="screen" id="screen"></div>
+    <aside class="note" aria-label="Dottie's note for today">
+      <p class="note__label">Dottie's note for <span class="js-today">today</span></p>
+      <p class="note__text js-note"></p>
+    </aside>
+  </header>
+
+  <!-- 2 · the ring becomes her cycle, her calendar, her patterns -->
+  <section class="cycle night" id="cycle" aria-labelledby="cycle-title">
+    <div class="cycle__inner">
+      <div class="stage" id="stage" data-step="ring">
+        <div class="stage__visual" aria-hidden="true">
+          <div class="layer layer--ring">
+            <div class="ring ring--band" id="stage-ring"></div>
+            <div class="ring__inner">
+              <span class="ring__day">Cycle day 15</span>
+              <span class="ring__word">Follicular</span>
+              <span class="ring__note js-note"></span>
+            </div>
+          </div>
+          <div class="layer layer--calendar" id="stage-calendar"></div>
+          <div class="layer layer--chart" id="stage-chart"></div>
+        </div>
+      </div>
+      <div class="steps">
+        <div class="step" data-goto="ring">
+          <h2 id="cycle-title">Today, it is your cycle.</h2>
+          <p>The stardust is your cycle so far. The soft band is your expected period. Under the ring, a line for the day: one of Dottie's own notes, chosen by the date, the same note all day.</p>
+          <p class="step__quote">Cycle day 15 · Follicular</p>
+        </div>
+        <div class="step" data-goto="calendar">
+          <h2>On the calendar, the same window.</h2>
+          <p>Period days you logged, the window when your period may start drawn as a range, and the phases between. Tap any past or today's date to log it. Future dates are read-only.</p>
+          <p class="step__quote">Expected: the window when your period may start.</p>
+        </div>
+        <div class="step" data-goto="chart">
+          <h2>Over months, your patterns.</h2>
+          <p>Cycle length, period length, the symptoms that keep company with each phase. Counts, never scores. Your patterns are calculated on this device and never uploaded.</p>
+          <p class="step__quote">Average cycle 31d · Full spread 4d · Typical period 5d</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 · honesty -->
+  <section class="honest night" id="honest" aria-labelledby="honest-title">
+    <div class="honest__inner">
+      <h2 id="honest-title">A single date sounds sure. Dottie shows you the range, and what it rests on.</h2>
+      <div class="compare">
+        <div class="fake">
+          <p class="small-label">A date</p>
+          <p class="fake__date"><s>Nov 14</s></p>
+          <p class="fake__sub">Looks certain, but it's a guess with the uncertainty hidden.</p>
+        </div>
+        <div class="real">
+          <p class="small-label small-label--accent">What Dottie says</p>
+          <p class="real__head">Period likely Nov 12–18</p>
+          <p class="real__sub">Based on your last 6 cycles · usually within 3 days</p>
+          <div class="days" aria-label="November 10 to 20, with the expected window on 12 to 18">
+            <span>10</span><span>11</span><span class="w">12</span><span class="w">13</span><span class="w">14</span><span class="w">15</span><span class="w">16</span><span class="w">17</span><span class="w">18</span><span>19</span><span>20</span>
+          </div>
+          <p class="real__foot">The soft band on the ring and the dashed days on the calendar are the same window. When cycles vary, the range widens, and Dottie says so. A late day gets calm, neutral information, never a conclusion.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 · the dawn: explore the app -->
+  <section class="explore dawn" id="explore" aria-labelledby="explore-title">
+    <div class="explore__inner">
+      <div class="explore__copy">
+        <h2 id="explore-title">Tap around. It is a real recreation, with made-up data.</h2>
+        <p>Move between Today, Calendar and Insights. Open the log, tap a symptom, press Done, then look for it under Insights. Log Light, Medium or Heavy flow and watch the ring, the headline and the calendar agree. Nothing you tap is stored anywhere.</p>
+        <p class="explore__hint" id="hint" aria-live="polite">Try: Log how you feel, then Symptoms, then Cramps.</p>
+        <p><button class="link" type="button" id="reset">Start over</button></p>
+      </div>
+      <div class="explore__phone">
+        <div class="phone-stage" id="phone-stage">
+          <div class="phone" id="phone" role="region" aria-label="A demo of the Dottie app">
+            <div class="phone__screen"><div class="screen" id="screen"></div></div>
           </div>
         </div>
       </div>
     </div>
-  </header>
+  </section>
 
-  <section class="explore" id="explore" aria-labelledby="explore-title">
-    <div class="explore__copy">
-      <p class="eyebrow">Explore the app</p>
-      <h2 id="explore-title">Tap around. It is a real recreation, with made-up data.</h2>
-      <p>Move between Today, Calendar and Insights. Open the log, tap a symptom, press Done, then look for it under Insights. Log Light, Medium or Heavy flow and watch the ring, the headline and the calendar agree. Nothing you tap is stored anywhere.</p>
-      <p class="explore__hint" id="hint" aria-live="polite">Try: Log how you feel, then Symptoms, then Cramps.</p>
-      <p><button class="link" type="button" id="reset">Start over</button></p>
+  <!-- 5 · every stage -->
+  <section class="stages day" id="stages" aria-labelledby="stages-title">
+    <div class="stages__inner">
+      <h2 id="stages-title">Every stage, the same quiet app.</h2>
+      <p class="section-lede">Dottie changes what it says, not who it is. Each of these is in the app today, in its own words.</p>
+      <ol class="line">
+        <li><span class="glyph" data-g="0.35"></span><b>First cycles</b><i>Predictions stay wide and fertility features are off. Explanations assume you are new to all this.</i></li>
+        <li><span class="glyph" data-g="1"></span><b>On the pill, ring or patch</b><i>“Pack · Day 14 of 28.” “Placebo days start Nov 16.” From your pack schedule, not a guess.</i></li>
+        <li><span class="glyph" data-g="0.5"></span><b>Hormonal IUD, implant or shot</b><i>“No period prediction on this method. Dottie watches for changes instead.”</i></li>
+        <li><span class="glyph" data-g="1"></span><b>Pregnant</b><i>“Week 20 · due around Mar 17.” A week counter, your records and the doctor visit summary, and nothing else.</i></li>
+        <li><span class="glyph" data-g="0.2"></span><b>After a pregnancy</b><i>“Predictions stay off until a new period is logged. Cycles can take time to come back, and there is no set schedule.”</i></li>
+        <li><span class="glyph" data-g="0.6"></span><b>Changing cycles</b><i>“Likely within the next 1–4 weeks.” Ranges widen when cycles do, and a quiet counter keeps the months.</i></li>
+        <li><span class="glyph" data-g="1"></span><b>After menopause</b><i>“12 months without a recorded period.” Logging carries on: symptoms, notes, the doctor visit summary.</i></li>
+      </ol>
+      <p class="stages__foot">Loss is held too. “I'm no longer pregnant” turns everything pregnancy related off, with a choice to resume now or pause for a while. “Take whatever time you need. Dottie will be here, exactly as you left it.”</p>
     </div>
   </section>
 
-  <footer class="foot">
-    <p>Prototype: the hero and the interactive phone only. The rest of the page follows after Rob's yes.</p>
+  <!-- 6 · make it yours -->
+  <section class="yours day" id="yours" aria-labelledby="yours-title">
+    <div class="yours__inner">
+      <h2 id="yours-title">Pick your vibe.</h2>
+      <p class="section-lede">You can change this anytime in Settings. Four palettes, and light or dark with the phone. Themes change colour only, never layout. This page and the demo follow your pick.</p>
+      <div class="vibes" role="group" aria-label="Theme">
+        <button type="button" class="vibe" data-theme="clay" aria-pressed="true"><span class="vibe__face"><span class="vibe__ring" data-vibe="clay"></span><span class="vibe__word">Follicular</span></span><span class="vibe__name">Clay</span></button>
+        <button type="button" class="vibe" data-theme="lagoon" aria-pressed="false"><span class="vibe__face"><span class="vibe__ring" data-vibe="lagoon"></span><span class="vibe__word">Follicular</span></span><span class="vibe__name">Lagoon</span></button>
+        <button type="button" class="vibe" data-theme="orchid" aria-pressed="false"><span class="vibe__face"><span class="vibe__ring" data-vibe="orchid"></span><span class="vibe__word">Follicular</span></span><span class="vibe__name">Orchid</span></button>
+        <button type="button" class="vibe" data-theme="midnight" aria-pressed="false"><span class="vibe__face"><span class="vibe__ring" data-vibe="midnight"></span><span class="vibe__word">Follicular</span></span><span class="vibe__name">Midnight</span></button>
+      </div>
+      <div class="seg seg--page" role="group" aria-label="Appearance">
+        <button type="button" class="chip" data-scheme="auto" aria-pressed="true">Automatic</button>
+        <button type="button" class="chip" data-scheme="light" aria-pressed="false">Light</button>
+        <button type="button" class="chip" data-scheme="dark" aria-pressed="false">Dark</button>
+      </div>
+      <p class="yours__foot">Midnight is the discreet one: dark in both settings, and the palette Dottie opens in on every launch.</p>
+    </div>
+  </section>
+
+  <!-- 7 · private by design, and you can test it -->
+  <section class="private day" id="private" aria-labelledby="private-title">
+    <div class="private__inner">
+      <h2 id="private-title">Private by design, and you can test it.</h2>
+      <p class="section-lede">Not a promise on a page. Things you can do on the phone and watch for yourself.</p>
+
+      <div class="tests">
+        <article class="test">
+          <h3>Turn on airplane mode. Dottie works exactly the same.</h3>
+          <div class="mini" aria-live="polite">
+            <div class="mini__bar"><span>9:41</span><span class="mini__status" id="air-status"><span class="mini__signal">●●●●</span></span></div>
+            <div class="mini__body">
+              <p class="mini__day">Cycle day 15</p>
+              <p class="mini__word">Follicular</p>
+              <p class="mini__head">Period likely Nov 12–18</p>
+              <p class="mini__sub">Based on your last 6 cycles · usually within 3 days</p>
+            </div>
+          </div>
+          <label class="switch"><input type="checkbox" id="airplane"><span class="switch__track" aria-hidden="true"></span><span>Airplane mode</span></label>
+          <p class="test__note" id="air-note">Flip it. Nothing changes, because there is no network code in Dottie to miss the network. No account, no sync, no analytics, no crash reports.</p>
+        </article>
+
+        <article class="test">
+          <h3>Two PINs, two calendars.</h3>
+          <div class="pinbox">
+            <div class="pin" id="pin">
+              <p class="pin__title">Dottie</p>
+              <p class="pin__sub">Enter your PIN</p>
+              <div class="pin__dots" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+              <div class="pin__pad" aria-hidden="true"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span></span><span>0</span><span>⌫</span></div>
+            </div>
+            <div class="pin__result" id="pin-result" hidden>
+              <p class="pin__month">October 2026</p>
+              <div class="mini-cal" id="pin-cal"></div>
+              <p class="pin__which" id="pin-which"></p>
+            </div>
+          </div>
+          <div class="pin__actions">
+            <button type="button" class="chip" data-pin="real">Enter her PIN</button>
+            <button type="button" class="chip" data-pin="decoy">Enter the decoy PIN</button>
+            <button type="button" class="link" data-pin="reset">Lock again</button>
+          </div>
+          <p class="test__note">The same screen opens either one, at the same speed, and nothing on it says which is which. She chooses what the decoy holds when she sets it up: Believable, Blank or Custom. Wrong guesses slow down and never wipe anything.</p>
+        </article>
+
+        <article class="test">
+          <h3>Delete everything in two taps.</h3>
+          <div class="del" id="del" data-state="row">
+            <div class="del__row">
+              <span class="del__label">Delete all data</span>
+              <button type="button" class="del__act" data-del="ask">Delete</button>
+            </div>
+            <div class="del__alert" role="dialog" aria-label="Delete all data?">
+              <p class="del__title">Delete all data?</p>
+              <p class="del__body">Everything on this device will be permanently deleted. Because your data isn't stored on a server, it can't be recovered.</p>
+              <div class="del__buttons"><button type="button" class="link" data-del="cancel">Cancel</button><button type="button" class="del__confirm" data-del="confirm">Delete everything</button></div>
+            </div>
+            <div class="del__gone">
+              <p class="del__gone-title">Nothing you enter leaves this device.</p>
+              <p class="del__gone-sub">There is no account and no cloud. Everything stays on this device.</p>
+              <button type="button" class="link" data-del="reset">Start the demo again</button>
+            </div>
+          </div>
+          <p class="test__note">Both databases and their keys, the lock, the theme and every reminder. There is no server copy, so nothing can be recovered. That is the point.</p>
+        </article>
+      </div>
+
+      <figure class="vault">
+        <svg viewBox="0 0 720 300" role="img" aria-labelledby="vault-title">
+          <title id="vault-title">Where your data lives: an encrypted database on your iPhone with its key in the Keychain, and an encrypted backup file you keep. There is no cloud.</title>
+          <rect class="v-phone" x="40" y="20" width="250" height="260" rx="28"/>
+          <rect class="v-db" x="70" y="70" width="190" height="78" rx="14"/>
+          <text class="v-t" x="165" y="100" text-anchor="middle">Encrypted database</text>
+          <text class="v-s" x="165" y="124" text-anchor="middle">SQLCipher, 256-bit key</text>
+          <rect class="v-key" x="70" y="166" width="190" height="78" rx="14"/>
+          <text class="v-t" x="165" y="196" text-anchor="middle">Key in the Keychain</text>
+          <text class="v-s" x="165" y="220" text-anchor="middle">this device only</text>
+          <path class="v-arrow" d="M300 150 H 420"/>
+          <text class="v-s" x="360" y="140" text-anchor="middle">share sheet</text>
+          <rect class="v-file" x="430" y="100" width="250" height="100" rx="18"/>
+          <text class="v-t" x="555" y="138" text-anchor="middle">A backup file you keep</text>
+          <text class="v-s" x="555" y="162" text-anchor="middle">AES-256-GCM, your passphrase</text>
+          <text class="v-s" x="555" y="184" text-anchor="middle">lose the passphrase and the file is gone</text>
+          <text class="v-s v-s--faint" x="555" y="262" text-anchor="middle">No cloud in the picture, because there is none.</text>
+        </svg>
+        <figcaption>App lock with a PIN or Face ID. Locks the moment Dottie goes to the background. Restore from a backup from Settings or from the lock screen.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 8 · the doctor visit summary -->
+  <section class="doctor day" id="doctor" aria-labelledby="doctor-title">
+    <div class="doctor__inner">
+      <div class="doctor__copy">
+        <h2 id="doctor-title">A summary you could hand over.</h2>
+        <p class="section-lede">A PDF of your cycle history, statistics and symptom patterns. Created on this device from your own data, and shared the way you choose. Free for everyone.</p>
+        <p>It has to be readable by your doctor, so the PDF isn't encrypted. Dottie deletes its copy after you share it. Any copies you save or send are under your control.</p>
+        <p class="plus-line"><span class="plus-tag">Plus</span> adds a cycle table, flagged patterns, a day-by-day symptom map and the health details you choose to type in at export, which are never saved.</p>
+      </div>
+      <div class="paper" role="img" aria-label="A sample doctor visit summary with made-up data">
+        <h3>Doctor visit summary</h3>
+        <p class="paper__meta">Generated on Oct 28, 2026 from data logged in Dottie.</p>
+        <h4>At a glance</h4>
+        <table><tr><th>Last period started</th><td>Oct 14, 2026</td><th>Cycles tracked (total)</th><td>7</td></tr><tr><th>Date range</th><td>Apr 15, 2026 to Oct 28, 2026</td><th>Statistics based on</th><td>your last 6 completed cycles</td></tr></table>
+        <h4>Cycle statistics</h4>
+        <p class="paper__note">Based on your last 6 completed cycles.</p>
+        <table><tr><th>Average cycle</th><td>31 days (6 cycles)</td><th>Range</th><td>29–33 days</td></tr><tr><th>Variation</th><td>±2 days</td><th>Most common</th><td>31 days</td></tr><tr><th>Shortest</th><td>29 days (from Apr 15, 2026)</td><th>Longest</th><td>33 days (from Sep 11, 2026)</td></tr></table>
+        <h4>Status</h4>
+        <table><tr><th>Status</th><td>Regular</td><th></th><td>Usual variation</td></tr></table>
+        <h4>Periods</h4>
+        <p class="paper__note">Based on your last 6 completed periods.</p>
+        <table><tr><th>Typical period length</th><td>5 days</td><th>Heavy days per period (avg)</th><td>1.5</td></tr></table>
+        <h4>Flagged cycles</h4>
+        <p class="paper__note">No cycles flagged.</p>
+        <h4>Symptoms</h4>
+        <p class="paper__note">Based on your last 6 completed cycles. Each percentage counts only the cycles that reached that phase.</p>
+        <table class="paper__list"><tr><th>Symptom</th><th>Timing</th><th>Logged in</th></tr><tr><td>Cramps</td><td>Menstrual</td><td>6 of 6 cycles · 100%</td></tr><tr><td>Fatigue</td><td>Menstrual</td><td>5 of 6 cycles · 83%</td></tr><tr><td>Tender breasts</td><td>Luteal</td><td>4 of 5 cycles · 80%</td></tr><tr><td>Headache</td><td>Menstrual</td><td>4 of 6 cycles · 67%</td></tr></table>
+        <h4>Symptom patterns</h4>
+        <p class="paper__note">Learned over the last 6 cycles. Onset is anchored where it clusters tightest (before the next period, by cycle day, or around ovulation).</p>
+        <table class="paper__list"><tr><th>Symptom</th><th>Typical onset</th><th>Spread</th><th>How often</th><th>Duration</th></tr><tr><td>Cramps</td><td>~cycle day 1</td><td>±1 day</td><td>6 of 6 · 100%</td><td>2 days</td></tr><tr><td>Tender breasts</td><td>~4 days before</td><td>±2 days</td><td>4 of 5 · 80%</td><td>3 days</td></tr></table>
+        <h4>How these estimates were made</h4>
+        <p class="paper__note">Estimates come from the pattern of your own logged cycles.</p>
+        <p class="paper__foot">This summary records what was logged in Dottie; it is not a medical assessment and Dottie does not diagnose. All figures were computed on the device from 6 completed cycles. No data left the device.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9 · download and questions -->
+  <section class="download day" id="download" aria-labelledby="download-title">
+    <div class="download__inner">
+      <h2 id="download-title">Dottie is for iPhone.</h2>
+      <p class="section-lede">iOS 16.4 or later. No account to make, and nothing to sign in to.</p>
+      <p class="cta cta--day"><span class="js-appstore cta__main">Coming soon to the App Store</span></p>
+      <div class="faq">
+        <details><summary>What does Dottie collect?</summary><p>Nothing. There is no account, no server and no analytics. The App Store privacy label is the blank one. This website is the same: no cookies, no trackers, no third-party scripts or fonts.</p></details>
+        <details><summary>What is free, and what is Plus?</summary><p>Logging, the calendar with two months ahead, predictions, every safety feature, pregnancy mode, changing cycles, first cycles and the doctor visit summary are free. Your own history is free to see. Plus adds symptom timing and heads-ups, twelve months on the calendar, a fuller doctor visit summary, trying to conceive, Apple Health sync, the library and a recap after each cycle. Apple shows the price in your region, and there are no sales or countdowns.</p></details>
+        <details><summary>What if I lose my phone?</summary><p>Export an encrypted backup whenever you like, with a passphrase you choose, and keep it where you keep your own files. Restore it on a new phone from Settings or from the lock screen. If you forget the passphrase, the file is gone. There is no reset, because there is no server.</p></details>
+        <details><summary>Can I bring my history from another app?</summary><p>If it is in Apple Health, yes: a one-time import of menstrual flow and spotting, read on the device. Days you've already logged stay as they are. Dottie never writes to Apple Health.</p></details>
+        <details><summary>Does Dottie prevent pregnancy?</summary><p>No. Dottie is information only. It is not medical advice or contraception. Fertile-window estimates are for awareness only, and they stay off on hormonal methods.</p></details>
+        <details><summary>Who made Dottie?</summary><p>A small independent team. Dottie is paid for by the people who choose Plus, not by advertisers, which is why there is nothing to sell.</p></details>
+      </div>
+      <p class="download__links"><a href="privacy/">Privacy policy</a> · <a href="support/">Support</a> · <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" rel="noopener">Apple's standard EULA</a></p>
+    </div>
+  </section>
+
+  <footer class="foot night">
+    <p class="foot__word">Dottie</p>
+    <p>Private, from first period to last. Dottie is information only. It is not medical advice or contraception.</p>
+    <p><a href="privacy/">Privacy</a> · <a href="support/">Support</a></p>
   </footer>
 
+  <script src="assets/js/notes.js"></script>
   <script src="assets/js/data.js"></script>
+  <script src="assets/js/ring.js"></script>
   <script src="assets/js/phone.js"></script>
   <script src="assets/js/site.js"></script>
 </body>

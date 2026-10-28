@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://thedottie.app/sitemap.xml

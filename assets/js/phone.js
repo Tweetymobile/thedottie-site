@@ -136,7 +136,7 @@
       '<div class="ring-wrap"><button type="button" class="ring" data-act="ring" aria-label="Today, cycle day ' + day + '">' + ring + '<div class="ring__center">' + center + '</div></button></div>' +
       '<p class="caption">The stardust is your cycle so far · the soft band is your expected period</p>' +
       '<h2 class="headline">' + esc(headline) + '</h2>' + (sub ? '<p class="sub">' + esc(sub) + '</p>' : '') + extra +
-      '<p class="note">' + esc(D.phaseNote) + '</p>' +
+      '<p class="note-line">' + esc(D.phaseNote) + '</p>' +
       '</div><div class="bottom">' +
       (S.periodStarted ? '<button type="button" class="textlink" data-act="ended">My period ended →</button>' : '<button type="button" class="textlink" data-act="started">My period started →</button>') +
       receipt + '</div></div>';
@@ -285,7 +285,7 @@
     var tabs = [['overview', 'Overview'], ['trends', 'Trends'], ['symptoms', 'Symptoms'], ['history', 'History']];
     var body = { overview: overview, trends: trends, symptoms: symptoms, history: history }[S.itab]();
     return '<div class="page"><div class="scroll">' +
-      '<h1 class="h1">Insights <span class="i">i</span></h1><p class="lede">Your patterns are calculated on this device and never uploaded.</p>' +
+      '<h1 class="h1">Insights <span class="i">i</span></h1><p class="lede-phone">Your patterns are calculated on this device and never uploaded.</p>' +
       '<div class="itabs" role="tablist">' + tabs.map(function (t) { return '<button type="button" role="tab" data-itab="' + t[0] + '" aria-selected="' + (S.itab === t[0]) + '">' + t[1] + '</button>'; }).join('') + '</div>' +
       body + '</div></div>';
   }
@@ -362,6 +362,6 @@
   });
   root.addEventListener('keydown', function (e) { if (e.key === 'Escape' && S.sheet) { S.sheet = null; render(); } });
 
-  window.DottiePhone = { reset: function () { S = initial(); render(); hint('Try: Log how you feel, then Symptoms, then Cramps.'); }, state: function () { return S; } };
+  window.DottiePhone = { reset: function () { S = initial(); render(); hint('Try: Log how you feel, then Symptoms, then Cramps.'); }, rerender: render, state: function () { return S; } };
   render();
 })();
