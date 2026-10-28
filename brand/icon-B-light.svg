@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <!-- Dottie app icon, option B (Midnight), light. The stardust ring from Today, nothing else. -->
+  <defs><linearGradient id="gBlight" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#221C2E"/><stop offset="0.55" stop-color="#1B1826"/><stop offset="1" stop-color="#141220"/></linearGradient></defs>
+  <rect width="1024" height="1024" fill="url(#gBlight)"/>
+  <g>
+    <circle cx="512" cy="512" r="336" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="14"/>
+    <path d="M 324.1 233.4 A 336 336 0 0 1 593.3 186.0" fill="none" stroke="rgba(232,160,168,0.55)" stroke-width="56" stroke-linecap="round"/>
+    <circle cx="658.5" cy="218.9" r="28.7" fill="#E8A0A8" opacity="0.58"/>
+    <circle cx="844.1" cy="406.9" r="31.1" fill="#E8A0A8" opacity="0.63"/>
+    <circle cx="813.0" cy="641.0" r="34.3" fill="#FFDCBE" opacity="0.68"/>
+    <circle cx="729.8" cy="769.8" r="38.1" fill="#E8A0A8" opacity="0.73"/>
+    <circle cx="591.9" cy="854.3" r="42.4" fill="#E8A0A8" opacity="0.78"/>
+    <circle cx="461.1" cy="843.5" r="47.1" fill="#E8A0A8" opacity="0.83"/>
+    <circle cx="297.8" cy="764.5" r="52.1" fill="#FFDCBE" opacity="0.88"/>
+    <circle cx="225.1" cy="644.7" r="57.4" fill="#E8A0A8" opacity="0.93"/>
+    <circle cx="178.2" cy="551.7" r="63.1" fill="#E8A0A8" opacity="0.98"/><circle cx="159.3" cy="532.8" r="15.1" fill="#FFFFFF" opacity="0.85"/>
+  </g>
+</svg>

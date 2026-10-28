@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <!-- Dottie app icon, option C (Clay dusk), dark. The stardust ring from Today, nothing else. -->
+  <defs><linearGradient id="gCdark" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2A2620"/><stop offset="0.55" stop-color="#221F19"/><stop offset="1" stop-color="#1A1712"/></linearGradient></defs>
+  <rect width="1024" height="1024" fill="url(#gCdark)"/>
+  <g>
+    <circle cx="512" cy="512" r="336" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="14"/>
+    <path d="M 227.1 690.1 A 336 336 0 0 1 215.3 354.3" fill="none" stroke="rgba(196,121,91,0.55)" stroke-width="56" stroke-linecap="round"/>
+    <circle cx="624.8" cy="219.1" r="28.4" fill="#C4795B" opacity="0.57"/>
+    <circle cx="732.2" cy="285.9" r="29.8" fill="#C4795B" opacity="0.60"/>
+    <circle cx="820.8" cy="381.9" r="31.8" fill="#D9A85C" opacity="0.64"/>
+    <circle cx="830.0" cy="478.6" r="34.1" fill="#C4795B" opacity="0.67"/>
+    <circle cx="845.5" cy="570.2" r="36.6" fill="#C4795B" opacity="0.71"/>
+    <circle cx="796.2" cy="650.1" r="39.4" fill="#C4795B" opacity="0.74"/>
+    <circle cx="747.7" cy="749.9" r="42.4" fill="#D9A85C" opacity="0.78"/>
+    <circle cx="683.9" cy="821.7" r="45.6" fill="#C4795B" opacity="0.81"/>
+    <circle cx="616.5" cy="841.0" r="49.0" fill="#C4795B" opacity="0.84"/>
+    <circle cx="533.9" cy="855.6" r="52.5" fill="#C4795B" opacity="0.88"/>
+    <circle cx="439.5" cy="856.4" r="56.2" fill="#D9A85C" opacity="0.91"/>
+    <circle cx="377.4" cy="794.1" r="60.0" fill="#C4795B" opacity="0.95"/>
+    <circle cx="297.1" cy="758.4" r="64.0" fill="#C4795B" opacity="0.98"/><circle cx="278.0" cy="739.2" r="15.4" fill="#FFFFFF" opacity="0.85"/>
+  </g>
+</svg>

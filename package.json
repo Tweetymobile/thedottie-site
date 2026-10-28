@@ -1,0 +1,14 @@
+{
+  "name": "thedottie-site",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Marketing site for Dottie, a private iOS cycle tracker. Static, self-hosted, collects nothing.",
+  "type": "module",
+  "scripts": {
+    "icons": "node brand/build-icons.mjs"
+  },
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "@resvg/resvg-js": "^2.6.2"
+  }
+}
