@@ -1,0 +1,58 @@
+/* Direction B · The observatory
+   The whole site stays in Midnight, the app's discreet theme. One voice for
+   the site (Bricolage Grotesque at its display optical size, light and wide)
+   and one for Dottie's own words (Newsreader italic, inside the ring, the way
+   the app sets the phase word). Pink and gold stardust is the only colour. */
+body {
+  font-family: 'Bricolage Grotesque', var(--sans-sys);
+  font-variation-settings: 'opsz' 14;
+  color: var(--m-ink);
+  background: var(--m-bg3);
+}
+.hero {
+  min-height: 100vh; position: relative; overflow: hidden;
+  background: radial-gradient(90% 70% at 50% 45%, #2A2240 0%, var(--m-bg1) 45%, var(--m-bg3) 100%);
+  display: grid; justify-items: center; align-content: center; gap: 6px; padding: 28px 20px 40px; text-align: center;
+}
+.brand { font-weight: 500; font-size: 15px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--m-ink-soft); margin: 0 0 10px; }
+h1 {
+  font-weight: 300; font-variation-settings: 'opsz' 96, 'wdth' 100; letter-spacing: -0.025em; line-height: 0.95; margin: 0;
+  font-size: clamp(48px, 9vw, 128px);
+}
+.h1a { align-self: end; }
+.h1b { margin-top: 4px; max-width: 12ch; }
+.hero__ring { position: relative; width: min(82vw, 440px); margin: 6px 0; }
+.hero__note { position: absolute; inset: 0; display: grid; align-content: center; justify-items: center; padding: 0 14%; }
+.note__label { font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--m-accent); margin: 0 0 10px; font-weight: 600; }
+.note__text { font-family: 'Newsreader'; font-style: italic; font-variation-settings: 'opsz' 48; font-weight: 400; font-size: clamp(17px, 2.2vw, 24px); line-height: 1.3; margin: 0; color: var(--m-ink); }
+.lede { font-size: clamp(16px, 1.4vw, 19px); color: var(--m-control); max-width: 40ch; margin: 18px 0 0; }
+.cta { margin: 20px 0 0; }
+.cta a { color: var(--m-ink); text-decoration: none; font-weight: 500; font-size: 16px; letter-spacing: 0.04em; border: 1px solid rgba(232,160,168,0.6); padding: 12px 22px; border-radius: 999px; }
+
+@media (min-width: 960px) {
+  .hero { grid-template-columns: 1fr auto 1fr; grid-template-areas: "brand brand brand" "a ring b" "lede ring lede2" "cta ring cta2"; column-gap: 32px; row-gap: 0; padding: 40px 64px; align-items: center; text-align: left; }
+  .brand { grid-area: brand; justify-self: start; }
+  .h1a { grid-area: a; justify-self: end; align-self: end; }
+  .h1b { grid-area: b; justify-self: start; align-self: end; max-width: 9ch; }
+  .hero__ring { grid-area: ring; width: min(46vh, 560px); }
+  .lede { grid-area: lede; justify-self: end; text-align: right; }
+  .cta { grid-area: cta2; justify-self: start; }
+}
+
+.honest { padding: 112px 20px 120px; background: linear-gradient(180deg, var(--m-bg3), var(--m-bg2)); }
+.honest__inner { max-width: 1080px; margin: 0 auto; }
+.honest h2 { font-weight: 300; font-variation-settings: 'opsz' 96; font-size: clamp(30px, 4.2vw, 56px); line-height: 1.05; letter-spacing: -0.02em; margin: 0 0 48px; max-width: 22ch; }
+.compare { display: grid; gap: 28px; }
+.fake { border: 1px dashed rgba(255,255,255,0.18); border-radius: 18px; padding: 24px; color: var(--m-ink-soft); }
+.fake__label, .real__label { font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; margin: 0 0 14px; font-weight: 600; }
+.real__label { color: var(--m-accent); }
+.fake__date { font-size: 56px; font-weight: 300; margin: 0; text-decoration: line-through; text-decoration-color: rgba(232,160,168,0.7); text-decoration-thickness: 2px; color: rgba(240,233,242,0.55); }
+.fake__sub { margin: 10px 0 0; font-size: 15px; }
+.real { border-radius: 18px; padding: 28px; background: var(--m-surface); border: 1px solid var(--m-divider); box-shadow: 0 30px 80px rgba(0,0,0,0.35); }
+.real__head { white-space: nowrap; font-size: clamp(26px, 3.4vw, 44px); font-weight: 500; margin: 0; letter-spacing: -0.02em; }
+.real__sub { color: var(--m-ink-soft); margin: 6px 0 22px; font-size: 16px; }
+.days { display: grid; grid-template-columns: repeat(11, 1fr); gap: 6px; }
+.days span { aspect-ratio: 1; display: grid; place-items: center; border-radius: 50%; font-size: 14px; color: var(--m-ink-soft); background: rgba(255,255,255,0.04); }
+.days .w { border: 2px dashed var(--m-accent); color: var(--m-accent-deep); background: rgba(232,160,168,0.14); }
+.real__foot { margin: 22px 0 0; font-size: 15px; color: var(--m-control); max-width: 52ch; }
+@media (min-width: 960px) { .compare { grid-template-columns: 1fr 1.6fr; align-items: center; } }

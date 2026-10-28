@@ -1,0 +1,42 @@
+/* shared.css — fonts (self-hosted, OFL) and the Midnight tokens from themes.ts */
+@font-face { font-family: 'Fraunces'; font-style: normal; font-weight: 300 700; font-display: swap; src: url('../assets/fonts/Fraunces-latin.woff2') format('woff2'); }
+@font-face { font-family: 'Fraunces'; font-style: italic; font-weight: 300 700; font-display: swap; src: url('../assets/fonts/Fraunces-Italic-latin.woff2') format('woff2'); }
+@font-face { font-family: 'Bricolage Grotesque'; font-style: normal; font-weight: 200 800; font-stretch: 75% 100%; font-display: swap; src: url('../assets/fonts/BricolageGrotesque-latin.woff2') format('woff2'); }
+@font-face { font-family: 'Newsreader'; font-style: normal; font-weight: 200 800; font-display: swap; src: url('../assets/fonts/Newsreader-latin.woff2') format('woff2'); }
+@font-face { font-family: 'Newsreader'; font-style: italic; font-weight: 200 800; font-display: swap; src: url('../assets/fonts/Newsreader-Italic-latin.woff2') format('woff2'); }
+
+:root {
+  /* Midnight (themes.ts) */
+  --m-bg1: #221C2E; --m-bg2: #1B1826; --m-bg3: #141220;
+  --m-ink: #F0E9F2; --m-ink-soft: #9D93AB; --m-control: #A9A0B5;
+  --m-accent: #E8A0A8; --m-accent-deep: #F2BCC1; --m-secondary: #9BB8D3;
+  --m-surface: rgba(46,39,60,0.92); --m-divider: rgba(255,255,255,0.09);
+  --m-track: rgba(255,255,255,0.10); --m-window: rgba(232,160,168,0.34);
+  --m-dust: 232,160,168; --m-dust2: 255,220,190;
+  /* Clay light (themes.ts) */
+  --c-bg1: #F7F2E7; --c-bg2: #F2E9D6; --c-bg3: #EDDCBB;
+  --c-ink: #37342B; --c-ink-soft: #8A8271; --c-accent: #AC5D3E; --c-accent-deep: #8B543E;
+  --c-secondary: #8FA98C; --c-dust: 196,121,91; --c-dust2: 217,168,92;
+  --c-window: rgba(196,121,91,0.30); --c-track: rgba(120,105,80,0.12);
+  --sans-sys: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; }
+img { max-width: 100%; display: block; }
+
+/* the hero ring: motes drift in and settle in sweep order */
+.ring { position: relative; }
+.ring svg { width: 100%; height: auto; display: block; overflow: visible; }
+.ring .track { fill: none; stroke: var(--m-track); stroke-width: 1.5; }
+.ring .band { fill: none; stroke: var(--m-window); stroke-width: 10; stroke-linecap: round; }
+.ring .mote { fill: rgb(var(--m-dust)); opacity: var(--o); transform: translate(var(--dx), var(--dy)); animation: gather 1.35s cubic-bezier(0.2, 0.7, 0.2, 1) both; animation-delay: calc(var(--t) * 1.35s + 0.2s); }
+.ring .mote.alt { fill: rgb(var(--m-dust2)); }
+.ring .halo .mote { opacity: calc(var(--o) * 0.55); }
+.ring .halo .mote.big { r: 7; }
+@keyframes gather { from { transform: translate(var(--dx), var(--dy)); opacity: 0; } 60% { opacity: var(--o); } to { transform: none; opacity: var(--o); } }
+.ring--clay .track { stroke: var(--c-track); }
+.ring--clay .band { stroke: var(--c-window); }
+.ring--clay .mote { fill: rgb(var(--c-dust)); }
+.ring--clay .mote.alt { fill: rgb(var(--c-dust2)); }
+@media (prefers-reduced-motion: reduce) { .ring .mote { animation: none; transform: none; } }
+.settled .ring .mote { animation: none; transform: none; }

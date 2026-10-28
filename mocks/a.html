@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en" class="settled">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Direction A · Night, then your day</title>
+  <link rel="stylesheet" href="shared.css">
+  <link rel="stylesheet" href="a.css">
+</head>
+<body>
+  <header class="hero">
+    <div class="hero__ring"><div class="ring" id="ring"></div></div>
+    <div class="hero__copy">
+      <p class="wordmark">Dottie</p>
+      <h1>Private, from first&nbsp;period to&nbsp;last.</h1>
+      <p class="lede">A cycle tracker for iPhone with no account and no cloud. Nothing you log leaves the phone, so there is nothing to leak.</p>
+      <p class="cta"><a href="#">Coming soon to the App Store</a> <a class="quiet" href="#how">See how it works ↓</a></p>
+    </div>
+    <aside class="note">
+      <p class="note__label">Dottie's note for <span id="today"></span></p>
+      <p class="note__text" id="note"></p>
+    </aside>
+  </header>
+
+  <section class="dawn" id="how">
+    <div class="dawn__sky"><div class="dawn__inner">
+      <h2>Every stage, the same quiet app.</h2>
+      <p class="dawn__lede">Dottie changes what it says, not who it is. Each mode is in the app today, in its own words.</p>
+    </div></div>
+    <div class="dawn__list">
+      <ol class="stages">
+        <li><span class="glyph" data-g="1"></span><b>First cycles</b><i>Predictions stay wide and fertility features are off. Explanations assume you are new to all this.</i></li>
+        <li><span class="glyph" data-g="2"></span><b>On the pill</b><i>Pack · Day 14 of 28. “Placebo days start Nov 16.” From your pack schedule, not a guess.</i></li>
+        <li><span class="glyph" data-g="3"></span><b>Hormonal IUD, implant or shot</b><i>“No period prediction on this method. Dottie watches for changes instead.”</i></li>
+        <li><span class="glyph" data-g="4"></span><b>Pregnant</b><i>“Week 20 · due around Mar 17.” A week counter, your records and the doctor visit summary, and nothing else.</i></li>
+        <li><span class="glyph" data-g="5"></span><b>After a pregnancy</b><i>“Predictions stay off until a new period is logged. Cycles can take time to come back, and there is no set schedule.”</i></li>
+        <li><span class="glyph" data-g="6"></span><b>Changing cycles</b><i>“Likely within the next 1–4 weeks.” Ranges widen when cycles do, and a quiet counter keeps the months.</i></li>
+        <li><span class="glyph" data-g="7"></span><b>After menopause</b><i>“12 months without a recorded period.” Logging carries on: symptoms, notes, the doctor visit summary.</i></li>
+      </ol>
+    </div>
+  </section>
+
+  <script src="../assets/js/notes.js"></script>
+  <script src="ring.js"></script>
+  <script>
+    drawHeroRing(document.getElementById('ring'), { band: [0.935, 7 / 31] });
+    var d = new Date(2026, 9, 28);
+    document.getElementById('today').textContent = todayLabel(d);
+    document.getElementById('note').textContent = noteOfTheDay(d);
+    document.querySelectorAll('.glyph').forEach(function (g) {
+      var n = +g.getAttribute('data-g');
+      var frac = [0.35, 1, 0.5, 1, 0.2, 0.6, 1][n - 1];
+      g.innerHTML = '<svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="24" class="t"/>' + (frac >= 1 ? '<circle cx="30" cy="30" r="24" class="full"/>' : '<path class="arc" d="' + arc(n) + '"/>') + '</svg>';
+    });
+    function arc(n) {
+      var frac = [0.35, 1, 0.5, 1, 0.2, 0.6, 1][n - 1], R = 24, cx = 30, cy = 30;
+      var a1 = -90 + frac * 359.9, r = function (d) { return d * Math.PI / 180; };
+      return 'M' + cx + ' ' + (cy - R) + ' A' + R + ' ' + R + ' 0 ' + (frac > 0.5 ? 1 : 0) + ' 1 ' + (cx + R * Math.cos(r(a1))).toFixed(1) + ' ' + (cy + R * Math.sin(r(a1))).toFixed(1);
+    }
+  </script>
+</body>
+</html>

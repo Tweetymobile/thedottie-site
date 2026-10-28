@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en" class="settled">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Direction B · The observatory</title>
+  <link rel="stylesheet" href="shared.css">
+  <link rel="stylesheet" href="b.css">
+</head>
+<body>
+  <header class="hero">
+    <p class="brand">Dottie</p>
+    <h1 class="h1a">Private,</h1>
+    <div class="hero__ring">
+      <div class="ring" id="ring"></div>
+      <div class="hero__note">
+        <p class="note__label"><span id="today"></span></p>
+        <p class="note__text" id="note"></p>
+      </div>
+    </div>
+    <h1 class="h1b">from first period to last.</h1>
+    <p class="lede">A cycle tracker for iPhone with no account and no cloud. Nothing you log leaves the phone.</p>
+    <p class="cta"><a href="#">Coming soon to the App Store</a></p>
+  </header>
+
+  <section class="honest">
+    <div class="honest__inner">
+      <h2>A single date sounds sure. Dottie shows you the range, and what it rests on.</h2>
+      <div class="compare">
+        <div class="fake">
+          <p class="fake__label">A date</p>
+          <p class="fake__date">Nov 14</p>
+          <p class="fake__sub">Looks certain. It is a guess with the uncertainty hidden.</p>
+        </div>
+        <div class="real">
+          <p class="real__label">What Dottie says</p>
+          <p class="real__head">Period likely Nov 12–18</p>
+          <p class="real__sub">Based on your last 6 cycles · usually within 3 days</p>
+          <div class="days">
+            <span>10</span><span>11</span><span class="w">12</span><span class="w">13</span><span class="w">14</span><span class="w">15</span><span class="w">16</span><span class="w">17</span><span class="w">18</span><span>19</span><span>20</span>
+          </div>
+          <p class="real__foot">The soft band on the ring and the dashed days on the calendar are the same window. When cycles vary, the band widens, and Dottie says so.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="../assets/js/notes.js"></script>
+  <script src="ring.js"></script>
+  <script>
+    drawHeroRing(document.getElementById('ring'), { band: [0.935, 7 / 31], scale: 3.4 });
+    var d = new Date(2026, 9, 28);
+    document.getElementById('today').textContent = 'A note for ' + todayLabel(d);
+    document.getElementById('note').textContent = noteOfTheDay(d);
+  </script>
+</body>
+</html>

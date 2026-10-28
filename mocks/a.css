@@ -1,0 +1,60 @@
+/* Direction A · Night, then your day
+   Type: Fraunces (display, soft and slightly wonky: a serif with warmth, not a
+   newspaper) + Bricolage Grotesque (text: a grotesque with ink traps, human
+   rather than corporate). Colour: Midnight for the night, Clay for the day,
+   the stardust pink and gold as the only accent. */
+body {
+  font-family: 'Bricolage Grotesque', var(--sans-sys);
+  font-variation-settings: 'opsz' 14;
+  color: var(--m-ink);
+  background: var(--m-bg3);
+}
+.hero {
+  min-height: 100vh; position: relative; overflow: hidden;
+  background: radial-gradient(120% 90% at 70% 40%, #2C2440 0%, var(--m-bg1) 40%, var(--m-bg3) 100%);
+  display: grid; grid-template-rows: auto auto auto; align-content: center; gap: 24px; padding: 32px 20px 40px;
+}
+.hero__ring { width: min(78vw, 360px); margin: 0 auto; }
+.wordmark { font-family: 'Fraunces'; font-variation-settings: 'opsz' 72, 'SOFT' 100, 'WONK' 1; font-size: 22px; letter-spacing: 0.02em; color: var(--m-accent); margin: 0 0 10px; }
+h1 {
+  font-family: 'Fraunces'; font-weight: 400; font-variation-settings: 'opsz' 144, 'SOFT' 100, 'WONK' 1;
+  font-size: clamp(44px, 8.5vw, 104px); line-height: 0.98; letter-spacing: -0.015em; margin: 0 0 18px; max-width: 11ch;
+}
+.lede { font-size: clamp(17px, 1.6vw, 21px); line-height: 1.45; color: var(--m-control); max-width: 42ch; margin: 0 0 22px; }
+.cta { display: flex; flex-wrap: wrap; gap: 18px 28px; align-items: baseline; margin: 0; }
+.cta a { color: var(--m-ink); text-decoration: none; font-weight: 600; font-size: 17px; border-bottom: 1.5px solid rgb(var(--m-dust2)); padding-bottom: 3px; }
+.cta a.quiet { color: var(--m-ink-soft); font-weight: 500; border-bottom-color: var(--m-divider); }
+.note { border-left: 2px solid rgba(232,160,168,0.5); padding: 4px 0 4px 18px; max-width: 46ch; }
+.note__label { font-size: 13px; letter-spacing: 0.02em; color: var(--m-accent); margin: 0 0 6px; font-weight: 600; }
+.note__text { font-family: 'Fraunces'; font-style: italic; font-variation-settings: 'opsz' 36, 'SOFT' 60; font-size: clamp(20px, 2vw, 26px); line-height: 1.35; margin: 0; color: var(--m-ink); }
+
+@media (min-width: 960px) {
+  .hero { grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); grid-template-rows: auto auto; grid-template-areas: "copy ring" "note ring"; align-items: center; column-gap: 48px; padding: 48px 64px; }
+  .hero__ring { grid-area: ring; width: min(44vw, 620px); margin: 0 0 0 auto; }
+  .hero__copy { grid-area: copy; align-self: end; }
+  .note { grid-area: note; align-self: start; margin-top: 8px; }
+}
+
+/* the dawn: the sky lightens as she scrolls into her day */
+.dawn { color: var(--c-ink); padding: 0 0 96px; background: linear-gradient(180deg, var(--c-bg2) 40%, var(--c-bg3)); }
+.dawn__sky { background: linear-gradient(180deg, var(--m-bg3) 0%, #2E2540 30%, #6E5468 62%, #C9A99E 85%, var(--c-bg2) 100%); padding: 120px 20px 80px; }
+.dawn__inner { max-width: 1120px; margin: 0 auto; }
+.dawn__list { max-width: 1120px; margin: 0 auto; padding: 48px 20px 0; }
+.dawn h2 { font-family: 'Fraunces'; font-weight: 400; font-variation-settings: 'opsz' 144, 'SOFT' 100, 'WONK' 1; font-size: clamp(36px, 5vw, 64px); line-height: 1.02; margin: 0 0 14px; color: var(--m-ink); max-width: 16ch; }
+.dawn__lede { color: rgba(240,233,242,0.8); font-size: 18px; max-width: 48ch; margin: 0; }
+.stages { list-style: none; padding: 0; margin: 0; display: grid; gap: 28px; position: relative; }
+.stages::before { content: ''; position: absolute; left: 29px; top: 30px; bottom: 30px; width: 2px; background: linear-gradient(180deg, rgba(217,168,92,0.9), rgba(172,93,62,0.9)); }
+.stages li { display: grid; grid-template-columns: 60px 1fr; gap: 6px 18px; align-items: start; }
+.glyph { width: 60px; height: 60px; display: block; grid-row: span 2; }
+.glyph .t { fill: none; stroke: rgba(55,52,43,0.22); stroke-width: 1.5; }
+.glyph .arc { fill: none; stroke: var(--c-accent); stroke-width: 3.5; stroke-linecap: round; }
+.glyph .full { fill: none; stroke: rgb(var(--c-dust2)); stroke-width: 3.5; }
+.stages b { font-family: 'Fraunces'; font-weight: 500; font-variation-settings: 'opsz' 36, 'SOFT' 100; font-size: 26px; line-height: 1.1; }
+.stages i { font-style: normal; font-size: 16px; line-height: 1.45; color: inherit; opacity: 0.85; max-width: 52ch; }
+@media (min-width: 960px) {
+  .stages { grid-template-columns: repeat(7, 1fr); gap: 0 20px; }
+  .stages::before { left: 30px; right: 30px; top: 29px; bottom: auto; height: 2px; width: auto; background: linear-gradient(90deg, rgba(217,168,92,0.9), rgba(172,93,62,0.9)); }
+  .stages li { grid-template-columns: 1fr; gap: 14px 0; }
+  .glyph { grid-row: auto; }
+  .stages i { font-size: 14.5px; }
+}
