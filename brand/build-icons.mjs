@@ -1,45 +1,41 @@
-// build-icons.mjs — Dottie app-icon drafts: the Today screen's stardust ring as
-// the whole icon. Every colour here is a real token from the app's
-// src/theme/themes.ts (Clay / Lagoon / Orchid / Midnight). Dots are placed
-// deterministically (seeded), so the SVGs are reproducible from this file.
+// build-icons.mjs — the Dottie app icon and logo, as original vector art.
+//
+// The look: deep plum, a thin pink ring, glowing pink and gold stardust gathered
+// along the lower and right side (Rob's reference, Oct 28 2026). For the app
+// icon: the ring fills about 87% of the square, the particles are fewer, larger
+// and brighter so the glow still reads at 40pt and 29pt, and the plum sits a
+// touch lighter, toward the Midnight theme (src/theme/themes.ts: #221C2E,
+// #1B1826, #141220).
 //
 //   node brand/build-icons.mjs
 //
-// Writes brand/icon-<option>-{light,dark,tinted}.svg (1024 masters, no mask:
-// iOS applies the squircle itself) and brand/preview/*.png contact sheets with
-// the squircle applied, at 1024, home-screen (60pt), 40pt and 29pt sizes.
+// Writes, into brand/:
+//   icon-dottie.svg            the icon (light appearance, 1024, unmasked)
+//   icon-dottie-dark.svg       the iOS dark variant (deeper plum)
+//   icon-dottie-tinted.svg     the iOS tinted variant (grayscale on black)
+//   logo-dottie.svg            the ring with "Dottie" (Newsreader, outlined) on plum
+//   logo-dottie-mark.svg       the same, transparent outside the ring
+//   preview/*.png              contact sheets at 1024, 60pt, 40pt and 29pt
+//
+// Everything is placed deterministically from a seed, so the files are
+// reproducible from this script alone.
 
-import { writeFileSync, mkdirSync } from 'node:fs';
+import { writeFileSync, mkdirSync, readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { Resvg } from '@resvg/resvg-js';
+import opentype from 'opentype.js';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const out = join(here, 'preview');
 mkdirSync(out, { recursive: true });
 
-// ---- real theme tokens (themes.ts) ----------------------------------------
-const T = {
-  clayLight: { bg: ['#F7F2E7', '#F2E9D6', '#EDDCBB'], dust: '#C4795B', dust2: '#D9A85C', window: 'rgba(196,121,91,0.30)', band: 'rgba(196,121,91,0.55)', track: 'rgba(120,105,80,0.16)' },
-  clayDark: { bg: ['#2A2620', '#221F19', '#1A1712'], dust: '#C4795B', dust2: '#D9A85C', window: 'rgba(196,121,91,0.34)', band: 'rgba(196,121,91,0.55)', track: 'rgba(255,255,255,0.12)' },
-  midnight: { bg: ['#221C2E', '#1B1826', '#141220'], dust: '#E8A0A8', dust2: '#FFDCBE', window: 'rgba(232,160,168,0.34)', band: 'rgba(232,160,168,0.55)', track: 'rgba(255,255,255,0.12)' },
-  orchidLight: { bg: ['#F6F0F7', '#EFE3F1', '#E4D3EA'], dust: '#A868B0', dust2: '#DCA0C8', window: 'rgba(168,104,176,0.30)', band: 'rgba(168,104,176,0.55)', track: 'rgba(130,90,140,0.16)' },
-  orchidDark: { bg: ['#282232', '#201B29', '#181420'], dust: '#A868B0', dust2: '#DCA0C8', window: 'rgba(168,104,176,0.34)', band: 'rgba(168,104,176,0.55)', track: 'rgba(255,255,255,0.12)' },
-  lagoonLight: { bg: ['#EDF4F0', '#DEEDE7', '#CBE3DE'], dust: '#E08A6D', dust2: '#78B4A0', window: 'rgba(224,138,109,0.32)', band: 'rgba(224,138,109,0.55)', track: 'rgba(70,110,100,0.16)' },
-  lagoonDark: { bg: ['#1A2624', '#15201E', '#101917'], dust: '#E08A6D', dust2: '#78B4A0', window: 'rgba(224,138,109,0.34)', band: 'rgba(224,138,109,0.55)', track: 'rgba(255,255,255,0.12)' },
-};
-
-// ---- the four options -----------------------------------------------------
-// sweep: degrees of cycle the dust covers, clockwise from the top.
-// band: [startDeg, lengthDeg], 0 = top (12 o'clock), clockwise. The band is her
-// expected period: at the top it sits where the cycle begins again; "ahead"
-// places it just past the leading edge, where the dust is heading.
-export const OPTIONS = [
-  { id: 'A', name: 'Clay cream', dots: 11, sweep: 270, band: [-34, 48], light: T.clayLight, dark: T.clayDark, seed: 7 },
-  { id: 'B', name: 'Midnight', dots: 9, sweep: 280, band: [-34, 48], light: T.midnight, dark: T.midnight, seed: 19 },
-  { id: 'C', name: 'Clay dusk', dots: 13, sweep: 225, band: [238, 60], light: T.clayDark, dark: T.clayDark, seed: 3 },
-  { id: 'D', name: 'Orchid', dots: 7, sweep: 250, band: [262, 58], light: T.orchidLight, dark: T.orchidDark, seed: 5 },
-];
+const S = 1024, CX = 512, CY = 512;
+const R = 446; // 892 px across = 87% of the square
+const TAU = Math.PI * 2;
+const rad = (d) => ((d - 90) * Math.PI) / 180; // 0 = top, clockwise
+const pt = (deg, r) => [CX + r * Math.cos(rad(deg)), CY + r * Math.sin(rad(deg))];
+const f1 = (n) => n.toFixed(1);
 
 function mulberry32(seed) {
   let a = seed >>> 0;
@@ -51,157 +47,215 @@ function mulberry32(seed) {
   };
 }
 
-const S = 1024, CX = 512, CY = 512, R = 336;
-const rad = (d) => ((d - 90) * Math.PI) / 180; // 0 = top, clockwise
-const pt = (deg, r = R) => [CX + r * Math.cos(rad(deg)), CY + r * Math.sin(rad(deg))];
+// ---- palettes ---------------------------------------------------------------
+const PLUM = {
+  bg: ['#2B2142', '#221C2E', '#191427'],   // top → bottom, Midnight's plum, a touch lighter at the top
+  glow: '#4A2A5A',                           // the faint warm bloom behind the cluster
+  ring: '#D7A9D6', ringSoft: '#B98CC4',
+  pink: ['#FF9CBE', '#FFB4CC', '#FF7FAE', '#F6A6C4'],
+  gold: ['#FFD9A0', '#FFE9C4', '#F9C97E'],
+  cream: '#FFF3EA',
+  wordmark: '#F7E9EF',
+};
+const PLUM_DARK = { ...PLUM, bg: ['#1C1630', '#161224', '#100D1B'], glow: '#3A2048' };
+const TINTED = {
+  bg: ['#000000', '#000000', '#000000'], glow: '#2A2A2A',
+  ring: '#D0D0D0', ringSoft: '#9A9A9A',
+  pink: ['#F2F2F2', '#FFFFFF', '#E6E6E6', '#EDEDED'],
+  gold: ['#FFFFFF', '#F4F4F4', '#DDDDDD'],
+  cream: '#FFFFFF', wordmark: '#FFFFFF',
+};
 
-function arcPath(start, len, r = R) {
-  const [x0, y0] = pt(start, r);
-  const [x1, y1] = pt(start + len, r);
-  return `M ${x0.toFixed(1)} ${y0.toFixed(1)} A ${r} ${r} 0 ${len > 180 ? 1 : 0} 1 ${x1.toFixed(1)} ${y1.toFixed(1)}`;
-}
-
-/** Deterministic dots along the sweep: sparse and small near the start, bold
- *  at the leading edge, with a little radial scatter like the real ring. */
-function dots(opt) {
-  const rand = mulberry32(opt.seed);
-  const n = opt.dots;
+// ---- the stardust -----------------------------------------------------------
+// The cluster runs clockwise from about 1 o'clock (20°) round to 8 o'clock (240°),
+// densest from 3 to 7 o'clock. Fewer and larger than the reference on purpose.
+function particles(seed, { count = 58, big = 5, sparks = 44 } = {}) {
+  const rand = mulberry32(seed);
   const list = [];
-  for (let i = 0; i < n; i++) {
-    const t = (i + 0.5) / n; // 0 at the start of the sweep, 1 at the leading edge
-    const eased = Math.pow(t, 0.75);
-    const jitter = (rand() - 0.5) * (opt.sweep / n) * 0.4;
-    const deg = eased * opt.sweep + jitter;
-    const rr = R + (rand() - 0.5) * 48;
-    const size = 28 + 38 * Math.pow(t, 1.4);
-    const op = 0.55 + 0.45 * t;
-    const alt = i % 4 === 2; // every so often, the secondary dust colour
+  // weight: a bump centred on ~140° (about 4:40), wide enough to reach both ends
+  const weight = (deg) => Math.exp(-Math.pow((deg - 140) / 70, 2));
+  let guard = 0;
+  while (list.length < count && guard++ < 5000) {
+    const deg = 15 + rand() * 235;
+    if (rand() > weight(deg) + 0.08) continue;
+    const w = weight(deg);
+    const spread = 10 + 38 * w;                      // more scatter where it is dense
+    const rr = R + (rand() - 0.5) * 2 * spread;
+    const r = 5 + 11 * Math.pow(rand(), 1.6) + 5 * w; // 5–21 px
+    const roll = rand();
+    const color = roll < 0.62 ? PLUM.pink[Math.floor(rand() * 4)] : roll < 0.86 ? PLUM.gold[Math.floor(rand() * 3)] : PLUM.cream;
+    const op = 0.72 + 0.28 * rand();
     const [x, y] = pt(deg, rr);
-    list.push({ x, y, r: size, op, alt, lead: i === n - 1 });
+    list.push({ x, y, r, color, op, deg });
+  }
+  // a few big, soft bokeh dots low on the ring
+  for (let i = 0; i < big; i++) {
+    const deg = 70 + rand() * 150;
+    const rr = R + (rand() - 0.5) * 60;
+    const [x, y] = pt(deg, rr);
+    list.push({ x, y, r: 15 + rand() * 10, color: rand() < 0.5 ? PLUM.pink[1] : PLUM.gold[1], op: 0.30 + rand() * 0.18, deg, bokeh: true });
+  }
+  // tiny bright sparks between the larger dots, so the cluster still sparkles
+  guard = 0;
+  let n = 0;
+  while (n < sparks && guard++ < 5000) {
+    const deg = 15 + rand() * 235;
+    if (rand() > weight(deg) + 0.05) continue;
+    const rr = R + (rand() - 0.5) * 2 * (16 + 40 * weight(deg));
+    const [x, y] = pt(deg, rr);
+    list.push({ x, y, r: 2.6 + rand() * 2.6, color: rand() < 0.5 ? PLUM.cream : PLUM.pink[1], op: 0.85 + 0.15 * rand(), deg, spark: true });
+    n++;
   }
   return list;
 }
 
-function glyph(opt, tokens, { tinted = false } = {}) {
-  const d = dots(opt);
-  const dustA = tinted ? '#FFFFFF' : tokens.dust;
-  const dustB = tinted ? '#DADADA' : tokens.dust2;
-  const band = tinted ? 'rgba(255,255,255,0.42)' : tokens.band;
-  const track = tinted ? 'rgba(255,255,255,0.14)' : tokens.track;
-  return [
-    `<circle cx="${CX}" cy="${CY}" r="${R}" fill="none" stroke="${track}" stroke-width="14"/>`,
-    `<path d="${arcPath(opt.band[0], opt.band[1])}" fill="none" stroke="${band}" stroke-width="56" stroke-linecap="round"/>`,
-    ...d.map((p) =>
-      `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="${p.r.toFixed(1)}" fill="${p.alt ? dustB : dustA}" opacity="${p.op.toFixed(2)}"/>` +
-      (p.lead ? `<circle cx="${(p.x - p.r * 0.3).toFixed(1)}" cy="${(p.y - p.r * 0.3).toFixed(1)}" r="${(p.r * 0.24).toFixed(1)}" fill="#FFFFFF" opacity="0.85"/>` : ''),
-    ),
-  ].join('\n    ');
+// Map a plum-palette colour to the active palette (so tinted swaps to greys).
+function remap(color, pal) {
+  const i = PLUM.pink.indexOf(color); if (i >= 0) return pal.pink[i];
+  const j = PLUM.gold.indexOf(color); if (j >= 0) return pal.gold[j];
+  if (color === PLUM.cream) return pal.cream;
+  return color;
 }
 
-function master(opt, variant) {
-  const tokens = variant === 'dark' ? opt.dark : opt.light;
-  const tinted = variant === 'tinted';
-  const [b1, b2, b3] = tinted ? ['#000000', '#000000', '#000000'] : tokens.bg;
-  const id = `g${opt.id}${variant}`;
+function arc(start, len, r) {
+  const [x0, y0] = pt(start, r), [x1, y1] = pt(start + len, r);
+  return `M ${f1(x0)} ${f1(y0)} A ${r} ${r} 0 ${len > 180 ? 1 : 0} 1 ${f1(x1)} ${f1(y1)}`;
+}
+
+function defs(id, pal) {
+  return `<defs>
+    <linearGradient id="${id}-bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${pal.bg[0]}"/><stop offset="0.5" stop-color="${pal.bg[1]}"/><stop offset="1" stop-color="${pal.bg[2]}"/></linearGradient>
+    <radialGradient id="${id}-bloom" cx="0.68" cy="0.72" r="0.55"><stop offset="0" stop-color="${pal.glow}" stop-opacity="0.9"/><stop offset="1" stop-color="${pal.glow}" stop-opacity="0"/></radialGradient>
+    <filter id="${id}-soft" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="22"/></filter>
+    <filter id="${id}-halo" x="-120%" y="-120%" width="340%" height="340%"><feGaussianBlur stdDeviation="7"/></filter>
+    <filter id="${id}-ringglow" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="9"/></filter>
+  </defs>`;
+}
+
+function ringAndDust(id, pal, seed) {
+  const ps = particles(seed);
+  const parts = [];
+  // the faint bloom behind the cluster, then the ring's own glow on the bright side
+  parts.push(`<rect width="${S}" height="${S}" fill="url(#${id}-bloom)"/>`);
+  parts.push(`<path d="${arc(25, 215, R)}" fill="none" stroke="${pal.ring}" stroke-width="30" stroke-linecap="round" opacity="0.28" filter="url(#${id}-soft)"/>`);
+  // the thin ring: a main hairline and a second, slightly offset one (the reference's double edge)
+  parts.push(`<circle cx="${CX}" cy="${CY}" r="${R}" fill="none" stroke="${pal.ring}" stroke-width="5" opacity="0.78"/>`);
+  parts.push(`<circle cx="${CX - 9}" cy="${CY - 7}" r="${R - 7}" fill="none" stroke="${pal.ringSoft}" stroke-width="3" opacity="0.42"/>`);
+  // the bright arc where the dust rides the ring
+  parts.push(`<path d="${arc(20, 225, R)}" fill="none" stroke="${pal.pink[1]}" stroke-width="7" stroke-linecap="round" opacity="0.55" filter="url(#${id}-ringglow)"/>`);
+  // halos first, then the particles, so every dot glows
+  for (const p of ps) {
+    const c = remap(p.color, pal);
+    if (p.spark) continue;
+    parts.push(`<circle cx="${f1(p.x)}" cy="${f1(p.y)}" r="${f1(p.r * (p.bokeh ? 1.3 : 2.2))}" fill="${c}" opacity="${(p.op * (p.bokeh ? 0.35 : 0.55)).toFixed(2)}" filter="url(#${id}-halo)"/>`);
+  }
+  for (const p of ps) {
+    const c = remap(p.color, pal);
+    parts.push(`<circle cx="${f1(p.x)}" cy="${f1(p.y)}" r="${f1(p.r)}" fill="${c}" opacity="${p.op.toFixed(2)}"/>`);
+    if (!p.bokeh && p.r > 11) parts.push(`<circle cx="${f1(p.x - p.r * 0.28)}" cy="${f1(p.y - p.r * 0.28)}" r="${f1(p.r * 0.3)}" fill="#FFFFFF" opacity="0.75"/>`);
+  }
+  return parts.join('\n  ');
+}
+
+function icon(variant) {
+  const pal = variant === 'dark' ? PLUM_DARK : variant === 'tinted' ? TINTED : PLUM;
+  const id = `dottie-${variant}`;
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${S}" height="${S}" viewBox="0 0 ${S} ${S}">
-  <!-- Dottie app icon, option ${opt.id} (${opt.name}), ${variant}. The stardust ring from Today, nothing else. -->
-  <defs><linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${b1}"/><stop offset="0.55" stop-color="${b2}"/><stop offset="1" stop-color="${b3}"/></linearGradient></defs>
-  <rect width="${S}" height="${S}" fill="url(#${id})"/>
-  <g>
-    ${glyph(opt, tokens, { tinted })}
-  </g>
+  <!-- Dottie app icon (${variant}). The stardust ring from the Today screen as the whole icon. Original vector art; iOS applies the corner mask. -->
+  ${defs(id, pal)}
+  <rect width="${S}" height="${S}" fill="url(#${id}-bg)"/>
+  ${ringAndDust(id, pal, 2026)}
 </svg>`;
 }
 
-// ---- preview sheets ---------------------------------------------------------
-// Apple's icon mask, approximated as a superellipse (continuous corners).
+// ---- the logo: "Dottie" in Newsreader, outlined to paths ----------------------
+const font = opentype.loadSync(join(here, 'Newsreader-variable.ttf'));
+function wordmarkPath(text, size) {
+  const p = font.getPath(text, 0, 0, size, { kerning: true });
+  const b = p.getBoundingBox();
+  return { d: p.toPathData(2), width: b.x2 - b.x1, x1: b.x1, y1: b.y1, y2: b.y2 };
+}
+
+function logo({ transparent = false } = {}) {
+  const pal = PLUM, id = transparent ? 'dottie-mark' : 'dottie-logo';
+  const wm = wordmarkPath('Dottie', 238);
+  // centre optically: the cap height and the descender-less word sit a little above the ring's middle
+  const tx = CX - wm.x1 - wm.width / 2;
+  const ty = CY + (-(wm.y1 + wm.y2) / 2) + 6;
+  const bg = transparent
+    ? `<circle cx="${CX}" cy="${CY}" r="${R + 2}" fill="url(#${id}-bg)"/>`
+    : `<rect width="${S}" height="${S}" fill="url(#${id}-bg)"/>`;
+  const clip = transparent ? `<clipPath id="${id}-clip"><circle cx="${CX}" cy="${CY}" r="${R + 60}"/></clipPath>` : '';
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${S}" height="${S}" viewBox="0 0 ${S} ${S}">
+  <!-- Dottie logo: the stardust ring with the wordmark in Newsreader (SIL OFL), outlined so no font is needed. -->
+  ${defs(id, pal)}${clip}
+  <g ${transparent ? `clip-path="url(#${id}-clip)"` : ''}>
+  ${bg}
+  ${ringAndDust(id, pal, 2026)}
+  </g>
+  <path transform="translate(${f1(tx)} ${f1(ty)})" d="${wm.d}" fill="${pal.wordmark}"/>
+</svg>`;
+}
+
+// ---- preview sheets -----------------------------------------------------------
 function squircle(size) {
   const n = 5, a = size / 2, pts = [];
   for (let i = 0; i <= 180; i++) {
-    const th = (i / 180) * Math.PI * 2;
-    const c = Math.cos(th), s = Math.sin(th);
-    const x = a + a * Math.sign(c) * Math.pow(Math.abs(c), 2 / n);
-    const y = a + a * Math.sign(s) * Math.pow(Math.abs(s), 2 / n);
-    pts.push(`${x.toFixed(2)},${y.toFixed(2)}`);
+    const th = (i / 180) * TAU, c = Math.cos(th), s = Math.sin(th);
+    pts.push(`${(a + a * Math.sign(c) * Math.pow(Math.abs(c), 2 / n)).toFixed(2)},${(a + a * Math.sign(s) * Math.pow(Math.abs(s), 2 / n)).toFixed(2)}`);
   }
   return `M ${pts.join(' L ')} Z`;
 }
-
-function placed(svgInner, x, y, size, clipId) {
-  return `<g transform="translate(${x} ${y})"><clipPath id="${clipId}"><path d="${squircle(size)}"/></clipPath><g clip-path="url(#${clipId})"><svg width="${size}" height="${size}" viewBox="0 0 ${S} ${S}">${svgInner}</svg></g></g>`;
+const inner = (svg) => svg.replace(/^<svg[^>]*>/, '').replace(/<\/svg>\s*$/, '');
+let clipN = 0;
+function placed(svgInner, x, y, size, mask = true) {
+  const id = `pc${clipN++}`;
+  const clip = mask ? `<clipPath id="${id}"><path d="${squircle(size)}"/></clipPath>` : '';
+  return `<g transform="translate(${x} ${y})">${clip}<g ${mask ? `clip-path="url(#${id})"` : ''}><svg width="${size}" height="${size}" viewBox="0 0 ${S} ${S}">${svgInner}</svg></g></g>`;
+}
+const FONT = 'font-family="Helvetica, Arial, sans-serif"';
+function label(x, y, text, size = 22, color = '#37342B') {
+  return `<text x="${x}" y="${y}" ${FONT} font-size="${size}" fill="${color}">${text}</text>`;
 }
 
-function inner(opt, variant) {
-  return master(opt, variant).replace(/^<svg[^>]*>/, '').replace(/<\/svg>\s*$/, '');
-}
-
-// A tint preview: iOS multiplies the grayscale glyph by the chosen tint over a
-// dark gradient. Simulated here with a blue tint so the mapping is visible.
-function tintedPreview(opt) {
-  const base = inner(opt, 'tinted').replace(/#FFFFFF/g, '#9AB6FF').replace(/#DADADA/g, '#7F9AE0').replace(/rgba\(255,255,255,/g, 'rgba(154,182,255,');
-  return base.replace(/<rect width="1024" height="1024" fill="url\(#[^)]+\)"\/>/, '<rect width="1024" height="1024" fill="#1C1C1E"/>');
-}
-
-const PT = 2; // the sheet is rendered at 2x, so 60pt = 120px
-function sheet(opt) {
-  const W = 1700, H = 1180;
-  const cols = [
-    { label: 'Light', v: inner(opt, 'light'), homeBg: '#DED8CC' },
-    { label: 'Dark', v: inner(opt, 'dark'), homeBg: '#2B2B2F' },
-    { label: 'Tinted source (grayscale)', v: inner(opt, 'tinted'), homeBg: '#2B2B2F' },
-    { label: 'Tinted on iOS (blue, simulated)', v: tintedPreview(opt), homeBg: '#2B2B2F' },
+function sheet() {
+  const W = 1700, H = 1250;
+  const variants = [
+    ['Light (the icon)', inner(icon('light')), '#DED8CC'],
+    ['Dark appearance', inner(icon('dark')), '#2B2B2F'],
+    ['Tinted source (grayscale)', inner(icon('tinted')), '#2B2B2F'],
+    ['Tinted on iOS (blue, simulated)', inner(icon('tinted')).replace(/#FFFFFF|#F2F2F2|#E6E6E6|#EDEDED|#F4F4F4|#DDDDDD|#D0D0D0|#9A9A9A/g, (m) => ({ '#FFFFFF': '#B9CCFF', '#F2F2F2': '#A9BFFF', '#E6E6E6': '#97B0F5', '#EDEDED': '#A3B8FA', '#F4F4F4': '#B0C4FF', '#DDDDDD': '#8EA6EE', '#D0D0D0': '#8EA6EE', '#9A9A9A': '#6B82C8' }[m])).replace(/#000000/g, '#1C1C1E'), '#2B2B2F'],
   ];
-  let k = 0;
-  const parts = [];
-  parts.push(`<rect width="${W}" height="${H}" fill="#F4F1EA"/>`);
-  parts.push(`<text x="60" y="78" font-family="-apple-system, Helvetica, Arial" font-size="40" font-weight="700" fill="#37342B">Option ${opt.id}: ${opt.name}</text>`);
-  parts.push(`<text x="60" y="122" font-family="-apple-system, Helvetica, Arial" font-size="24" fill="#8A8271">${opt.dots} dots · band ${opt.band[0] < 0 || opt.band[0] < 60 ? 'at the top' : 'ahead of the leading edge'} · ring from the Today screen, nothing else</text>`);
-  cols.forEach((c, i) => {
+  const parts = [`<rect width="${W}" height="${H}" fill="#F4F1EA"/>`];
+  parts.push(`<text x="60" y="78" ${FONT} font-size="40" font-weight="700" fill="#37342B">Dottie icon: the stardust ring</text>`);
+  parts.push(label(60, 122, 'Deep plum, thin pink ring, pink and gold stardust along the lower and right side. Ring at 87% of the square.', 24, '#8A8271'));
+  variants.forEach(([name, v, ground], i) => {
     const x = 60 + i * 405;
-    parts.push(`<text x="${x}" y="178" font-family="-apple-system, Helvetica, Arial" font-size="22" fill="#37342B">${c.label}</text>`);
-    parts.push(placed(c.v, x, 196, 360, `c${opt.id}${k++}`));
-    parts.push(`<text x="${x}" y="590" font-family="-apple-system, Helvetica, Arial" font-size="18" fill="#8A8271">1024 px master (shown at 360)</text>`);
-    // a home-screen strip: 60pt, 40pt, 29pt at 2x on a wallpaper-like ground
-    parts.push(`<rect x="${x}" y="620" width="360" height="300" rx="28" fill="${c.homeBg}"/>`);
-    const sizes = [[60, 'Home screen 60pt'], [40, 'Spotlight 40pt'], [29, 'Settings 29pt']];
+    parts.push(label(x, 178, name));
+    parts.push(placed(v, x, 196, 360));
+    parts.push(label(x, 590, '1024 px master, shown at 360', 18, '#8A8271'));
+    parts.push(`<rect x="${x}" y="620" width="360" height="330" rx="28" fill="${ground}"/>`);
+    const ink = ground === '#DED8CC' ? '#37342B' : '#E6E1D6';
     let sx = x + 28;
-    sizes.forEach(([ptSize, label]) => {
-      const px = ptSize * PT;
-      parts.push(placed(c.v, sx, 650, px, `c${opt.id}${k++}`));
-      parts.push(`<text x="${sx}" y="${650 + px + 28}" font-family="-apple-system, Helvetica, Arial" font-size="15" fill="${c.homeBg === '#DED8CC' ? '#37342B' : '#E6E1D6'}">${label.split(' ').slice(-1)[0]}</text>`);
+    [[60, '60pt'], [40, '40pt'], [29, '29pt']].forEach(([ptSize, t]) => {
+      const px = ptSize * 2;
+      parts.push(placed(v, sx, 650, px));
+      parts.push(label(sx, 650 + px + 28, t, 15, ink));
       sx += px + 36;
     });
-    parts.push(`<text x="${x + 28}" y="890" font-family="-apple-system, Helvetica, Arial" font-size="16" fill="${c.homeBg === '#DED8CC' ? '#37342B' : '#E6E1D6'}">Home screen · Spotlight · Settings (2x)</text>`);
+    parts.push(label(x + 28, 858, 'At 2x: home screen, Spotlight, Settings', 16, ink));
+    // at 1x pixels, the honest tiny sizes
+    parts.push(placed(v, x + 28, 884, 60)); parts.push(placed(v, x + 104, 894, 40)); parts.push(placed(v, x + 160, 899, 29));
+    parts.push(label(x + 206, 922, 'at 1x', 15, ink));
   });
-  // 1x row: the honest tiny sizes at native pixel scale for a 3x phone would be 87/120/180 px; show the 29pt at exactly 29 and 40 at 40 too
-  parts.push(`<text x="60" y="980" font-family="-apple-system, Helvetica, Arial" font-size="22" fill="#37342B">At 1x (29 and 40 points as pixels), light and dark:</text>`);
-  let sx = 60;
-  [['light', '#DED8CC'], ['dark', '#2B2B2F']].forEach(([v, bg]) => {
-    parts.push(`<rect x="${sx}" y="1000" width="260" height="120" rx="20" fill="${bg}"/>`);
-    parts.push(placed(inner(opt, v), sx + 24, 1028, 29, `c${opt.id}${k++}`));
-    parts.push(placed(inner(opt, v), sx + 80, 1022, 40, `c${opt.id}${k++}`));
-    parts.push(placed(inner(opt, v), sx + 150, 1012, 60, `c${opt.id}${k++}`));
-    sx += 300;
-  });
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${parts.join('\n')}</svg>`;
-}
-
-function overview() {
-  const W = 1700, H = 560;
-  const parts = [`<rect width="${W}" height="${H}" fill="#F4F1EA"/>`];
-  parts.push(`<text x="60" y="78" font-family="-apple-system, Helvetica, Arial" font-size="40" font-weight="700" fill="#37342B">Dottie icon options, side by side</text>`);
-  let k = 0;
-  OPTIONS.forEach((opt, i) => {
-    const x = 60 + i * 405;
-    parts.push(`<text x="${x}" y="140" font-family="-apple-system, Helvetica, Arial" font-size="24" fill="#37342B">${opt.id} · ${opt.name} · ${opt.dots} dots</text>`);
-    parts.push(placed(inner(opt, 'light'), x, 160, 240, `o${k++}`));
-    parts.push(`<rect x="${x}" y="420" width="360" height="110" rx="20" fill="#DED8CC"/>`);
-    parts.push(placed(inner(opt, 'light'), x + 24, 445, 60, `o${k++}`));
-    parts.push(placed(inner(opt, 'light'), x + 110, 455, 40, `o${k++}`));
-    parts.push(placed(inner(opt, 'light'), x + 176, 460, 29, `o${k++}`));
-    parts.push(placed(inner(opt, 'dark'), x + 240, 445, 60, `o${k++}`));
-    parts.push(placed(inner(opt, 'dark'), x + 316, 460, 29, `o${k++}`));
-  });
+  // the logo row
+  parts.push(label(60, 1010, 'Logo: "Dottie" in Newsreader inside the ring (for the website hero and App Store marketing)', 22));
+  parts.push(placed(inner(logo()), 60, 1030, 200, false));
+  parts.push(placed(inner(logo({ transparent: true })), 290, 1030, 200, false));
+  parts.push(`<rect x="520" y="1030" width="420" height="200" rx="24" fill="#F7F2E7"/>`);
+  parts.push(placed(inner(logo({ transparent: true })), 540, 1040, 180, false));
+  parts.push(label(740, 1120, 'the mark on Clay cream', 16, '#8A8271'));
+  parts.push(label(60, 1245, 'square · ring only (transparent outside) · on the Clay page background', 16, '#8A8271'));
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${parts.join('\n')}</svg>`;
 }
 
@@ -210,11 +264,12 @@ function png(svg, file, scale = 1) {
   writeFileSync(file, r.render().asPng());
 }
 
-for (const opt of OPTIONS) {
-  for (const v of ['light', 'dark', 'tinted']) {
-    writeFileSync(join(here, `icon-${opt.id}-${v}.svg`), master(opt, v));
-  }
-  png(sheet(opt), join(out, `option-${opt.id}.png`));
-}
-png(overview(), join(out, 'overview.png'));
-console.log('wrote', OPTIONS.length * 3, 'SVG masters and', OPTIONS.length + 1, 'preview sheets');
+writeFileSync(join(here, 'icon-dottie.svg'), icon('light'));
+writeFileSync(join(here, 'icon-dottie-dark.svg'), icon('dark'));
+writeFileSync(join(here, 'icon-dottie-tinted.svg'), icon('tinted'));
+writeFileSync(join(here, 'logo-dottie.svg'), logo());
+writeFileSync(join(here, 'logo-dottie-mark.svg'), logo({ transparent: true }));
+png(sheet(), join(out, 'icon-sheet.png'));
+png(icon('light'), join(out, 'icon-1024.png'));
+png(logo(), join(out, 'logo-1024.png'));
+console.log('wrote icon (light, dark, tinted), logo (square, mark) and preview sheets');
