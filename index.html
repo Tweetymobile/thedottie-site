@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src 'self' data:; style-src 'self'; script-src 'self'; font-src 'self'; connect-src 'none'; form-action 'none'; base-uri 'none'; object-src 'none'; manifest-src 'self'; frame-src 'none'; upgrade-insecure-requests">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#F7F2E7" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#2A2620" media="(prefers-color-scheme: dark)">
+  <title>Dottie · Private, from first period to last</title>
+  <meta name="description" content="Dottie is a cycle tracker for iPhone that keeps everything on your phone. No account, no cloud, nothing to leak.">
+  <meta name="referrer" content="no-referrer">
+  <link rel="icon" href="assets/img/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+  <a class="skip" href="#explore">Skip to the demo</a>
+
+  <header class="hero" id="top">
+    <div class="hero__copy">
+      <img class="hero__logo" src="assets/img/logo-mark.svg" width="168" height="168" alt="Dottie">
+      <h1 class="hero__title">Private, from first period to last.</h1>
+      <p class="hero__lede">Dottie is a cycle tracker for iPhone that keeps everything on your phone. No account, no cloud, nothing to leak.</p>
+      <p class="hero__cta">
+        <!-- When the App Store link is live, set APP_STORE_URL in assets/js/site.js and this becomes the badge. -->
+        <span class="badge" id="app-store">Coming soon to the App Store</span>
+      </p>
+      <ul class="promises" aria-label="Dottie's promises">
+        <li>Your data never leaves your device.</li>
+        <li>Your own history is free to see.</li>
+        <li>No pop-ups, and no fake discounts.</li>
+        <li>Safety features are free for everyone.</li>
+        <li>Delete everything in two taps. There is no server copy, so nothing can be recovered.</li>
+        <li>Dottie never diagnoses you.</li>
+      </ul>
+    </div>
+    <div class="hero__phone">
+      <div class="stage" id="stage">
+        <div class="phone" id="phone" aria-label="A demo of the Dottie app" role="region">
+          <div class="phone__screen">
+            <div class="screen" id="screen"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="explore" id="explore" aria-labelledby="explore-title">
+    <div class="explore__copy">
+      <p class="eyebrow">Explore the app</p>
+      <h2 id="explore-title">Tap around. It is a real recreation, with made-up data.</h2>
+      <p>Move between Today, Calendar and Insights. Open the log, tap a symptom, press Done, then look for it under Insights. Log Light, Medium or Heavy flow and watch the ring, the headline and the calendar agree. Nothing you tap is stored anywhere.</p>
+      <p class="explore__hint" id="hint" aria-live="polite">Try: Log how you feel, then Symptoms, then Cramps.</p>
+      <p><button class="link" type="button" id="reset">Start over</button></p>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <p>Prototype: the hero and the interactive phone only. The rest of the page follows after Rob's yes.</p>
+  </footer>
+
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/phone.js"></script>
+  <script src="assets/js/site.js"></script>
+</body>
+</html>
