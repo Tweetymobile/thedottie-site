@@ -85,10 +85,10 @@ h1 { font-size: clamp(44px, 8.5vw, 104px); line-height: 0.98; letter-spacing: -0
 }
 
 /* ---- 2 · the ring becomes her cycle ------------------------------------------ */
-.cycle { background: linear-gradient(180deg, var(--m-bg3), var(--m-bg2) 50%, var(--m-bg3)); padding: 24px 20px 40px; }
+.cycle { background: var(--m-bg3); padding: 24px 20px 40px; }
 .cycle__inner { max-width: var(--max); margin: 0 auto; display: grid; gap: 0; }
-.stage { position: sticky; top: 0; height: 54svh; display: grid; place-items: center; z-index: 1; background: linear-gradient(180deg, var(--m-bg3) 0%, var(--m-bg3) 86%, transparent); }
-.stage__visual { position: relative; width: min(66vw, 38svh); aspect-ratio: 1; }
+.stage { position: sticky; top: 0; height: 54svh; display: grid; place-items: center; z-index: 3; background: var(--m-bg3); }
+.stage__visual { position: relative; width: min(66vw, 42svh); aspect-ratio: 1; }
 .layer { position: absolute; inset: 0; opacity: 0; transition: opacity 0.6s ease, transform 0.6s ease; transform: scale(0.96); }
 .stage[data-step="ring"] .layer--ring, .stage[data-step="calendar"] .layer--calendar, .stage[data-step="chart"] .layer--chart { opacity: 1; transform: none; }
 .layer--ring .ring { width: 100%; }
@@ -113,8 +113,8 @@ h1 { font-size: clamp(44px, 8.5vw, 104px); line-height: 0.98; letter-spacing: -0
 .ch-label { fill: var(--m-ink-soft); font-size: 12px; text-anchor: middle; }
 .ch-title { fill: var(--m-ink); font-size: 15px; font-weight: 600; }
 .ch-sub { fill: var(--m-ink-soft); font-size: 12px; }
-.steps { display: grid; gap: 34svh; padding: 10svh 0 30svh; }
-.step { max-width: 46ch; position: relative; z-index: 2; }
+.steps { display: grid; gap: 40svh; padding: 6svh 0 30svh; }
+.step { max-width: 46ch; position: relative; z-index: 1; }
 .step h2 { font-size: clamp(30px, 4vw, 52px); margin-bottom: 14px; }
 .step p { color: var(--m-control); font-size: 17px; margin: 0 0 10px; }
 .step__quote { font-family: var(--display); font-variation-settings: 'opsz' 36, 'SOFT' 100; font-size: 22px; color: var(--m-accent-deep); }

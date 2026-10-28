@@ -43,11 +43,11 @@
     var ws = D.windowStart, we = D.windowEnd, start = D.lastPeriodStart;
     for (var i = 1; i <= n; i++) {
       var d = new Date(y, m, i), col = (first + i - 1) % 7, row = Math.floor((first + i - 1) / 7);
-      var cx = cell * col + cell / 2, cy = 125 + row * 84, cls = 'cal-day';
+      var cx = cell * col + cell / 2, cy = 125 + row * 76, cls = 'cal-day';
       var day = Math.round((d - start) / 86400000) + 1, ov = D.avgCycle - 14;
       if (d >= ws && d <= we) cls += ' expected';
       else if (d < ws) cls += day < ov - 1 ? ' follicular' : day <= ov + 1 ? ' ovulatory' : ' luteal';
-      parts.push('<circle class="' + cls + '" cx="' + cx.toFixed(1) + '" cy="' + cy + '" r="34"/>');
+      parts.push('<circle class="' + cls + '" cx="' + cx.toFixed(1) + '" cy="' + cy + '" r="32"/>');
       parts.push('<text class="cal-num" x="' + cx.toFixed(1) + '" y="' + (cy + 4) + '">' + i + '</text>');
     }
     return '<svg viewBox="0 0 600 600" aria-hidden="true">' + parts.join('') + '</svg>';
@@ -75,7 +75,7 @@
   if (stage && steps.length && 'IntersectionObserver' in window) {
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) { if (e.isIntersecting) stage.setAttribute('data-step', e.target.getAttribute('data-goto')); });
-    }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
+    }, { rootMargin: window.innerWidth < 960 ? '-56% 0px -8% 0px' : '-45% 0px -45% 0px', threshold: 0 });
     steps.forEach(function (s) { io.observe(s); });
   }
 

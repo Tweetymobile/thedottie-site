@@ -59,7 +59,7 @@ for (const [name, width, height] of [['phone', 390, 844], ['desktop', 1440, 900]
     await page.screenshot({ path: `${out}tour-${name}-${String(i++).padStart(2, '0')}-${id}.png` });
     if (id === 'cycle') {
       for (const [k, step] of [[1, 'calendar'], [2, 'chart']]) {
-        await page.evaluate((k) => document.querySelectorAll('.step')[k].scrollIntoView({ block: 'center', behavior: 'instant' }), k);
+        await page.evaluate((k) => document.querySelectorAll('.step')[k].scrollIntoView({ block: window.innerWidth < 960 ? 'end' : 'center', behavior: 'instant' }), k);
         await page.waitForTimeout(1500);
         await page.screenshot({ path: `${out}tour-${name}-${String(i++).padStart(2, '0')}-cycle-${step}.png` });
       }
