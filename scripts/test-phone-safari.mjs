@@ -56,6 +56,22 @@ const wheel = async () => {
 };
 console.log('wheel inside calendar:', await wheel());
 console.log('synthetic wheel through the page handler:', await js('var s=document.querySelector(".screen .scroll"); s.scrollTop=0; var nc=s.firstElementChild.dispatchEvent(new WheelEvent("wheel",{deltaY:120,bubbles:true,cancelable:true})); return "prevented "+(!nc)+", inner scrollTop "+s.scrollTop'));
+// mouse drag-to-scroll: press on the screen, drag up in steps, release; then a press with a tiny wobble on a day must still open it
+console.log('mouse drag up 180px on Calendar:', await (async () => { try {
+  await js('document.getElementById("phone").scrollIntoView({block:"center"}); document.querySelector(".screen .scroll").scrollTop = 0'); await sleep(300);
+  const r = await js('var b=document.querySelector(".screen .scroll").getBoundingClientRect(); return [Math.round(b.left+b.width/2), Math.round(b.top+b.height/2)]');
+  const moves = []; for (let i = 1; i <= 12; i++) moves.push({ type: 'pointerMove', x: r[0], y: r[1] - i * 15, origin: 'viewport', duration: 16 });
+  await S('/actions', { actions: [{ type: 'pointer', id: 'drag', parameters: { pointerType: 'mouse' }, actions: [{ type: 'pointerMove', x: r[0], y: r[1], origin: 'viewport' }, { type: 'pointerDown', button: 0 }].concat(moves).concat([{ type: 'pointerUp', button: 0 }]) }] });
+  await sleep(600);
+  return 'inner scrollTop ' + (await js('return Math.round(document.querySelector(".screen .scroll").scrollTop)')) + ' | ' + (await state());
+} catch (e) { return 'FAIL ' + e.message; } })());
+console.log('press with a 2px wobble on Oct 20:', await (async () => { try {
+  await js('document.querySelector(".screen .scroll").scrollTop = 0'); await sleep(200);
+  const r = await js('var b=document.querySelector("[data-date=\'2026-10-20\']").getBoundingClientRect(); return [Math.round(b.left+b.width/2), Math.round(b.top+b.height/2)]');
+  await S('/actions', { actions: [{ type: 'pointer', id: 'w', parameters: { pointerType: 'mouse' }, actions: [{ type: 'pointerMove', x: r[0], y: r[1], origin: 'viewport' }, { type: 'pointerDown', button: 0 }, { type: 'pointerMove', x: r[0], y: r[1] + 2, origin: 'viewport', duration: 30 }, { type: 'pointerUp', button: 0 }] }] });
+  await sleep(300); return await state();
+} catch (e) { return 'FAIL ' + e.message; } })());
+console.log('close the day sheet:', await click('.primary[data-act="close"]'), '→', await state());
 console.log('Key sheet:', await click('[data-act="key"]'), '→', await state(), '| visible:', await js('var t=document.querySelector(".sheet__title"); return !!t && t.getBoundingClientRect().height>0'));
 console.log('close sheet (click the scrim above the panel):', await (async () => { try { await js('document.getElementById("phone").scrollIntoView({block:"center"})'); await sleep(300); const r = await js('var b=document.querySelector(".sheet__scrim").getBoundingClientRect(); return [Math.round(b.left+b.width/2), Math.round(Math.max(b.top,0)+24)]'); await S('/actions', { actions: [{ type: 'pointer', id: 'm', parameters: { pointerType: 'mouse' }, actions: [{ type: 'pointerMove', x: r[0], y: r[1], origin: 'viewport' }, { type: 'pointerDown', button: 0 }, { type: 'pointerUp', button: 0 }] }] }); await sleep(350); return 'ok'; } catch (e) { return 'FAIL ' + e.message; } })(), '→', await state());
 console.log('reopen key and close with Escape:', await click('[data-act="key"]'), await (async () => { try { await js('document.querySelector(".sheet__scrim").focus()'); await S('/actions', { actions: [{ type: 'key', id: 'k', actions: [{ type: 'keyDown', value: '\uE00C' }, { type: 'keyUp', value: '\uE00C' }] }] }); await sleep(300); return 'ok'; } catch (e) { return 'FAIL ' + e.message; } })(), '→', await state());

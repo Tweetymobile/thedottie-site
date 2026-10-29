@@ -180,6 +180,7 @@ h1 { font-size: clamp(44px, 8.5vw, 104px); line-height: 0.98; letter-spacing: -0
 .page { position: absolute; inset: 54px 0 0; overflow: hidden; }
 .scroll { position: absolute; inset: 0; overflow-y: auto; overscroll-behavior: contain; padding-bottom: 150px; scrollbar-width: none; }
 .scroll::-webkit-scrollbar { display: none; }
+@media (pointer: fine) { .screen .scroll, .screen .sheet__panel { cursor: grab; } .screen.is-dragging, .screen.is-dragging * { cursor: grabbing; } }
 .topline { display: flex; justify-content: space-between; align-items: center; padding: 6px 20px 0; color: var(--ink-soft); font-size: 17px; }
 .ring-wrap { display: flex; flex-direction: column; align-items: center; margin-top: 18px; }
 .screen .ring { position: relative; width: 208px; height: 208px; }

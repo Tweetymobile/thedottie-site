@@ -172,7 +172,7 @@
     for (var b = 0; b < first.getDay(); b++) html += '<span></span>';
     for (var i = 1; i <= n; i++) {
       var d = new Date(y, m, i);
-      html += '<button type="button" class="' + dayClass(d) + '" data-act="day" data-date="' + y + '-' + (m + 1) + '-' + i + '" aria-label="' + LONG[m] + ' ' + i + '">' + i + '</button>';
+      html += '<button type="button" class="' + dayClass(d) + '" data-act="day" data-date="' + y + '-' + (m < 9 ? '0' : '') + (m + 1) + '-' + (i < 10 ? '0' : '') + i + '" aria-label="' + LONG[m] + ' ' + i + '">' + i + '</button>';
     }
     return html + '</div>';
   }
@@ -401,6 +401,56 @@
     e.preventDefault();
     s.scrollTop += dy;
   }, { passive: false });
+  // Mouse drag-to-scroll: on a desktop, pressing on the screen and dragging up or
+  // down moves the screen's scroller like a swipe, with a little momentum after
+  // release. It counts as a drag only after a few pixels of movement, so ordinary
+  // clicks on tabs, buttons and calendar days are untouched; the click that
+  // follows a real drag is swallowed. Touch (iPhone) never enters this path.
+  var drag = null, momentum = 0, swallowClick = false;
+  var DRAG_THRESHOLD = 5, FRICTION = 0.94;
+  function stopMomentum() { if (momentum) cancelAnimationFrame(momentum); momentum = 0; }
+  function glide(s, v) {
+    stopMomentum();
+    var step = function () {
+      if (Math.abs(v) < 0.4 || !root.contains(s)) { momentum = 0; return; }
+      s.scrollTop -= v; v *= FRICTION;
+      momentum = requestAnimationFrame(step);
+    };
+    momentum = requestAnimationFrame(step);
+  }
+  function onMove(e) {
+    if (!drag) return;
+    var dy = e.clientY - drag.startY;
+    if (!drag.active) {
+      if (Math.abs(dy) < DRAG_THRESHOLD) return;
+      drag.active = true; root.classList.add('is-dragging');
+    }
+    drag.s.scrollTop = drag.startTop - dy;
+    var now = e.timeStamp || Date.now();
+    if (now > drag.lastT) { drag.v = (e.clientY - drag.lastY) / (now - drag.lastT) * 16; drag.lastY = e.clientY; drag.lastT = now; }
+    e.preventDefault();
+  }
+  function onUp(e) {
+    window.removeEventListener('pointermove', onMove); window.removeEventListener('pointerup', onUp); window.removeEventListener('pointercancel', onUp);
+    if (!drag) return;
+    var d = drag; drag = null; root.classList.remove('is-dragging');
+    if (d.active) {
+      swallowClick = true; setTimeout(function () { swallowClick = false; }, 0);
+      var idle = (e.timeStamp || Date.now()) - d.lastT > 80;
+      if (!idle && Math.abs(d.v) > 1) glide(d.s, d.v);
+    }
+  }
+  root.addEventListener('pointerdown', function (e) {
+    if (e.pointerType !== 'mouse' || e.button !== 0) return;
+    var s = e.target.closest && e.target.closest('.scroll, .sheet__panel');
+    if (!s) return;
+    stopMomentum();
+    drag = { s: s, startY: e.clientY, startTop: s.scrollTop, lastY: e.clientY, lastT: e.timeStamp || Date.now(), v: 0, active: false };
+    window.addEventListener('pointermove', onMove); window.addEventListener('pointerup', onUp); window.addEventListener('pointercancel', onUp);
+  });
+  root.addEventListener('click', function (e) { if (swallowClick) { e.stopPropagation(); e.preventDefault(); } }, true);
+  root.addEventListener('wheel', stopMomentum, { passive: true });
+
   root.addEventListener('keydown', function (e) {
     if (e.key === 'Escape' && S.sheet) { S.sheet = null; render(); return; }
     // Left and right arrows move between the tabs of a tab list; Enter or Space selects.

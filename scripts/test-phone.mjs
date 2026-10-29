@@ -60,6 +60,33 @@ for (const [name, ctxOpts, touch] of modes) {
     await page.waitForTimeout(500);
   }
   console.log('scroll inside calendar: scrollTop', await scrollTop(), '| page scrolled by', (await pageY()) - y0);
+  if (!touch) {
+    await page.evaluate(() => document.getElementById('phone').scrollIntoView({ block: 'center', behavior: 'instant' })); await page.waitForTimeout(200);
+    const sb = await page.locator('.screen .scroll').boundingBox();
+    const cx2 = sb.x + sb.width / 2, cy2 = sb.y + sb.height / 2;
+    await page.evaluate(() => { document.querySelector('.screen .scroll').scrollTop = 0; });
+    const st0 = await state(); const py0 = await pageY();
+    await page.mouse.move(cx2, cy2); await page.mouse.down();
+    for (let i = 1; i <= 12; i++) { await page.mouse.move(cx2, cy2 - i * 15); await page.waitForTimeout(16); }
+    const atRelease = await scrollTop(); await page.mouse.up(); await page.waitForTimeout(500);
+    const after = await scrollTop();
+    console.log('mouse drag up 180px: inner at release', Math.round(atRelease), '| after momentum', Math.round(after), '| state unchanged:', (await state()) === st0, '| page scrolled by', (await pageY()) - py0);
+    // a press with a 2px wobble on a day is still a click
+    await page.waitForTimeout(700);
+    const dayBox = await page.locator('[data-date="2026-10-20"]').boundingBox();
+    const dx = dayBox.x + dayBox.width / 2, dyy = dayBox.y + dayBox.height / 2;
+    const under = await page.evaluate(([x, y]) => { const t = document.elementFromPoint(x, y); return t ? t.tagName + ' ' + (t.getAttribute('data-date') || t.getAttribute('data-tab') || t.className) : 'null'; }, [dx, dyy]);
+    await page.mouse.move(dx, dyy); await page.mouse.down(); await page.mouse.move(dx, dyy + 2); await page.mouse.up(); await page.waitForTimeout(300);
+    console.log('press with a 2px wobble on Oct 20 (under the point: ' + under + '): sheet =', await page.evaluate(() => window.DottiePhone.state().sheet), '| day =', await page.evaluate(() => window.DottiePhone.state().day), '|', await state());
+    await act('.primary[data-act="close"]');
+    // a real drag that ends on a day must NOT open it
+    await page.evaluate(() => { document.querySelector('.screen .scroll').scrollTop = 0; });
+    const d2 = await page.locator('[data-date="2026-10-06"]').boundingBox();
+    await page.mouse.move(d2.x + d2.width / 2, d2.y + d2.height / 2 + 60); await page.mouse.down(); for (let i = 1; i <= 6; i++) { await page.mouse.move(d2.x + d2.width / 2, d2.y + d2.height / 2 + 60 - i * 10); await page.waitForTimeout(16); } await page.mouse.up(); await page.waitForTimeout(200);
+    console.log('drag that ends over a day: sheet =', await page.evaluate(() => window.DottiePhone.state().sheet), '(should be null)');
+    await page.evaluate(() => { document.querySelector('.screen .scroll').scrollTop = 0; });
+  }
+  await page.evaluate(() => document.getElementById('phone').scrollIntoView({ block: 'center', behavior: 'instant' })); await page.waitForTimeout(200);
   console.log('tap Oct 14 (logged period):', await act('[data-date="2026-10-14"]'), '→', await state(), '| sheet says:', await page.locator('.sheet .row b').first().textContent().catch(() => '(none)'));
   console.log('close day sheet:', await act('.primary[data-act="close"]'), '→', await state());
   console.log('tap Nov 20 (future):', await act('[data-date="2026-11-20"]'), '→', await page.locator('.sheet .explainer').textContent().catch(() => '(none)'), '| close:', await act('.primary[data-act="close"]'));
@@ -68,6 +95,12 @@ for (const [name, ctxOpts, touch] of modes) {
   console.log('Insights tab:', await act('.tabbar [data-tab="insights"]'), '→', await state());
   for (const t of ['trends', 'symptoms', 'history', 'overview']) console.log(' itab ' + t + ':', await act('.itabs [data-itab="' + t + '"]'), '→', await state());
   console.log(' Trends:', await act('.itabs [data-itab="trends"]'), 'range 6:', await act('[data-range="6"]'), 'range 12:', await act('[data-range="12"]'), '→', await state());
+  if (!touch) {
+    await page.evaluate(() => { document.querySelector('.screen .scroll').scrollTop = 0; });
+    const tb = await page.locator('.screen .scroll').boundingBox(); const tx = tb.x + tb.width / 2, ty = tb.y + tb.height * 0.7;
+    await page.mouse.move(tx, ty); await page.mouse.down(); for (let i = 1; i <= 5; i++) { await page.mouse.move(tx, ty - i * 12); await page.waitForTimeout(16); } const rel = await scrollTop(); await page.mouse.up(); await page.waitForTimeout(700);
+    console.log(' Trends: short fast drag of 60px → inner at release', Math.round(rel), '| after momentum', Math.round(await scrollTop()), '(more than at release means it glided) | max', await page.evaluate(() => { const s = document.querySelector('.screen .scroll'); return s.scrollHeight - s.clientHeight; }));
+  }
   console.log(' Overview:', await act('.itabs [data-itab="overview"]'), 'See all:', await act('[data-itab="symptoms"].textlink'), '→', await state());
   console.log('Today tab:', await act('.tabbar [data-tab="today"]'), 'open log:', await act('[data-act="open-log"]'), 'Symptoms:', await act('[data-act="section-symptoms"]'), 'Cramps:', await act('[data-chip="Cramps"]'), 'Back:', await act('[data-act="section-main"]'), 'Done:', await act('[data-act="done"]'), '→', await state());
   console.log('Insights again:', await act('.tabbar [data-tab="insights"]'), 'Symptoms:', await act('.itabs [data-itab="symptoms"]'), '| Cramps shown as today:', await page.locator('.symrow--new').count());
