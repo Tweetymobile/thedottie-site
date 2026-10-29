@@ -5,7 +5,7 @@ The marketing site for Dottie, a private iOS cycle tracker. Plain HTML, CSS and 
 ## Layout
 
 - `index.html` the home page (hero, the ring that becomes her cycle, honesty, the interactive phone, every stage, pick your vibe, private by design, the doctor visit summary, a note from Rob about why Dottie exists, download and FAQ).
-- `privacy/index.html` the privacy policy. The dashed placeholder block is where the final text goes; keep headings as `h2`.
+- `privacy/index.html` the privacy policy, published (source: `docs/privacy-policy-draft.md`); keep headings as `h2`. The app links here from the paywall and from Settings › About.
 - `support/index.html` support, with the mailto and a short FAQ.
 - `assets/css/tokens.css` the app's four themes, generated from `src/theme/themes.ts` values. Regenerate by re-running the generator at the top of this file's history (`scripts/gen-tokens.py` is the script; its values are copied from the app, read-only).
 - `assets/css/site.css` everything visual. Night sections use the fixed Midnight tokens (`--m-*`); day sections and the demo phone follow the visitor's theme pick.
@@ -23,7 +23,7 @@ The marketing site for Dottie, a private iOS cycle tracker. Plain HTML, CSS and 
 2. **Wording.** Every quoted line on the page is the app's own. Check against `src/copy/framing.ts`, `src/copy/settings.ts`, `src/cycle/model.ts`, `src/cycle/pregnancy.ts`, `src/copy/firstCycles.ts` and `src/doctor/report.ts` in the app repo before changing one. `docs/PLAN.md` lists where each feature is confirmed.
 3. **Themes.** If `themes.ts` changes, regenerate `tokens.css`.
 4. **The minimum iOS.** It appears in the download section, the FAQ, the support page and the JSON-LD block in `index.html`.
-5. **The privacy policy.** Replace the placeholder block in `privacy/index.html`.
+5. **The privacy policy.** Edit `docs/privacy-policy-draft.md` and `privacy/index.html` together, update the effective date, and check the app's privacy lines still agree (they were matched to it on Oct 28 2026: `src/copy/settings.ts`, `docs/dottie-explainers.json`, the onboarding, PIN, recovery and export screens).
 
 ## Checks
 
@@ -48,8 +48,10 @@ Live at https://thedottie.app (GitHub Pages, custom domain, HTTPS enforced, cert
 
 Done today: full site built on direction A ("Night, then your day"); DNS moved to GitHub Pages with Zoho mail records untouched; privacy policy published with Rob's text and effective date, plus "If you email me" and the Apple Health and doctor-report corrections; "A little about why Dottie exists" on the home page with an About link in the footer; FAQ and support page in the first person; app icon final (stardust ring, no text) with light and tinted 1024 RGB PNGs and a transparent RGBA dark PNG in `brand/icon/`; demo phone fixed for Safari (transform instead of zoom, wheel handled by the screen, keyboard focus kept, arrow keys, labelled tab lists, day sheet on calendar taps, mouse drag-to-scroll with momentum). Every deploy was followed by `scripts/audit-live.mjs` (zero outside requests, no cookie, HTTP to HTTPS) and the phone test in Chromium, Playwright WebKit and Firefox; real Safari was checked through safaridriver and by Rob on his Mac and iPhone.
 
+Done in the app repo the same day, against this site: the three icon PNGs installed byte-identical as `assets/icon-light.png`, `icon-dark.png` and `icon-tinted.png` (app PRs #1 and #4, the transparent dark one included); every privacy line in the app matched to the published policy (app PRs #2 and #3); Settings › About now opens `https://thedottie.app/privacy` in Safari and `mailto:hello@thedottie.app?subject=Dottie` (empty body, nothing attached), the same address as the support page.
+
 Still open:
 - The App Store link: set `APP_STORE_URL` in `assets/js/site.js` when the app is approved.
-- Install the three icon PNGs in the app repo (`brand/icon/icon-light-1024.png`, `icon-dark-1024.png`, `icon-tinted-1024.png`); the dark one is transparent and without the background haze, which Rob may still want back (one flag in `brand/build-icons.mjs`).
+- The dark icon has no background haze; Rob may still want it back (one flag in `brand/build-icons.mjs`). If any icon PNG changes, copy it into the app repo's `assets/` again (byte-identical; `src/guards/appIcon.test.ts` there pins the shapes).
 - Google Chrome and Microsoft Edge were never tested for real (not installed on this Mac); Chromium stands in.
 - `node scripts/test-phone-safari.mjs` needs Safari's "Allow remote automation" switched on for the run and off again after.
