@@ -15,7 +15,7 @@ The marketing site for Dottie, a private iOS cycle tracker. Plain HTML, CSS and 
 - `assets/js/phone.js` the interactive phone: Today, Calendar, Insights and the log sheet.
 - `assets/js/site.js` page behaviour: the App Store link constant, the stage, the theme switcher, the three privacy demos.
 - `assets/fonts/` Fraunces, Bricolage Grotesque and Newsreader, latin subsets, with their SIL Open Font Licence files.
-- `brand/` the app icon and logo. Decision (Rob, Oct 28 2026): the icon is the stardust ring only, no text, final. `icon-dottie.svg`, `icon-dottie-dark.svg` and `icon-dottie-tinted.svg` are the sources; `icon/icon-light-1024.png`, `icon/icon-dark-1024.png` and `icon/icon-tinted-1024.png` are the finished 1024 x 1024 RGB PNGs (no alpha) for the app's asset catalog. `logo-dottie*.svg` carry the wordmark for marketing only. `node brand/build-icons.mjs` regenerates all of it, plus the site's `assets/img/icon-180.png` and `favicon-32.png`.
+- `brand/` the app icon and logo. Decision (Rob, Oct 28 2026): the icon is the stardust ring only, no text, final. `icon-dottie.svg`, `icon-dottie-dark.svg` and `icon-dottie-tinted.svg` are the sources; `icon/icon-light-1024.png` and `icon/icon-tinted-1024.png` are the finished 1024 x 1024 RGB PNGs (no alpha) for the app's asset catalog; `icon/icon-dark-1024.png` is the dark appearance, the same ring on a fully transparent background (RGBA), so iOS draws its own dark ground behind it (Rob, Oct 28 2026). `preview/icon-dark-on-gray.png` shows it over dark gray. `logo-dottie*.svg` carry the wordmark for marketing only. `node brand/build-icons.mjs` regenerates all of it, plus the site's `assets/img/icon-180.png` and `favicon-32.png`.
 
 ## Updating the site as the app changes
 

@@ -15,9 +15,12 @@
 //   icon-dottie-tinted.svg     the iOS tinted variant (grayscale on black)
 //   logo-dottie.svg            the ring with "Dottie" (Newsreader, outlined) on plum
 //   logo-dottie-mark.svg       the same, transparent outside the ring
-//   icon/icon-light-1024.png   the finished App Store / asset-catalog PNGs: 1024 x 1024,
-//   icon/icon-dark-1024.png    8-bit RGB, no alpha channel (App Store Connect rejects
-//   icon/icon-tinted-1024.png  alpha in the 1024 icon), square and unmasked
+//   icon/icon-light-1024.png   the finished App Store / asset-catalog PNGs, 1024 x 1024,
+//   icon/icon-tinted-1024.png  square and unmasked: light and tinted are 8-bit RGB with no
+//                              alpha channel (App Store Connect rejects alpha in the 1024 icon)
+//   icon/icon-dark-1024.png    the dark appearance: the same ring on a fully transparent
+//                              background (RGBA), so iOS supplies its own dark ground
+//                              (Rob, Oct 28 2026)
 //   preview/*.png              contact sheets at 1024, 60pt, 40pt and 29pt
 // And, into assets/img/ for the website:
 //   icon-180.png               apple-touch-icon (opaque, iOS masks it)
@@ -145,11 +148,12 @@ function defs(id, pal) {
   </defs>`;
 }
 
-function ringAndDust(id, pal, seed) {
+function ringAndDust(id, pal, seed, { bloom = true } = {}) {
   const ps = particles(seed);
   const parts = [];
-  // the faint bloom behind the cluster, then the ring's own glow on the bright side
-  parts.push(`<rect width="${S}" height="${S}" fill="url(#${id}-bloom)"/>`);
+  // the faint bloom behind the cluster (a background haze, left out of the transparent
+  // dark icon), then the ring's own glow on the bright side
+  if (bloom) parts.push(`<rect width="${S}" height="${S}" fill="url(#${id}-bloom)"/>`);
   parts.push(`<path d="${arc(25, 215, R)}" fill="none" stroke="${pal.ring}" stroke-width="30" stroke-linecap="round" opacity="0.28" filter="url(#${id}-soft)"/>`);
   // the thin ring: a main hairline and a second, slightly offset one (the reference's double edge)
   parts.push(`<circle cx="${CX}" cy="${CY}" r="${R}" fill="none" stroke="${pal.ring}" stroke-width="5" opacity="0.78"/>`);
@@ -170,14 +174,17 @@ function ringAndDust(id, pal, seed) {
   return parts.join('\n  ');
 }
 
-function icon(variant) {
+function icon(variant, { bloom } = {}) {
   const pal = variant === 'dark' ? PLUM_DARK : variant === 'tinted' ? TINTED : PLUM;
   const id = `dottie-${variant}`;
+  if (bloom === undefined) bloom = variant !== 'dark';
+  // The dark appearance has no background of its own: the ring and its glow sit on
+  // transparency, and iOS draws the dark ground behind it.
+  const ground = variant === 'dark' ? '' : `<rect width="${S}" height="${S}" fill="url(#${id}-bg)"/>\n  `;
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${S}" height="${S}" viewBox="0 0 ${S} ${S}">
-  <!-- Dottie app icon (${variant}). The stardust ring from the Today screen as the whole icon. Original vector art; iOS applies the corner mask. -->
+  <!-- Dottie app icon (${variant}). The stardust ring from the Today screen as the whole icon. Original vector art; iOS applies the corner mask.${variant === 'dark' ? ' Transparent background on purpose.' : ''} -->
   ${defs(id, pal)}
-  <rect width="${S}" height="${S}" fill="url(#${id}-bg)"/>
-  ${ringAndDust(id, pal, 2026)}
+  ${ground}${ringAndDust(id, pal, 2026, { bloom })}
 </svg>`;
 }
 
@@ -337,9 +344,30 @@ png(icon('light'), join(out, 'icon-1024.png'));
 png(logo(), join(out, 'logo-1024.png'));
 // the finished icons: 1024 x 1024, RGB, no alpha
 pngRGB(icon('light'), join(iconOut, 'icon-light-1024.png'), 1024, PLUM.bg[2]);
-pngRGB(icon('dark'), join(iconOut, 'icon-dark-1024.png'), 1024, PLUM_DARK.bg[2]);
+png(icon('dark'), join(iconOut, 'icon-dark-1024.png')); // RGBA, transparent background
+// a preview of the dark icon the way iOS shows it: over a dark gray ground, corner-masked, at 1024 and small sizes
+{
+  const v = inner(icon('dark')), W = 1700, H = 1180;
+  const parts = [`<rect width="${W}" height="${H}" fill="#2B2B2F"/>`];
+  parts.push(`<text x="60" y="78" ${FONT} font-size="36" font-weight="700" fill="#E6E1D6">Dark icon: the ring on a transparent background, shown over dark gray</text>`);
+  parts.push(placed(v, 60, 120, 1000));
+  parts.push(label(60, 1160, '1024 px master at 1000 (transparent background, iOS corner mask simulated)', 18, '#A9A49A'));
+  let sx = 1120;
+  [[180, '180'], [120, '120'], [80, '80'], [58, '58']].forEach(([px, t]) => { parts.push(placed(v, sx, 140, px)); parts.push(label(sx, 140 + px + 30, t + ' px', 16, '#A9A49A')); sx += px + 40; });
+  sx = 1120; [[60, '60pt'], [40, '40pt'], [29, '29pt']].forEach(([pt, t]) => { const px = pt * 2; parts.push(placed(v, sx, 420, px)); parts.push(label(sx, 420 + px + 30, t + ' at 2x', 16, '#A9A49A')); sx += px + 40; });
+  parts.push(`<rect x="1120" y="640" width="520" height="300" rx="28" fill="#1C1C1E"/>`);
+  parts.push(label(1140, 672, 'on iOS black (#1C1C1E)', 16, '#A9A49A'));
+  parts.push(placed(v, 1140, 690, 180)); parts.push(placed(v, 1340, 690, 120)); parts.push(placed(v, 1480, 690, 80));
+  parts.push(`<rect x="1120" y="960" width="520" height="190" rx="28" fill="#F4F1EA"/>`);
+  parts.push(label(1140, 992, 'on a light ground (shows the edges are clean)', 16, '#6B665E'));
+  parts.push(placed(v, 1140, 1005, 120)); parts.push(placed(v, 1280, 1005, 80)); parts.push(placed(v, 1380, 1005, 58));
+  // for comparison: the same file with the old background haze kept (not what ships)
+  parts.push(placed(inner(icon('dark', { bloom: true })), 1500, 420, 120));
+  parts.push(label(1500, 570, 'haze kept', 16, '#A9A49A')); parts.push(label(1500, 592, '(comparison, not shipped)', 14, '#A9A49A'));
+  png(`<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${parts.join('\n')}</svg>`, join(out, 'icon-dark-on-gray.png'));
+}
 pngRGB(icon('tinted'), join(iconOut, 'icon-tinted-1024.png'), 1024, TINTED.bg[2]);
 // the website's touch icon and PNG favicon, from the light icon
 pngRGB(icon('light'), join(siteImg, 'icon-180.png'), 180, PLUM.bg[2]);
 pngRGB(icon('light'), join(siteImg, 'favicon-32.png'), 32, PLUM.bg[2]);
-console.log('wrote icon (light, dark, tinted) SVGs, icon/*.png (1024, RGB), logo (square, mark), site icon-180 + favicon-32, and preview sheets');
+console.log('wrote icon (light, dark, tinted) SVGs, icon/*.png (light + tinted RGB, dark RGBA transparent), logo (square, mark), site icon-180 + favicon-32, and preview sheets');

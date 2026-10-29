@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
-  <!-- Dottie app icon (dark). The stardust ring from the Today screen as the whole icon. Original vector art; iOS applies the corner mask. -->
+  <!-- Dottie app icon (dark). The stardust ring from the Today screen as the whole icon. Original vector art; iOS applies the corner mask. Transparent background on purpose. -->
   <defs>
     <linearGradient id="dottie-dark-bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1C1630"/><stop offset="0.5" stop-color="#161224"/><stop offset="1" stop-color="#100D1B"/></linearGradient>
     <radialGradient id="dottie-dark-bloom" cx="0.68" cy="0.72" r="0.55"><stop offset="0" stop-color="#3A2048" stop-opacity="0.9"/><stop offset="1" stop-color="#3A2048" stop-opacity="0"/></radialGradient>
@@ -7,8 +7,6 @@
     <filter id="dottie-dark-halo" x="-120%" y="-120%" width="340%" height="340%"><feGaussianBlur stdDeviation="7"/></filter>
     <filter id="dottie-dark-ringglow" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="9"/></filter>
   </defs>
-  <rect width="1024" height="1024" fill="url(#dottie-dark-bg)"/>
-  <rect width="1024" height="1024" fill="url(#dottie-dark-bloom)"/>
   <path d="M 700.5 107.8 A 446 446 0 1 1 125.8 735.0" fill="none" stroke="#D7A9D6" stroke-width="30" stroke-linecap="round" opacity="0.28" filter="url(#dottie-dark-soft)"/>
   <circle cx="512" cy="512" r="446" fill="none" stroke="#D7A9D6" stroke-width="5" opacity="0.78"/>
   <circle cx="503" cy="505" r="439" fill="none" stroke="#B98CC4" stroke-width="3" opacity="0.42"/>
