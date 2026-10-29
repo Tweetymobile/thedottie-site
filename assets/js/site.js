@@ -96,7 +96,7 @@
   function fit() {
     if (!phoneStage || !phone) return;
     var s = Math.min(1, phoneStage.clientWidth / 430);
-    phone.style.setProperty('--scale', String(s));
+    phoneStage.style.setProperty('--scale', String(s));
   }
   fit(); window.addEventListener('resize', fit);
   var reset = document.getElementById('reset');

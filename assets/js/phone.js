@@ -103,7 +103,7 @@
   function tabbar() {
     var t = ['today', 'calendar', 'insights'];
     return '<nav class="tabbar" aria-label="Tabs" role="tablist">' + t.map(function (k) {
-      return '<button role="tab" data-tab="' + k + '" aria-selected="' + (S.tab === k) + '">' + ICON[k] + k.charAt(0).toUpperCase() + k.slice(1) + '</button>';
+      return '<button role="tab" data-tab="' + k + '" aria-selected="' + (S.tab === k) + '">' + ICON[k].replace('<svg ', '<svg aria-hidden="true" ') + k.charAt(0).toUpperCase() + k.slice(1) + '</button>';
     }).join('') + '</nav>';
   }
 
@@ -286,7 +286,7 @@
     var body = { overview: overview, trends: trends, symptoms: symptoms, history: history }[S.itab]();
     return '<div class="page"><div class="scroll">' +
       '<h1 class="h1">Insights <span class="i">i</span></h1><p class="lede-phone">Your patterns are calculated on this device and never uploaded.</p>' +
-      '<div class="itabs" role="tablist">' + tabs.map(function (t) { return '<button type="button" role="tab" data-itab="' + t[0] + '" aria-selected="' + (S.itab === t[0]) + '">' + t[1] + '</button>'; }).join('') + '</div>' +
+      '<div class="itabs" role="tablist" aria-label="Insights sections">' + tabs.map(function (t) { return '<button type="button" role="tab" data-itab="' + t[0] + '" aria-selected="' + (S.itab === t[0]) + '">' + t[1] + '</button>'; }).join('') + '</div>' +
       body + '</div></div>';
   }
 
@@ -317,13 +317,27 @@
   }
 
   // ---- render + events ------------------------------------------------------------------
+  // Rendering replaces the screen's markup, which would drop keyboard focus to
+  // the page. Remember what was focused by its data attribute and focus the
+  // same control again; if it is gone (a sheet closed), focus the current tab.
+  var FOCUS_KEYS = ['data-tab', 'data-itab', 'data-act', 'data-range', 'data-sym', 'data-flow', 'data-pain', 'data-feel', 'data-chip'];
+  function focusKey(el) {
+    if (!el || !root.contains(el)) return null;
+    for (var i = 0; i < FOCUS_KEYS.length; i++) if (el.hasAttribute(FOCUS_KEYS[i])) return '[' + FOCUS_KEYS[i] + '="' + el.getAttribute(FOCUS_KEYS[i]) + '"]';
+    return null;
+  }
   function render() {
+    var key = focusKey(document.activeElement);
     var page = { today: todayPage, calendar: calendarPage, insights: insightsPage }[S.tab]();
     var overlay = S.sheet === 'log' ? logSheet() : S.sheet === 'key' ? keySheet() : '';
     root.innerHTML = statusBar() + page + tabbar() + overlay;
     // Inline style attributes are blocked by the page's CSP (style-src 'self'),
     // so per-element values travel as data-s and are applied through the CSSOM.
     root.querySelectorAll('[data-s]').forEach(function (el) { el.style.cssText = el.getAttribute('data-s'); });
+    if (key) {
+      var again = root.querySelector(key) || root.querySelector('.tabbar [data-tab="' + S.tab + '"]');
+      if (again) again.focus({ preventScroll: true });
+    }
   }
   function hint(text) { var h = document.getElementById('hint'); if (h) h.textContent = text; }
   function toggle(arr, v) { var i = arr.indexOf(v); if (i >= 0) arr.splice(i, 1); else arr.push(v); }
@@ -360,7 +374,16 @@
     }
     render();
   });
-  root.addEventListener('keydown', function (e) { if (e.key === 'Escape' && S.sheet) { S.sheet = null; render(); } });
+  root.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && S.sheet) { S.sheet = null; render(); return; }
+    // Left and right arrows move between the tabs of a tab list; Enter or Space selects.
+    var list = e.target.closest && e.target.closest('[role="tablist"]');
+    if (!list || ['ArrowLeft', 'ArrowRight', 'Home', 'End'].indexOf(e.key) < 0) return;
+    var tabs = Array.prototype.slice.call(list.querySelectorAll('[role="tab"]'));
+    var i = tabs.indexOf(e.target); if (i < 0) return;
+    var next = e.key === 'Home' ? 0 : e.key === 'End' ? tabs.length - 1 : (i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length;
+    tabs[next].focus(); e.preventDefault();
+  });
 
   window.DottiePhone = { reset: function () { S = initial(); render(); hint('Try: Log how you feel, then Symptoms, then Cramps.'); }, rerender: render, state: function () { return S; } };
   render();
