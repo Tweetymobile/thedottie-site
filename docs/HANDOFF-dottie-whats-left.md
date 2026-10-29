@@ -1,5 +1,7 @@
 # Entry for the app repo's docs/dottie-whats-left.md
 
+**Folded in, Oct 28 2026:** this entry is now item 127 of the app's `docs/dottie-whats-left.md` (commit `e51c4b9`), with each ask's status. Kept here as the record.
+
 Written in the site repo on purpose: this session never writes inside ~/Documents/Dottie. Paste the block below into the app's open-items record, or ask the site session to do it with the rule lifted for that one file.
 
 ---
