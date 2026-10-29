@@ -15,12 +15,22 @@
 //   icon-dottie-tinted.svg     the iOS tinted variant (grayscale on black)
 //   logo-dottie.svg            the ring with "Dottie" (Newsreader, outlined) on plum
 //   logo-dottie-mark.svg       the same, transparent outside the ring
+//   icon/icon-light-1024.png   the finished App Store / asset-catalog PNGs: 1024 x 1024,
+//   icon/icon-dark-1024.png    8-bit RGB, no alpha channel (App Store Connect rejects
+//   icon/icon-tinted-1024.png  alpha in the 1024 icon), square and unmasked
 //   preview/*.png              contact sheets at 1024, 60pt, 40pt and 29pt
+// And, into assets/img/ for the website:
+//   icon-180.png               apple-touch-icon (opaque, iOS masks it)
+//   favicon-32.png             PNG favicon for browsers without SVG favicon support
+//
+// DECISION (Rob, Oct 28 2026): the app icon is the stardust ring only, no text,
+// in this form. Final. The logo files are for marketing use outside the icon.
 //
 // Everything is placed deterministically from a seed, so the files are
 // reproducible from this script alone.
 
-import { writeFileSync, mkdirSync, readFileSync } from 'node:fs';
+import { writeFileSync, mkdirSync } from 'node:fs';
+import { deflateSync } from 'node:zlib';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { Resvg } from '@resvg/resvg-js';
@@ -28,7 +38,10 @@ import opentype from 'opentype.js';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const out = join(here, 'preview');
+const iconOut = join(here, 'icon');
+const siteImg = join(here, '..', 'assets', 'img');
 mkdirSync(out, { recursive: true });
+mkdirSync(iconOut, { recursive: true });
 
 const S = 1024, CX = 512, CY = 512;
 const R = 446; // 892 px across = 87% of the square
@@ -264,6 +277,56 @@ function png(svg, file, scale = 1) {
   writeFileSync(file, r.render().asPng());
 }
 
+// ---- opaque RGB PNG (no alpha channel) ------------------------------------------
+// resvg writes RGBA. App Store Connect refuses a 1024 icon with an alpha channel,
+// so the finished icons are re-encoded here as 8-bit RGB: the pixels are
+// composited over the artwork's own bottom colour (they are already opaque, this
+// only guards the edges) and written with a minimal PNG encoder.
+const CRC_TABLE = new Int32Array(256).map((_, n) => {
+  let c = n;
+  for (let k = 0; k < 8; k++) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1;
+  return c;
+});
+function crc32(buf) {
+  let c = -1;
+  for (let i = 0; i < buf.length; i++) c = CRC_TABLE[(c ^ buf[i]) & 0xff] ^ (c >>> 8);
+  return (c ^ -1) >>> 0;
+}
+function chunk(type, data) {
+  const len = Buffer.alloc(4); len.writeUInt32BE(data.length);
+  const td = Buffer.concat([Buffer.from(type, 'latin1'), data]);
+  const crc = Buffer.alloc(4); crc.writeUInt32BE(crc32(td));
+  return Buffer.concat([len, td, crc]);
+}
+function pngRGB(svg, file, size, under = '#000000') {
+  const r = new Resvg(svg, { fitTo: { mode: 'width', value: size } });
+  const img = r.render();
+  const { width: w, height: h } = img;
+  const rgba = img.pixels;
+  const ur = parseInt(under.slice(1, 3), 16), ug = parseInt(under.slice(3, 5), 16), ub = parseInt(under.slice(5, 7), 16);
+  const raw = Buffer.alloc((w * 3 + 1) * h);
+  for (let y = 0; y < h; y++) {
+    raw[y * (w * 3 + 1)] = 0; // filter: none
+    for (let x = 0; x < w; x++) {
+      const i = (y * w + x) * 4, o = y * (w * 3 + 1) + 1 + x * 3;
+      const a = rgba[i + 3] / 255;
+      raw[o] = Math.round(rgba[i] * a + ur * (1 - a));
+      raw[o + 1] = Math.round(rgba[i + 1] * a + ug * (1 - a));
+      raw[o + 2] = Math.round(rgba[i + 2] * a + ub * (1 - a));
+    }
+  }
+  const ihdr = Buffer.alloc(13);
+  ihdr.writeUInt32BE(w, 0); ihdr.writeUInt32BE(h, 4);
+  ihdr[8] = 8; ihdr[9] = 2; ihdr[10] = 0; ihdr[11] = 0; ihdr[12] = 0; // 8-bit, RGB
+  const out = Buffer.concat([
+    Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]),
+    chunk('IHDR', ihdr),
+    chunk('IDAT', deflateSync(raw, { level: 9 })),
+    chunk('IEND', Buffer.alloc(0)),
+  ]);
+  writeFileSync(file, out);
+}
+
 writeFileSync(join(here, 'icon-dottie.svg'), icon('light'));
 writeFileSync(join(here, 'icon-dottie-dark.svg'), icon('dark'));
 writeFileSync(join(here, 'icon-dottie-tinted.svg'), icon('tinted'));
@@ -272,4 +335,11 @@ writeFileSync(join(here, 'logo-dottie-mark.svg'), logo({ transparent: true }));
 png(sheet(), join(out, 'icon-sheet.png'));
 png(icon('light'), join(out, 'icon-1024.png'));
 png(logo(), join(out, 'logo-1024.png'));
-console.log('wrote icon (light, dark, tinted), logo (square, mark) and preview sheets');
+// the finished icons: 1024 x 1024, RGB, no alpha
+pngRGB(icon('light'), join(iconOut, 'icon-light-1024.png'), 1024, PLUM.bg[2]);
+pngRGB(icon('dark'), join(iconOut, 'icon-dark-1024.png'), 1024, PLUM_DARK.bg[2]);
+pngRGB(icon('tinted'), join(iconOut, 'icon-tinted-1024.png'), 1024, TINTED.bg[2]);
+// the website's touch icon and PNG favicon, from the light icon
+pngRGB(icon('light'), join(siteImg, 'icon-180.png'), 180, PLUM.bg[2]);
+pngRGB(icon('light'), join(siteImg, 'favicon-32.png'), 32, PLUM.bg[2]);
+console.log('wrote icon (light, dark, tinted) SVGs, icon/*.png (1024, RGB), logo (square, mark), site icon-180 + favicon-32, and preview sheets');
