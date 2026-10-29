@@ -38,4 +38,6 @@ Inline `style` attributes are forbidden by the CSP. Per-element values travel as
 
 ## Hosting
 
-GitHub Pages from `main`, root. `CNAME` holds the custom domain. DNS records and the HTTPS switch are the last step and are not done until Rob says.
+GitHub Pages from `main`, root, repo public. `CNAME` holds `thedottie.app`. GoDaddy DNS for the apex: four A records to 185.199.108.153, 185.199.109.153, 185.199.110.153, 185.199.111.153 and four AAAA records to 2606:50c0:8000::153, 2606:50c0:8001::153, 2606:50c0:8002::153, 2606:50c0:8003::153; `www` is a CNAME to `tweetymobile.github.io`. Zoho's MX, SPF and DKIM records stay as they are. Enforce HTTPS is switched on in the repo's Pages settings once GitHub has issued the certificate (it needs the A records live first).
+
+Before the first publish: set the effective date in `privacy/index.html` (the `js-effective` span).
