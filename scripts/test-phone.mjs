@@ -1,12 +1,14 @@
 // drive the demo phone like a person: real mouse clicks at desktop width, real taps on an iPhone viewport
-import { chromium, webkit, devices } from 'playwright';
+import { chromium, webkit, firefox, devices } from 'playwright';
 const base = process.argv[2] || 'https://thedottie.app';
-const engine = process.argv[3] === 'webkit' ? webkit : chromium;
-console.log('engine:', process.argv[3] === 'webkit' ? 'webkit (Safari)' : 'chromium');
-const browser = await engine.launch();
+// engine: chromium (default) | webkit | firefox | chrome | msedge (the last two drive the installed browser)
+const which = process.argv[3] || 'chromium';
+const engine = which === 'webkit' ? webkit : which === 'firefox' ? firefox : chromium;
+console.log('engine:', which);
+const browser = await engine.launch(which === 'chrome' || which === 'msedge' ? { channel: which } : {});
 const modes = [
   ['desktop mouse', { viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1 }, false],
-  ['iphone touch', { ...devices['iPhone 13'] }, true],
+  ['iphone touch', which === 'firefox' ? { viewport: devices['iPhone 13'].viewport, deviceScaleFactor: 3, hasTouch: true, userAgent: devices['iPhone 13'].userAgent } : { ...devices['iPhone 13'] }, true],
 ];
 for (const [name, ctxOpts, touch] of modes) {
   console.log('=== ' + name);
@@ -52,12 +54,15 @@ for (const [name, ctxOpts, touch] of modes) {
     if (touch && engine === chromium) {
       const cdp = await ctx.newCDPSession(page);
       await cdp.send('Input.synthesizeScrollGesture', { x: cx, y: cy, yDistance: -300, speed: 800 });
-    } else if (touch) {
-      await page.evaluate(() => { const s = document.querySelector('.screen .scroll'); s.scrollTop = 300; });
+    } else if (touch && engine === webkit) {
+      await page.evaluate(() => { document.querySelector('.screen .scroll').scrollTop = 300; }); // mobile WebKit has no wheel
     } else { await page.mouse.move(cx, cy); await page.mouse.wheel(0, 300); }
     await page.waitForTimeout(500);
   }
   console.log('scroll inside calendar: scrollTop', await scrollTop(), '| page scrolled by', (await pageY()) - y0);
+  console.log('tap Oct 14 (logged period):', await act('[data-date="2026-10-14"]'), '→', await state(), '| sheet says:', await page.locator('.sheet .row b').first().textContent().catch(() => '(none)'));
+  console.log('close day sheet:', await act('.primary[data-act="close"]'), '→', await state());
+  console.log('tap Nov 20 (future):', await act('[data-date="2026-11-20"]'), '→', await page.locator('.sheet .explainer').textContent().catch(() => '(none)'), '| close:', await act('.primary[data-act="close"]'));
   console.log('Key sheet:', await act('[data-act="key"]'), '→', await state(), '| visible:', await page.locator('.sheet__title').isVisible().catch(() => false));
   console.log('close sheet (tap the scrim above the panel):', await (async () => { const loc = page.locator('.sheet__scrim'); try { if (touch) await loc.tap({ position: { x: 20, y: 20 }, timeout: 4000 }); else await loc.click({ position: { x: 20, y: 20 }, timeout: 4000 }); return 'ok'; } catch (e) { return 'FAIL ' + String(e).split('\n')[0]; } })(), '→', await state());
   console.log('Insights tab:', await act('.tabbar [data-tab="insights"]'), '→', await state());

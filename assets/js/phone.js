@@ -20,7 +20,7 @@
   var initial = function () {
     return {
       tab: 'today', itab: 'overview', trange: 'all', symView: 'freq',
-      sheet: null, section: 'main',
+      sheet: null, section: 'main', day: null,
       flow: null, pain: null, feelings: [], symptoms: [],
       logged: false, periodStarted: false,
     };
@@ -172,7 +172,7 @@
     for (var b = 0; b < first.getDay(); b++) html += '<span></span>';
     for (var i = 1; i <= n; i++) {
       var d = new Date(y, m, i);
-      html += '<button type="button" class="' + dayClass(d) + '" data-act="day" aria-label="' + LONG[m] + ' ' + i + '">' + i + '</button>';
+      html += '<button type="button" class="' + dayClass(d) + '" data-act="day" data-date="' + y + '-' + (m + 1) + '-' + i + '" aria-label="' + LONG[m] + ' ' + i + '">' + i + '</button>';
     }
     return html + '</div>';
   }
@@ -195,6 +195,21 @@
     return sheet('<div class="sheet__title">Calendar key</div>' + rows.map(function (r) {
       return '<div class="keyrow">' + r[0] + '<div>' + r[1] + (r[2] ? '<small>' + r[2] + '</small>' : '') + '</div></div>';
     }).join(''));
+  }
+
+  function daySheet() {
+    var parts = S.day.split('-'), d = new Date(+parts[0], parts[1] - 1, +parts[2]);
+    var cls = dayClass(d), lines = [];
+    var future = days(D.today, d) > 0, isToday = days(D.today, d) === 0;
+    if (isToday) lines.push('Today · Cycle day ' + cycleDay() + ' · ' + phaseWord());
+    if (cls.indexOf('day--period') >= 0) lines.push('Period · logged');
+    else if (cls.indexOf('day--expected') >= 0) lines.push('Expected · The window when your period may start.');
+    else if (!isToday) { var ph = ['follicular', 'ovulatory', 'luteal', 'menstrual'].filter(function (k) { return cls.indexOf('day--' + k) >= 0; })[0]; if (ph) lines.push(ph.charAt(0).toUpperCase() + ph.slice(1) + ' phase'); }
+    if (cls.indexOf('day--sym') >= 0) lines.push('Symptom usually starts here');
+    if (!lines.length) lines.push(future ? 'Nothing predicted yet' : 'Nothing logged');
+    return sheet('<div class="sheet__title">' + LONG[d.getMonth()] + ' ' + d.getDate() + '</div>' + lines.map(function (l) { return '<div class="row"><b>' + esc(l) + '</b></div>'; }).join('') +
+      '<p class="explainer explainer--tight">' + (future ? 'Future dates are read-only.' : 'In Dottie, this is where you log the day. The demo shows it instead.') + '</p>' +
+      '<button type="button" class="primary" data-act="close">Close</button>');
   }
 
   // ---- Insights ------------------------------------------------------------------
@@ -329,7 +344,7 @@
   function render() {
     var key = focusKey(document.activeElement);
     var page = { today: todayPage, calendar: calendarPage, insights: insightsPage }[S.tab]();
-    var overlay = S.sheet === 'log' ? logSheet() : S.sheet === 'key' ? keySheet() : '';
+    var overlay = S.sheet === 'log' ? logSheet() : S.sheet === 'key' ? keySheet() : S.sheet === 'day' ? daySheet() : '';
     root.innerHTML = statusBar() + page + tabbar() + overlay;
     // Inline style attributes are blocked by the page's CSP (style-src 'self'),
     // so per-element values travel as data-s and are applied through the CSSOM.
@@ -369,11 +384,23 @@
           break;
         case 'started': S.periodStarted = true; S.logged = true; if (!S.flow) S.flow = 'Light'; hint('The ring, the headline and the calendar now describe a period that started today.'); break;
         case 'ended': case 'undo': S.periodStarted = false; if (S.flow && S.flow !== 'Spotting') S.flow = null; if (!S.symptoms.length && !S.feelings.length && !S.flow) S.logged = false; break;
-        case 'ring': case 'day': break;
+        case 'day': S.sheet = 'day'; S.day = el.getAttribute('data-date'); break;
+        case 'ring': break;
       }
     }
     render();
   });
+  // Mouse-wheel and trackpad scrolling over the phone moves the screen's own
+  // scroller directly and never the page. Native nested scrolling is left to the
+  // engines for touch; for wheel events, desktop Safari has been seen to scroll
+  // nothing at all inside the phone, so the scroll is applied here instead.
+  root.addEventListener('wheel', function (e) {
+    var s = e.target.closest && e.target.closest('.scroll, .sheet__panel');
+    if (!s) return;
+    var dy = e.deltaMode === 1 ? e.deltaY * 16 : e.deltaMode === 2 ? e.deltaY * s.clientHeight : e.deltaY;
+    e.preventDefault();
+    s.scrollTop += dy;
+  }, { passive: false });
   root.addEventListener('keydown', function (e) {
     if (e.key === 'Escape' && S.sheet) { S.sheet = null; render(); return; }
     // Left and right arrows move between the tabs of a tab list; Enter or Space selects.
