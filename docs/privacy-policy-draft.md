@@ -1,6 +1,6 @@
 # Dottie Privacy Policy
 
-Effective [DATE]
+Effective October 28, 2026
 
 ## The short version
 
@@ -47,7 +47,7 @@ Dottie can read from Apple Health, only if you allow it, and never writes to it.
 - **Import past periods:** if you choose to, Dottie reads your menstrual history once and adds it to your own log.
 - **Health sync** (Dottie Plus, off until you turn it on): Dottie reads sleep, temperature, weight and blood pressure to show them alongside your cycle.
 
-These readings stay in Dottie's encrypted database on your device and are never included in backups. Turning sync off deletes them from Dottie. To withdraw Dottie's permission entirely, use the Health app's settings.
+Synced readings, like blood pressure, stay in Dottie's encrypted database on your device and are never included in backups. Turning sync off deletes them from Dottie. Periods you import become part of your own history, so they are included in backups and stay if you turn sync off. To withdraw Dottie's permission entirely, use the Health app's settings.
 
 Data from Apple Health is never used for advertising and is never shared with anyone.
 
@@ -55,9 +55,9 @@ Data from Apple Health is never used for advertising and is never shared with an
 
 Both are made on your device, and both go only where you send them.
 
-**Backups** contain your logs and settings, encrypted with a passphrase you choose. You pick where to save them, using the iOS share sheet. Without your passphrase, no one can open a backup, including me. If you forget it, the backup cannot be recovered. Backups never include Apple Health readings, your PIN or your encryption keys.
+**Backups** contain your logs and settings, encrypted with a passphrase you choose. You pick where to save them, using the iOS share sheet. Without your passphrase, no one can open a backup, including me. If you forget it, the backup cannot be recovered. Backups never include synced Apple Health readings, your PIN or your encryption keys.
 
-**Doctor reports** are PDF summaries you can create to share with a clinician. They are not encrypted, so treat them like any medical document. Anything you type only for a report, such as your name or medications, is not saved in Dottie.
+**Doctor reports** are PDF summaries you can create to share with a clinician. They are not encrypted, so treat them like any medical document. Anything you type only for a report, such as your name or medications, is not saved in Dottie. Dottie deletes its own copy of the report after you share it.
 
 ## Purchases and permissions
 
