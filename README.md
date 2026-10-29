@@ -4,7 +4,7 @@ The marketing site for Dottie, a private iOS cycle tracker. Plain HTML, CSS and 
 
 ## Layout
 
-- `index.html` the home page (hero, the ring that becomes her cycle, honesty, the interactive phone, every stage, pick your vibe, private by design, the doctor visit summary, download and FAQ).
+- `index.html` the home page (hero, the ring that becomes her cycle, honesty, the interactive phone, every stage, pick your vibe, private by design, the doctor visit summary, a note from Rob about why Dottie exists, download and FAQ).
 - `privacy/index.html` the privacy policy. The dashed placeholder block is where the final text goes; keep headings as `h2`.
 - `support/index.html` support, with the mailto and a short FAQ.
 - `assets/css/tokens.css` the app's four themes, generated from `src/theme/themes.ts` values. Regenerate by re-running the generator at the top of this file's history (`scripts/gen-tokens.py` is the script; its values are copied from the app, read-only).

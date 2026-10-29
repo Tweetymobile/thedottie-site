@@ -45,7 +45,7 @@ await shot('/', 'demos-desktop', { width: 1440, height: 900, full: false, action
 } });
 
 // a top-to-bottom tour: one viewport still per section, both widths
-const sections = ['top', 'cycle', 'honest', 'explore', 'stages', 'yours', 'private', 'doctor', 'download'];
+const sections = ['top', 'cycle', 'honest', 'explore', 'stages', 'yours', 'private', 'doctor', 'about', 'download'];
 for (const [name, width, height] of [['phone', 390, 844], ['desktop', 1440, 900]]) {
   const ctx = await browser.newContext({ viewport: { width, height }, deviceScaleFactor: 2 });
   const page = await ctx.newPage();
