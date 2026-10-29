@@ -43,7 +43,10 @@ await js('document.querySelector(".tabbar").scrollIntoView({block:"center"})'); 
 for (const t of ['today', 'calendar', 'insights']) console.log('tab bar hit test (' + t + '):', await hit('.tabbar [data-tab="' + t + '"]'));
 console.log('scale:', await js('return getComputedStyle(document.getElementById("phone-stage")).getPropertyValue("--scale")'));
 console.log('click Calendar tab:', await click('.tabbar [data-tab="calendar"]'), '→', await state());
-// wheel scrolling over the phone with a real WebDriver wheel action (trackpad/mouse wheel path)
+// wheel scrolling over the phone with a WebDriver wheel action. safaridriver quirk (Safari 26.6):
+// only the FIRST wheel action in a session scrolls anything; later ones report 0 everywhere,
+// so only the Calendar reading below is meaningful. The page's own handler is also exercised
+// with a synthetic WheelEvent, which works on every call.
 const wheel = async () => {
   const r = await js('var b=document.querySelector(".screen .scroll").getBoundingClientRect(); return [Math.round(b.left+b.width/2), Math.round(b.top+b.height/2)]');
   const y0 = await js('return window.scrollY');
@@ -52,6 +55,7 @@ const wheel = async () => {
   return 'inner scrollTop ' + (await js('return document.querySelector(".screen .scroll").scrollTop')) + ' | page scrolled by ' + ((await js('return window.scrollY')) - y0);
 };
 console.log('wheel inside calendar:', await wheel());
+console.log('synthetic wheel through the page handler:', await js('var s=document.querySelector(".screen .scroll"); s.scrollTop=0; var nc=s.firstElementChild.dispatchEvent(new WheelEvent("wheel",{deltaY:120,bubbles:true,cancelable:true})); return "prevented "+(!nc)+", inner scrollTop "+s.scrollTop'));
 console.log('Key sheet:', await click('[data-act="key"]'), '→', await state(), '| visible:', await js('var t=document.querySelector(".sheet__title"); return !!t && t.getBoundingClientRect().height>0'));
 console.log('close sheet (click the scrim above the panel):', await (async () => { try { await js('document.getElementById("phone").scrollIntoView({block:"center"})'); await sleep(300); const r = await js('var b=document.querySelector(".sheet__scrim").getBoundingClientRect(); return [Math.round(b.left+b.width/2), Math.round(Math.max(b.top,0)+24)]'); await S('/actions', { actions: [{ type: 'pointer', id: 'm', parameters: { pointerType: 'mouse' }, actions: [{ type: 'pointerMove', x: r[0], y: r[1], origin: 'viewport' }, { type: 'pointerDown', button: 0 }, { type: 'pointerUp', button: 0 }] }] }); await sleep(350); return 'ok'; } catch (e) { return 'FAIL ' + e.message; } })(), '→', await state());
 console.log('reopen key and close with Escape:', await click('[data-act="key"]'), await (async () => { try { await js('document.querySelector(".sheet__scrim").focus()'); await S('/actions', { actions: [{ type: 'key', id: 'k', actions: [{ type: 'keyDown', value: '\uE00C' }, { type: 'keyUp', value: '\uE00C' }] }] }); await sleep(300); return 'ok'; } catch (e) { return 'FAIL ' + e.message; } })(), '→', await state());
