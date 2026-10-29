@@ -38,6 +38,6 @@ Inline `style` attributes are forbidden by the CSP. Per-element values travel as
 
 ## Hosting
 
-GitHub Pages from `main`, root, repo public. `CNAME` holds `thedottie.app`. GoDaddy DNS for the apex: four A records to 185.199.108.153, 185.199.109.153, 185.199.110.153, 185.199.111.153 and four AAAA records to 2606:50c0:8000::153, 2606:50c0:8001::153, 2606:50c0:8002::153, 2606:50c0:8003::153; `www` is a CNAME to `tweetymobile.github.io`. Zoho's MX, SPF and DKIM records stay as they are. Enforce HTTPS is switched on in the repo's Pages settings once GitHub has issued the certificate (it needs the A records live first).
+GitHub Pages from `main`, root, repo public. `CNAME` holds `thedottie.app`. GoDaddy DNS for the apex: four A records to 185.199.108.153, 185.199.109.153, 185.199.110.153, 185.199.111.153 and four AAAA records to 2606:50c0:8000::153, 2606:50c0:8001::153, 2606:50c0:8002::153, 2606:50c0:8003::153; `www` is a CNAME to `tweetymobile.github.io`. Zoho's MX, SPF and DKIM records stay as they are. Enforce HTTPS is on (certificate issued Oct 28 2026, renews automatically). After any deploy, `node scripts/audit-live.mjs https://thedottie.app` visits every page in headless Chromium and fails if any request leaves the site, a cookie is set, or plain HTTP stops redirecting to HTTPS.
 
 The privacy policy's effective date is in `privacy/index.html` (the lede under the title); update it whenever the policy changes.
