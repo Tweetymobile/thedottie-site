@@ -52,6 +52,6 @@ Done in the app repo the same day, against this site: the three icon PNGs instal
 
 Still open:
 - The App Store link: set `APP_STORE_URL` in `assets/js/site.js` when the app is approved.
-- The dark icon has no background haze; Rob may still want it back (one flag in `brand/build-icons.mjs`). If any icon PNG changes, copy it into the app repo's `assets/` again (byte-identical; `src/guards/appIcon.test.ts` there pins the shapes).
+- The dark icon stays without the plum haze (Rob's decision, Oct 29 2026). If any icon PNG changes, copy it into the app repo's `assets/` again (byte-identical; `src/guards/appIcon.test.ts` there pins the shapes).
 - Google Chrome and Microsoft Edge were never tested for real (not installed on this Mac); Chromium stands in.
 - `node scripts/test-phone-safari.mjs` needs Safari's "Allow remote automation" switched on for the run and off again after.
