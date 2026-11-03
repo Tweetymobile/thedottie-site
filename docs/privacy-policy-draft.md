@@ -99,9 +99,11 @@ This website (thedottie.app) uses no cookies, analytics or trackers, and loads n
 
 I can't hand over what I don't have. If a government, court, company or anyone else asks me for your information, I have nothing to give: no records, no accounts and no copies. Your data exists only on your device and in any backups you made.
 
-## If you email me
+## If you email Dottie
 
-If you write to hello@thedottie.app, I receive your email address and whatever you send. I use it only to reply to you. The mailbox is hosted by Zoho Mail. I don't add you to any list, and I don't share your email with anyone.
+If you write to hello@thedottie.app, your email address and message are read only by whoever looks after Dottie's support, which today is just me. They're used only to reply to you. The mailbox is hosted by Zoho Mail. Your email isn't added to any list, sold, or shared outside Dottie's support.
+
+Email isn't part of the app. Anything you include in an email leaves your device, so share only what you're comfortable sending.
 
 ## Changes to this policy
 
