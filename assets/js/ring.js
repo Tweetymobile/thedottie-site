@@ -65,3 +65,50 @@
     return ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][d.getMonth()] + ' ' + d.getDate();
   };
 })();
+
+/* The small ring for the stage tiles and the parents section: the same scatter
+   rule at a lighter density (140 motes, no glow), colored by the page's live
+   tokens so it follows the theme pick. data-p is how far round the cycle is
+   (0 = track only, 1 = a full ring), data-band is "start,length" as fractions
+   of the circle for the expected-period band, data-band-outline draws it as a
+   dashed outline instead (the fertile window's style). */
+(function () {
+  'use strict';
+  function mulberry32(seed) {
+    var a = seed >>> 0;
+    return function () {
+      a |= 0; a = (a + 0x6d2b79f5) | 0;
+      var t = Math.imul(a ^ (a >>> 15), 1 | a);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+  window.drawMiniRing = function (host) {
+    var S = 200, cx = 100, cy = 100, R = 82, TAU = Math.PI * 2;
+    var p = Math.max(0, Math.min(1, parseFloat(host.getAttribute('data-p') || '0')));
+    var rand = mulberry32(1337);
+    var out = [];
+    var N = 220, count = p === 0 ? 0 : Math.max(40, Math.round(N * p));
+    for (var i = 0; i < N; i++) {
+      var u = rand(); var t = Math.pow(u, 0.6);
+      var rr = R + (rand() - 0.5) * 12;
+      var rad = 0.7 + rand() * 1.7;
+      var op = Math.min(1, 0.35 + 0.65 * t + rand() * 0.1);
+      var alt = rand() < 0.2;
+      if (i >= count) continue;
+      var angle = -Math.PI / 2 + t * TAU * p;
+      var x = cx + rr * Math.cos(angle), y = cy + rr * Math.sin(angle);
+      out.push('<circle class="mote' + (alt ? ' alt' : '') + '" cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" r="' + rad.toFixed(2) + '" data-s="--t:' + t.toFixed(3) + ';--o:' + op.toFixed(2) + '"/>');
+    }
+    var band = '';
+    var b = host.getAttribute('data-band');
+    if (b) {
+      var parts = b.split(',').map(parseFloat);
+      var a0 = -90 + parts[0] * 360, w = Math.min(359.9, parts[1] * 360);
+      var r2 = function (d) { return d * Math.PI / 180; };
+      band = '<path class="band' + (host.hasAttribute('data-band-outline') ? ' band--outline' : '') + '" d="M' + (cx + R * Math.cos(r2(a0))).toFixed(1) + ' ' + (cy + R * Math.sin(r2(a0))).toFixed(1) + ' A' + R + ' ' + R + ' 0 ' + (w > 180 ? 1 : 0) + ' 1 ' + (cx + R * Math.cos(r2(a0 + w))).toFixed(1) + ' ' + (cy + R * Math.sin(r2(a0 + w))).toFixed(1) + '"/>';
+    }
+    host.innerHTML = '<svg viewBox="0 0 200 200" aria-hidden="true"><circle class="track" cx="100" cy="100" r="' + R + '"/>' + band + '<g class="dust">' + out.join('') + '</g></svg>';
+    host.querySelectorAll('[data-s]').forEach(function (el) { el.style.cssText = el.getAttribute('data-s'); });
+  };
+})();

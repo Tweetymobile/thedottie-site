@@ -4,16 +4,16 @@ The marketing site for Dottie, a private iOS cycle tracker. Plain HTML, CSS and 
 
 ## Layout
 
-- `index.html` the home page (hero, the ring that becomes her cycle, honesty, the interactive phone, every stage, pick your vibe, private by design, the doctor visit summary, a note from Rob about why Dottie exists, download and FAQ).
+- `index.html` the home page (nav, hero, the ring that becomes her cycle, honesty, the interactive phone, pick your vibe, every stage of life, for parents, safety, what private means here, the doctor visit summary, a note from Rob about why Dottie exists, download and FAQ). The medical-device paragraph in every footer is Rob's wording (Nov 3 2026), word for word; it also opens the privacy policy's "Who makes Dottie" section.
 - `privacy/index.html` the privacy policy, published (source: `docs/privacy-policy-draft.md`); keep headings as `h2`. The app links here from the paywall and from Settings › About.
 - `support/index.html` support, with the mailto and a short FAQ.
 - `assets/css/tokens.css` the app's four themes, generated from `src/theme/themes.ts` values. Regenerate by re-running the generator at the top of this file's history (`scripts/gen-tokens.py` is the script; its values are copied from the app, read-only).
 - `assets/css/site.css` everything visual. Night sections use the fixed Midnight tokens (`--m-*`); day sections and the demo phone follow the visitor's theme pick.
 - `assets/js/data.js` the demo's fictional dataset. Change the numbers here and the phone, the stage calendar, the charts and the honesty section follow.
 - `assets/js/notes.js` Dottie's first-run warmth notes, verbatim from the app. Never edit a line; replace the whole file from the app's `src/copy/warmthNotes.ts` if the pool changes.
-- `assets/js/ring.js` the hero and stage ring (the launch moment's dust field: seed 1337, 360 motes) and the note-of-the-day pick (`hashSeed('warmthNote:firstRun:' + date)`, the app's own rule).
+- `assets/js/ring.js` the hero and stage ring (the launch moment's dust field: seed 1337, 360 motes), the small rings on the stage cards and the parents section (`drawMiniRing`, colored by the live theme tokens), and the note-of-the-day pick (`hashSeed('warmthNote:firstRun:' + date)`, the app's own rule).
 - `assets/js/phone.js` the interactive phone: Today, Calendar, Insights and the log sheet.
-- `assets/js/site.js` page behaviour: the App Store link constant, the stage, the theme switcher, the three privacy demos.
+- `assets/js/site.js` page behaviour: the App Store link constant, the stage, the theme switcher, the airplane and delete demos, and the "what this page loaded" counter (read from the browser's own resource timing, computed on the page, stored nowhere).
 - `assets/fonts/` Fraunces, Bricolage Grotesque and Newsreader, latin subsets, with their SIL Open Font Licence files.
 - `brand/` the app icon and logo. Decision (Rob, Oct 28 2026): the icon is the stardust ring only, no text, final. `icon-dottie.svg`, `icon-dottie-dark.svg` and `icon-dottie-tinted.svg` are the sources; `icon/icon-light-1024.png` and `icon/icon-tinted-1024.png` are the finished 1024 x 1024 RGB PNGs (no alpha) for the app's asset catalog; `icon/icon-dark-1024.png` is the dark appearance, the same ring on a fully transparent background (RGBA), so iOS draws its own dark ground behind it (Rob, Oct 28 2026). `preview/icon-dark-on-gray.png` shows it over dark gray. `logo-dottie*.svg` carry the wordmark for marketing only. `node brand/build-icons.mjs` regenerates all of it, plus the site's `assets/img/icon-180.png` and `favicon-32.png`.
 
@@ -30,6 +30,7 @@ The marketing site for Dottie, a private iOS cycle tracker. Plain HTML, CSS and 
 ```
 node scripts/serve.mjs 8080        # local server at http://127.0.0.1:8080/
 node scripts/shoot.mjs             # screenshots into shots/site/ at 390 and 1440, reduced motion, dark, a theme, a section tour
+node scripts/shoot-redesign.mjs    # the review set into shots/redesign/: both widths in Clay light, Lagoon dark and Midnight, plus the new sections
 ```
 
 `shoot.mjs` ends by printing every request the pages made and how many left the local server. That number must be 0, and console errors must be 0.

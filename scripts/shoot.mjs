@@ -39,13 +39,13 @@ await shot('/support/', 'support-desktop-1440', { width: 1440, height: 900 });
 await shot('/', 'hero-desktop', { width: 1440, height: 900, full: false });
 await shot('/', 'stage-calendar-desktop', { width: 1440, height: 900, full: false, actions: async (p) => { await p.evaluate(() => document.querySelectorAll('.step')[1].scrollIntoView({ block: 'center' })); await p.waitForTimeout(2200); } });
 await shot('/', 'demos-desktop', { width: 1440, height: 900, full: false, actions: async (p) => {
-  await p.evaluate(() => document.getElementById('private').scrollIntoView({ block: 'start' }));
+  await p.evaluate(() => document.getElementById('safety').scrollIntoView({ block: 'start' }));
   await p.locator('#airplane').dispatchEvent('click'); await p.evaluate(() => { const a = document.getElementById('airplane'); a.checked = true; a.dispatchEvent(new Event('change')); });
-  await tap(p, '[data-pin="decoy"]'); await tap(p, '[data-del="ask"]'); await p.waitForTimeout(1200);
+  await tap(p, '[data-del="ask"]'); await p.waitForTimeout(1200);
 } });
 
 // a top-to-bottom tour: one viewport still per section, both widths
-const sections = ['top', 'cycle', 'honest', 'explore', 'stages', 'yours', 'private', 'doctor', 'about', 'download'];
+const sections = ['top', 'cycle', 'honest', 'explore', 'yours', 'stages', 'parents', 'safety', 'private', 'doctor', 'about', 'download'];
 for (const [name, width, height] of [['phone', 390, 844], ['desktop', 1440, 900]]) {
   const ctx = await browser.newContext({ viewport: { width, height }, deviceScaleFactor: 2 });
   const page = await ctx.newPage();

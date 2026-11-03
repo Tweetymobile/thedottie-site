@@ -32,6 +32,19 @@
 <body>
   <a class="skip" href="#explore">Skip to the demo</a>
 
+  <nav class="nav" aria-label="Sections of this page">
+    <a class="nav__brand" href="#top">Dottie</a>
+    <ul class="nav__list">
+      <li><a href="#cycle">How it works</a></li>
+      <li><a href="#explore">Try it</a></li>
+      <li><a href="#stages">Every stage</a></li>
+      <li><a href="#parents">For parents</a></li>
+      <li><a href="#safety">Safety</a></li>
+      <li><a href="#private">Privacy</a></li>
+      <li><a href="#download">Questions</a></li>
+    </ul>
+  </nav>
+
   <!-- 1 · the night -->
   <header class="hero night" id="top">
     <div class="hero__ring"><div class="ring" id="hero-ring"></div></div>
@@ -39,6 +52,7 @@
       <p class="wordmark">Dottie</p>
       <h1>Private, from first&nbsp;period to&nbsp;last.</h1>
       <p class="lede">A cycle tracker for iPhone with no account and no cloud. Nothing you log leaves your device, so there is nothing to leak.</p>
+      <p class="hero__for">For first periods, everyday cycles, trying to conceive, pregnancy, the months after, and changing cycles, all in one app.</p>
       <p class="cta"><span class="js-appstore cta__main">Coming soon to the App Store</span> <a class="cta__quiet" href="#cycle">See how it works ↓</a></p>
     </div>
     <aside class="note" aria-label="Dottie's note for today">
@@ -125,25 +139,7 @@
     </div>
   </section>
 
-  <!-- 5 · every stage -->
-  <section class="stages day" id="stages" aria-labelledby="stages-title">
-    <div class="stages__inner">
-      <h2 id="stages-title">Every stage, the same quiet app.</h2>
-      <p class="section-lede">Dottie changes what it says, not who it is. Each of these is in the app today, in its own words.</p>
-      <ol class="line">
-        <li><span class="glyph" data-g="0.35"></span><b>First cycles</b><i>Predictions stay wide and fertility features are off. Explanations assume you are new to all this.</i></li>
-        <li><span class="glyph" data-g="1"></span><b>On the pill, ring or patch</b><i>“Pack · Day 14 of 28.” “Placebo days start Nov 16.” From your pack schedule, not a guess.</i></li>
-        <li><span class="glyph" data-g="0.5"></span><b>Hormonal IUD, implant or shot</b><i>“No period prediction on this method. Dottie watches for changes instead.”</i></li>
-        <li><span class="glyph" data-g="1"></span><b>Pregnant</b><i>“Week 20 · due around Mar 17.” A week counter, your records and the doctor visit summary, and nothing else.</i></li>
-        <li><span class="glyph" data-g="0.2"></span><b>After a pregnancy</b><i>“Predictions stay off until a new period is logged. Cycles can take time to come back, and there is no set schedule.”</i></li>
-        <li><span class="glyph" data-g="0.6"></span><b>Changing cycles</b><i>“Likely within the next 1–4 weeks.” Ranges widen when cycles do, and a quiet counter keeps the months.</i></li>
-        <li><span class="glyph" data-g="1"></span><b>After menopause</b><i>“12 months without a recorded period.” Logging carries on: symptoms, notes, the doctor visit summary.</i></li>
-      </ol>
-      <p class="stages__foot">Loss is held too. “I'm no longer pregnant” turns everything pregnancy related off, with a choice to resume now or pause for a while. “Take whatever time you need. Dottie will be here, exactly as you left it.”</p>
-    </div>
-  </section>
-
-  <!-- 6 · make it yours -->
+  <!-- 5 · make it yours -->
   <section class="yours day" id="yours" aria-labelledby="yours-title">
     <div class="yours__inner">
       <h2 id="yours-title">Pick your vibe.</h2>
@@ -163,11 +159,168 @@
     </div>
   </section>
 
-  <!-- 7 · private by design, and you can test it -->
-  <section class="private day" id="private" aria-labelledby="private-title">
-    <div class="private__inner">
-      <h2 id="private-title">Private by design, and you can test it.</h2>
-      <p class="section-lede">Not a promise on a page. Things you can do on the phone and watch for yourself.</p>
+  <!-- 6 · every stage of life, one app -->
+  <section class="stages day" id="stages" aria-labelledby="stages-title">
+    <div class="stages__inner">
+      <h2 id="stages-title">Every stage of life, one app.</h2>
+      <p class="section-lede">Dottie changes what it says, not who it is. You choose the mode when you set it up, and you can change it in Settings when life changes.</p>
+      <div class="stage-grid">
+
+        <article class="stage-card" id="stage-first">
+          <div class="tile">
+            <div class="mini-ring" data-p="0.3" data-band="0.55,0.42" aria-hidden="true"></div>
+            <div class="tile__text" aria-hidden="true"><span class="tile__top">Cycle day 9</span><span class="tile__main">Follicular</span></div>
+          </div>
+          <p class="tile__line">“Log a few periods and Dottie can start showing you what to expect”</p>
+          <h3>First Cycles</h3>
+          <p class="stage-card__for">For periods that started in the last couple of years.</p>
+          <p>Predictions stay wide while Dottie learns, and it says so. Fertility features are off. Explanations assume you are new to all this, and five short reads cover the basics. All of it is free, with nothing for sale inside the mode.</p>
+          <p class="stage-card__more"><a href="#parents">For parents ↓</a></p>
+        </article>
+
+        <article class="stage-card" id="stage-everyday">
+          <div class="tile">
+            <div class="mini-ring" data-p="0.48" data-band="0.935,0.226" aria-hidden="true"></div>
+            <div class="tile__text" aria-hidden="true"><span class="tile__top">Cycle day 15</span><span class="tile__main">Follicular</span></div>
+          </div>
+          <p class="tile__line">“Period likely Nov 12–18 · Based on your last 6 cycles”</p>
+          <h3>Everyday cycle tracking</h3>
+          <p class="stage-card__for">For knowing where you are in your cycle, and what tends to come with it.</p>
+          <p>Log a period in two taps. Your expected period shows as a range with what it rests on, and over time your symptoms sort themselves by phase. On the pill, ring or patch, Dottie counts from your pack schedule instead of guessing. On a hormonal IUD, implant or shot it makes no prediction at all and watches for changes instead.</p>
+        </article>
+
+        <article class="stage-card" id="stage-ttc">
+          <div class="tile">
+            <div class="mini-ring" data-p="0.42" data-band="0.26,0.19" data-band-outline="1" aria-hidden="true"></div>
+            <div class="tile__text" aria-hidden="true"><span class="tile__top">Cycle day 13</span><span class="tile__main">Ovulation</span></div>
+          </div>
+          <p class="tile__line">“An estimate for timing, not birth control.”</p>
+          <h3>Trying to conceive <span class="plus-tag">Plus</span></h3>
+          <p class="stage-card__for">For when you want to time things.</p>
+          <p>Dottie centers your fertile window, adds LH and test logging, and estimates ovulation from temperature read from Apple Health. The window appears after three logged cycles. It is an estimate for timing, not birth control.</p>
+        </article>
+
+        <article class="stage-card" id="stage-pregnant">
+          <div class="tile">
+            <div class="mini-ring" data-p="1" aria-hidden="true"></div>
+            <div class="tile__text" aria-hidden="true"><span class="tile__top">Week 20</span><span class="tile__main">Pregnant</span></div>
+          </div>
+          <p class="tile__line">“Week 20 · due around Mar 17”</p>
+          <h3>Pregnancy</h3>
+          <p class="stage-card__for">For when you are pregnant.</p>
+          <p>A week counter, and a due date you can update if your care provider gives you a different one. Your records, a short note for each week, and the doctor visit summary. No development content and no new app. If the pregnancy ends, one line turns everything pregnancy related off, and you choose whether to resume cycle tracking now or pause for a while.</p>
+          <p class="stage-card__quote">“Take whatever time you need. Dottie will be here, exactly as you left it.”</p>
+        </article>
+
+        <article class="stage-card" id="stage-after">
+          <div class="tile">
+            <div class="mini-ring" data-p="0" aria-hidden="true"></div>
+            <div class="tile__text" aria-hidden="true"><span class="tile__top">Cycle tracking</span><span class="tile__main">Paused</span></div>
+          </div>
+          <p class="tile__line">“Predictions stay off until a new period is logged.”</p>
+          <h3>After a pregnancy</h3>
+          <p class="stage-card__for">For the months after a pregnancy, however it ended.</p>
+          <p>Predictions stay off until you log a new period. When cycles come back, Dottie shows ranges that narrow as new ones are logged. There is no schedule your body is meant to keep.</p>
+          <p class="stage-card__quote">“Cycles coming back after a pregnancy often vary. The range narrows as new ones are logged.”</p>
+        </article>
+
+        <article class="stage-card" id="stage-changing">
+          <div class="tile">
+            <div class="mini-ring" data-p="1" data-band="0.0,0.5" aria-hidden="true"></div>
+            <div class="tile__text" aria-hidden="true"><span class="tile__top">Cycle day 41</span><span class="tile__main">Running long</span></div>
+          </div>
+          <p class="tile__line">“Likely within the next 1–4 weeks.”</p>
+          <h3>Changing cycles</h3>
+          <p class="stage-card__for">For perimenopause and menopause.</p>
+          <p>When cycles vary, Dottie shows a range of weeks instead of a date, and says why. Hot flashes and the other transition symptoms have their own place in the log. A quiet counter keeps the months since your last period, and if bleeding returns after 12 months, Dottie says plainly that doctors recommend getting it checked. Plus adds dated ranges and a monthly symptoms score.</p>
+          <p class="stage-card__quote">“12 months without a recorded period.”</p>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 · for parents -->
+  <section class="parents day" id="parents" aria-labelledby="parents-title">
+    <div class="parents__inner">
+      <div class="parents__lead">
+        <h2 id="parents-title">For parents</h2>
+        <p class="section-lede">If someone in your family has just started her periods, this is the part of Dottie written for her, and here is what it is and isn't.</p>
+        <div class="parents__ring" aria-hidden="true">
+          <div class="mini-ring mini-ring--large" data-p="0.3" data-band="0.55,0.42"></div>
+          <p class="parents__ring-cap">A wide band is an honest one. First Cycles keeps it wide while her cycles settle.</p>
+        </div>
+      </div>
+      <dl class="parents__list">
+        <div class="parents__item">
+          <dt>What First Cycles is</dt>
+          <dd>A mode she turns on by choosing “My periods started recently” when she sets up Dottie, or later in Settings. Predictions stay wide while her cycles settle, and Dottie tells her that is normal where she is. Explanations assume she is new to all this.</dd>
+        </div>
+        <div class="parents__item">
+          <dt>What it doesn't show</dt>
+          <dd>No fertile window, no ovulation estimates and no conception tracking. No “irregular” label, because the first years are meant to vary. The adult reading room stays out of it. She gets five short reads written for her age: what is happening in your body, the first couple of years, period products and using them safely, cramps and what helps, and what is worth mentioning to someone.</dd>
+        </div>
+        <div class="parents__item">
+          <dt>What it costs</dt>
+          <dd>Nothing. Everything in First Cycles is free, and there is nothing for sale inside it. No upgrade prompts and no locked cards.</dd>
+        </div>
+        <div class="parents__item">
+          <dt>Where her data goes</dt>
+          <dd>Nowhere. Dottie has no account to create and no server to send anything to. What she logs stays on her phone, encrypted.</dd>
+        </div>
+        <div class="parents__item">
+          <dt>If she wants to talk to someone</dt>
+          <dd>Where an adult would be pointed to a doctor, First Cycles points to a trusted adult, school nurse, or doctor. It names no one in particular.</dd>
+        </div>
+        <div class="parents__item">
+          <dt>Age</dt>
+          <dd>Dottie is for ages 13 and up.</dd>
+        </div>
+        <div class="parents__item">
+          <dt>It's hers</dt>
+          <dd>First Cycles is a mode she chooses, and she can turn it off in Settings when she is ready. Dottie has no parental view. What she logs is on her phone and nowhere else.</dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- 8 · safety -->
+  <section class="safety day" id="safety" aria-labelledby="safety-title">
+    <div class="safety__inner">
+      <h2 id="safety-title">Safety features are free for everyone.</h2>
+      <p class="section-lede">Some people track because home isn't safe. These are built in, and none of them is paid.</p>
+      <ul class="safe-grid">
+        <li class="safe">
+          <span class="safe__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/><circle cx="12" cy="15.5" r="1.3"/></svg></span>
+          <h3>App lock</h3>
+          <p>A 4-digit PIN or Face ID. Dottie locks the moment it leaves the screen, with no grace period. Wrong guesses slow down, and nothing is wiped.</p>
+        </li>
+        <li class="safe">
+          <span class="safe__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="8" cy="9" r="3.5"/><path d="M11 10.5h8l-1.5 1.5 1.5 1.5M15 10.5v3"/><circle cx="8" cy="16.5" r="3.5" class="safe__icon-faint"/></svg></span>
+          <h3>Decoy PIN</h3>
+          <p>A second PIN for when someone else picks up your phone. It keeps what you logged private.</p>
+        </li>
+        <li class="safe">
+          <span class="safe__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="2.5"/><circle cx="9" cy="11" r="2"/><path d="M6 16c.6-1.6 1.7-2.4 3-2.4s2.4.8 3 2.4M14.5 10h3M14.5 13h3"/><path d="M4 20 20 4" class="safe__icon-strike"/></svg></span>
+          <h3>No account</h3>
+          <p>Nothing to sign up for and nothing to sign in to. Dottie keeps no profile of you.</p>
+        </li>
+        <li class="safe">
+          <span class="safe__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 7h14M9.5 7V5.5h5V7M7 7l.9 12.2a1.5 1.5 0 0 0 1.5 1.3h5.2a1.5 1.5 0 0 0 1.5-1.3L17 7M10 10.5v6M14 10.5v6"/></svg></span>
+          <h3>Delete all data</h3>
+          <p>Two taps in Settings erase everything, including the keys that lock it. There is no server copy, so only a backup you saved yourself can bring it back.</p>
+        </li>
+        <li class="safe">
+          <span class="safe__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6.5 16.5v-5.3a5.5 5.5 0 0 1 11 0v5.3l1.5 1.5h-14z"/><path d="M10 20.3a2 2 0 0 0 4 0"/></svg></span>
+          <h3>Reminders that keep quiet</h3>
+          <p>Reminders are made on your phone. The lock screen shows the word “Reminder” and a plain line like “A quick check-in for today?”. Nothing on it says what you track.</p>
+        </li>
+        <li class="safe">
+          <span class="safe__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 11v5.5M12 7.8v.4"/></svg></span>
+          <h3>Not a medical device</h3>
+          <p>Dottie is not a medical device. It offers information only, not medical advice or contraception. It doesn't diagnose, and a late day gets calm, neutral information rather than a conclusion.</p>
+        </li>
+      </ul>
 
       <div class="tests">
         <article class="test">
@@ -186,26 +339,15 @@
         </article>
 
         <article class="test">
-          <h3>Two PINs, two calendars.</h3>
-          <div class="pinbox">
-            <div class="pin" id="pin">
-              <p class="pin__title">Dottie</p>
-              <p class="pin__sub">Enter your PIN</p>
-              <div class="pin__dots" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
-              <div class="pin__pad" aria-hidden="true"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span></span><span>0</span><span>⌫</span></div>
-            </div>
-            <div class="pin__result" id="pin-result" hidden>
-              <p class="pin__month">October 2026</p>
-              <div class="mini-cal" id="pin-cal"></div>
-              <p class="pin__which" id="pin-which"></p>
+          <h3>On the lock screen, only this.</h3>
+          <div class="lockshot" role="img" aria-label="An iPhone lock screen showing a reminder from Dottie that reads: Reminder. A quick check-in for today?">
+            <p class="lockshot__time">9:41</p>
+            <div class="lockshot__notif">
+              <span class="lockshot__icon"><img src="assets/img/icon.svg" alt="" width="34" height="34"></span>
+              <span class="lockshot__body"><span class="lockshot__app">Dottie <small>now</small></span><span class="lockshot__title">Reminder</span><span class="lockshot__text">A quick check-in for today?</span></span>
             </div>
           </div>
-          <div class="pin__actions">
-            <button type="button" class="chip" data-pin="real">Enter your PIN</button>
-            <button type="button" class="chip" data-pin="decoy">Enter the decoy PIN</button>
-            <button type="button" class="link" data-pin="reset">Lock again</button>
-          </div>
-          <p class="test__note">The same screen opens either one, at the same speed, and nothing on it says which is which. She chooses what the decoy holds when she sets it up: Believable, Blank or Custom. Wrong guesses slow down and never wipe anything.</p>
+          <p class="test__note">The same words whichever reminder it is, and no preview of your records. The app itself asks for a PIN or Face ID before it shows anything.</p>
         </article>
 
         <article class="test">
@@ -229,6 +371,34 @@
           <p class="test__note">Your records, the keys that lock them, your PIN and every reminder. There is no server copy, so nothing can be recovered.</p>
         </article>
       </div>
+    </div>
+  </section>
+
+  <!-- 9 · what private means here -->
+  <section class="private day" id="private" aria-labelledby="private-title">
+    <div class="private__inner">
+      <h2 id="private-title">What “private” means here.</h2>
+      <p class="section-lede">Many apps are built around an account and a server. Dottie was built without either, so there's no server for anything to leak from. This is the whole list.</p>
+
+      <dl class="nones">
+        <div class="none">
+          <dt>Account</dt>
+          <dd><b>None.</b> Nothing to sign up for. Dottie doesn't know who you are.</dd>
+        </div>
+        <div class="none">
+          <dt>Cloud</dt>
+          <dd><b>None.</b> Your records live in an encrypted database on your iPhone. A backup goes only where you send it.</dd>
+        </div>
+        <div class="none">
+          <dt>Analytics</dt>
+          <dd><b>None.</b> No usage tracking and no crash reports. Dottie doesn't send your records anywhere.</dd>
+        </div>
+        <div class="none">
+          <dt>Cookies, on this site</dt>
+          <dd><b>None.</b> No cookies and no trackers, and it loads nothing from anyone else.</dd>
+        </div>
+      </dl>
+      <p class="counter" id="req-counter" aria-live="polite">Counting what this page loaded…</p>
 
       <figure class="vault">
         <svg viewBox="0 0 720 300" role="img" aria-labelledby="vault-title">
@@ -253,7 +423,7 @@
     </div>
   </section>
 
-  <!-- 8 · the doctor visit summary -->
+  <!-- 10 · the doctor visit summary -->
   <section class="doctor day" id="doctor" aria-labelledby="doctor-title">
     <div class="doctor__inner">
       <div class="doctor__copy">
@@ -290,8 +460,7 @@
     </div>
   </section>
 
-  <!-- 9 · download and questions -->
-  <!-- about: a personal note, Rob's own words (final, Oct 28 2026) -->
+  <!-- 11 · about: a personal note, Rob's own words (final, Oct 28 2026) -->
   <section class="about day" id="about" aria-labelledby="about-title">
     <div class="about__inner">
       <h2 id="about-title">A little about why Dottie exists</h2>
@@ -309,6 +478,7 @@
     </div>
   </section>
 
+  <!-- 12 · download and questions -->
   <section class="download day" id="download" aria-labelledby="download-title">
     <div class="download__inner">
       <h2 id="download-title">Dottie is for iPhone.</h2>
@@ -317,9 +487,11 @@
       <div class="faq">
         <details><summary>What does Dottie collect?</summary><p>Nothing. There is no account, no server and no analytics. The App Store privacy label is the blank one. This website is the same: no cookies, no trackers, no third-party scripts or fonts.</p></details>
         <details><summary>What is free, and what is Plus?</summary><p>Logging, the calendar with two months ahead, predictions, every safety feature, pregnancy mode, changing cycles, first cycles and the doctor visit summary are free. Your own history is free to see. Plus adds symptom timing and heads-ups, twelve months on the calendar, a fuller doctor visit summary, trying to conceive, Apple Health sync, the library and a recap after each cycle. Apple shows the price in your region.</p></details>
+        <details><summary>Can my teenager use Dottie?</summary><p>Yes, from 13 up. First Cycles is the mode for periods that started recently, and all of it is free with nothing for sale inside. There is more in <a href="#parents">For parents</a>.</p></details>
         <details><summary>What if I lose my phone?</summary><p>Export an encrypted backup whenever you like, with a passphrase you choose, and keep it where you keep your own files. Restore it on a new phone from Settings or from the lock screen. If you forget the passphrase, the file is gone. There is no reset, because there is no server.</p></details>
         <details><summary>Can I bring my history from another app?</summary><p>If it is in Apple Health, yes: a one-time import of menstrual flow and spotting, read on the device. Days you've already logged stay as they are. Dottie never writes to Apple Health.</p></details>
         <details><summary>Does Dottie prevent pregnancy?</summary><p>No. Dottie is information only. It is not medical advice or contraception. Fertile-window estimates are for awareness only, and they stay off on hormonal methods.</p></details>
+        <details><summary>Is Dottie a medical device?</summary><p>No. Dottie is not a medical device. It offers information only, not medical advice or contraception. It only knows what you log, so it can miss things. If something doesn't feel right, trust that and get it checked.</p></details>
         <details><summary>Who made Dottie?</summary><p>Just me, Rob. Dottie is a one-person project. It's paid for by the people who choose Plus, not by advertisers, so there's nothing to sell.</p></details>
       </div>
       <p class="download__links"><a href="privacy/">Privacy policy</a> · <a href="support/">Support</a> · <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" rel="noopener">Apple's standard EULA</a></p>
@@ -328,7 +500,8 @@
 
   <footer class="foot night">
     <p class="foot__word">Dottie</p>
-    <p>Private, from first period to last. Dottie is information only. It is not medical advice or contraception.</p>
+    <p>Private, from first period to last.</p>
+    <p class="foot__care">Dottie is not a medical device. It doesn't diagnose or treat any condition, and it isn't a replacement for care from a doctor or other health professional. Dottie only knows what you log, so it can miss things. If something doesn't feel right, trust that and get it checked, even if Dottie hasn't mentioned it. In an emergency, call your local emergency number.</p>
     <p><a href="#about">About</a> · <a href="privacy/">Privacy</a> · <a href="support/">Support</a></p>
     <p>© 2026 Robert Taylor</p>
   </footer>
