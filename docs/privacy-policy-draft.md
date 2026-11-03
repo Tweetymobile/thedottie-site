@@ -1,6 +1,6 @@
 # Dottie Privacy Policy
 
-Effective October 28, 2026
+Effective November 3, 2026
 
 ## The short version
 

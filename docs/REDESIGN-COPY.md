@@ -6,7 +6,7 @@ Every new user-facing line on the site, for Rob's approval. Nothing here is depl
 - How it works · Try it · Every stage · For parents · Safety · Privacy · Questions
 
 ## Hero (one new line)
-- For first periods, everyday cycles, trying to conceive, pregnancy, the months after, and changing cycles. One app, in its own quiet voice.
+- For first periods, everyday cycles, trying to conceive, pregnancy, the months after, and changing cycles, all in one app.
 
 ## Every stage of life, one app (replaces the old "Every stage, the same quiet app" timeline)
 - H2: Every stage of life, one app.
@@ -63,7 +63,7 @@ Changing cycles
 - Lede: Some people track because home isn't safe. These are built in, and none of them is paid.
 - App lock: A 4-digit PIN or Face ID. Dottie locks the moment it leaves the screen, with no grace period. Wrong guesses slow down, and nothing is wiped.
 - Decoy PIN: A second PIN for when someone else picks up your phone. It keeps what you logged private.
-- No account: Nothing to sign up for and nothing to sign in to. There is no profile anywhere that says you use a period tracker.
+- No account: Nothing to sign up for and nothing to sign in to. Dottie keeps no profile of you.
 - Delete all data: Two taps in Settings erase everything, including the keys that lock it. There is no server copy, so only a backup you saved yourself can bring it back.
 - Reminders that keep quiet: Reminders are made on your phone. The lock screen shows the word “Reminder” and a plain line like “A quick check-in for today?”. Nothing on it says what you track.
 - Not a medical device: Dottie is not a medical device. It offers information only, not medical advice or contraception. It doesn't diagnose, and a late day gets calm, neutral information rather than a conclusion.
@@ -74,10 +74,10 @@ Changing cycles
 
 ## What "private" means here (reworks "Private by design, and you can test it")
 - H2: What “private” means here.
-- Lede: Many apps are built around an account and a server. Dottie was built without either, so there is nothing to leak. This is the whole list.
+- Lede: Many apps are built around an account and a server. Dottie was built without either, so there's no server for anything to leak from. This is the whole list.
 - Account · None. Nothing to sign up for. Dottie doesn't know who you are.
 - Cloud · None. Your records live in an encrypted database on your iPhone. A backup goes only where you send it.
-- Analytics · None. No usage tracking and no crash reports. Dottie has no code that connects to the internet.
+- Analytics · None. No usage tracking and no crash reports. Dottie doesn't send your records anywhere.
 - Cookies, on this site · None. No cookies and no trackers, and it loads nothing from anyone else.
 - Live line (numbers filled in by the visitor's browser): Your browser can confirm it: this page loaded N files, counted by the browser itself just now. From anywhere other than this site: 0.
 - Before it fills: Counting what this page loaded…
@@ -89,7 +89,7 @@ Changing cycles
 ## Footer (every page) and privacy policy
 - Added word for word, as asked: Dottie is not a medical device. It doesn't diagnose or treat any condition, and it isn't a replacement for care from a doctor or other health professional. Dottie only knows what you log, so it can miss things. If something doesn't feel right, trust that and get it checked, even if Dottie hasn't mentioned it. In an emergency, call your local emergency number.
 - Removed from the home footer: "Dottie is information only. It is not medical advice or contraception." (now said by the paragraph above).
-- Privacy policy: the same paragraph opens "Who makes Dottie" (page and `docs/privacy-policy-draft.md`). The effective date is unchanged pending Rob's call.
+- Privacy policy: the same paragraph opens "Who makes Dottie" (page and `docs/privacy-policy-draft.md`). Effective date moved to November 3, 2026 (Rob, Nov 3 2026).
 
 ## Claims checked against the app (read-only), and the ones not confirmed
 Confirmed in code: First Cycles is a chosen goal, free, with every Plus surface stood down and the paywall refusing to render inside it; fertility and conception off; no regularity verdict; the five reads open without a tier check; the trusted-adult pointer; the switch has no lock. App lock (4-digit PIN, Face ID, locks on background, wrong tries slow down and never wipe), decoy PIN with Believable/Blank/Custom, Delete all data in two taps, reminders titled "Reminder" with generic bodies, the "not a medical device" disclaimer, no network code. Pregnancy mode (week counter, due date update, weekly notes, records, doctor summary, loss flow with resume/pause). After a pregnancy (predictions off until a new period, then ranges). Trying to conceive is Plus (fertile window, LH and test logging, temperature from Apple Health, window after 3 cycles). Changing cycles: weeks range free, dated ranges and Monthly symptoms score Plus, transition symptoms in the log, 12-month counter, the bleeding-after-12-months notice.
