@@ -43,6 +43,10 @@ GitHub Pages from `main`, root, repo public. `CNAME` holds `thedottie.app`. GoDa
 
 The privacy policy's effective date is in `privacy/index.html` (the lede under the title); update it whenever the policy changes.
 
+## Status, Nov 3 2026
+
+The stages/parents/safety redesign is live (merge 6d8af6e, Pages run 41715555184 green): nav, "Every stage of life, one app", "For parents", "Safety", "What private means here", two new FAQ entries, Rob's medical-device paragraph in every footer and at the top of the policy's "Who makes Dottie" (effective date Nov 3 2026). Every line was approved by Rob on Nov 3 2026; the full list with sources is `docs/REDESIGN-COPY.md`. After deploy: `audit-live.mjs` passed (0 outside requests, no cookie, HTTP to HTTPS) and the phone test passed in Chromium and WebKit.
+
 ## Status, Oct 28 2026
 
 Live at https://thedottie.app (GitHub Pages, custom domain, HTTPS enforced, certificate renews itself). The repo is public.
