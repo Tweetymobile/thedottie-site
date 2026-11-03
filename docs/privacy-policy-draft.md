@@ -15,6 +15,8 @@ The rest of this page explains exactly what Dottie stores, where, and how you co
 
 ## Who makes Dottie
 
+Dottie is not a medical device. It doesn't diagnose or treat any condition, and it isn't a replacement for care from a doctor or other health professional. Dottie only knows what you log, so it can miss things. If something doesn't feel right, trust that and get it checked, even if Dottie hasn't mentioned it. In an emergency, call your local emergency number.
+
 Dottie is made by me, Robert Taylor, an independent developer in Alberta, Canada. There is no company behind it and no one else involved in running it.
 
 You can reach me at hello@thedottie.app with any question about this policy.

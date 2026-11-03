@@ -79,6 +79,22 @@
     steps.forEach(function (s) { io.observe(s); });
   }
 
+  // ---- every stage, and for parents: the small rings ---------------------------
+  document.querySelectorAll('.mini-ring').forEach(function (el) { if (window.drawMiniRing) window.drawMiniRing(el); });
+
+  // ---- what private means here: count what this page loaded, in the browser ------
+  // Read from the browser's own resource timing, computed here, stored nowhere.
+  var counter = document.getElementById('req-counter');
+  function countLoads() {
+    if (!counter || !window.performance || !performance.getEntriesByType) return;
+    var entries = performance.getEntriesByType('resource');
+    var here = location.origin, off = 0;
+    entries.forEach(function (e) { try { if (new URL(e.name, location.href).origin !== here) off++; } catch (x) {} });
+    var total = entries.length + 1; // plus this page
+    counter.innerHTML = 'Your browser can confirm it: this page loaded <b>' + total + ' files</b>, counted by the browser itself just now. From anywhere other than this site: <b>' + off + '</b>.';
+  }
+  if (document.readyState === 'complete') setTimeout(countLoads, 300); else window.addEventListener('load', function () { setTimeout(countLoads, 300); });
+
   // ---- every stage: the small ring glyphs ------------------------------------
   document.querySelectorAll('.glyph[data-g]').forEach(function (g) {
     var frac = parseFloat(g.getAttribute('data-g')), R = 24, cx = 30, cy = 30;
@@ -140,45 +156,6 @@
   if (air) air.addEventListener('change', function () {
     airStatus.innerHTML = air.checked ? '<span aria-label="Airplane mode on">✈</span>' : '<span class="mini__signal">●●●●</span>';
     airNote.textContent = air.checked ? 'Still cycle day 15, still Nov 12–18, still every note and every chart. There is no network code in Dottie to miss the network.' : 'Flip it. Nothing changes, because there is no network code in Dottie to miss the network. No account, no sync, no analytics, no crash reports.';
-  });
-
-  var pin = document.getElementById('pin'), pinResult = document.getElementById('pin-result'), pinCal = document.getElementById('pin-cal'), pinWhich = document.getElementById('pin-which');
-  function miniCal(periodStart, periodLen, avg) {
-    var first = new Date(2026, 9, 1).getDay(), out = '';
-    for (var b = 0; b < first; b++) out += '<span></span>';
-    for (var i = 1; i <= 31; i++) {
-      var day = i - periodStart + 1, cls = '';
-      if (day >= 1 && day <= periodLen) cls = 'p';
-      else if (day > periodLen && day < avg - 15) cls = 'f';
-      else if (day >= avg - 15 && day <= avg - 13) cls = 'o';
-      else if (day > avg - 13 && day <= avg) cls = 'l';
-      out += '<span class="' + cls + '">' + i + '</span>';
-    }
-    return out;
-  }
-  function typePin(kind) {
-    if (!pin) return;
-    var dots = pin.querySelectorAll('.pin__dots i');
-    dots.forEach(function (d) { d.classList.remove('on'); });
-    pinResult.hidden = true; pin.hidden = false;
-    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var k = 0;
-    function next() {
-      if (k < 4) { dots[k].classList.add('on'); k++; if (reduce) next(); else setTimeout(next, 140); return; }
-      setTimeout(function () {
-        pin.hidden = true; pinResult.hidden = false;
-        if (kind === 'real') { pinCal.innerHTML = miniCal(14, 5, 31); pinWhich.textContent = 'Your calendar: the period you logged on Oct 14 to 18.'; }
-        else { pinCal.innerHTML = miniCal(5, 4, 29); pinWhich.textContent = 'The decoy: a believable history that is not hers. Same screen, same speed, no tell.'; }
-      }, reduce ? 0 : 220);
-    }
-    next();
-  }
-  document.querySelectorAll('[data-pin]').forEach(function (b) {
-    b.addEventListener('click', function () {
-      var kind = b.getAttribute('data-pin');
-      if (kind === 'reset') { pinResult.hidden = true; pin.hidden = false; pin.querySelectorAll('.pin__dots i').forEach(function (d) { d.classList.remove('on'); }); return; }
-      typePin(kind);
-    });
   });
 
   var del = document.getElementById('del');
