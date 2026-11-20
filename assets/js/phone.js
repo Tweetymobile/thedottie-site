@@ -244,7 +244,7 @@
       '<div class="label">Key numbers</div><div class="card"><div class="kv"><div><b>' + D.avgCycle + 'd</b><span>Average cycle</span></div><div><b>' + spread + 'd</b><span>Full spread</span></div><div><b>5d</b><span>Typical period</span></div></div><p class="muted">Based on your last ' + D.cycleLengths.length + ' completed periods.</p></div>' +
       '<div class="label">Where you are</div><div class="card"><div class="phasebar" aria-hidden="true"><i class="m"></i><i class="f"></i><i class="o"></i><i class="l"></i></div><div class="youare"><i data-s="left:' + pos.toFixed(1) + '%"></i></div><p class="muted tight">' + blurb + '</p></div>' +
       '<div class="label">Most consistent symptoms</div><div class="card">' + sorted.map(symRow).join('') + '<p class="muted"><button type="button" class="textlink textlink--small" data-itab="symptoms">See all symptoms →</button></p></div>' +
-      '<div class="label">Doctor visit summary</div><div class="card"><p class="sub tight0">A one-page PDF of your history, created on this device.</p></div>';
+      '<div class="label">Doctor visit summary</div><div class="card"><p class="sub tight0">A PDF of your history, created on this device.</p></div>';
   }
   function trends() {
     var cl = D.cycleLengths, pl = D.periodLengths;
@@ -260,7 +260,7 @@
     return '<div class="seg seg-page">' + ranges.map(function (r) { return '<button type="button" class="chip" data-range="' + r[0] + '" aria-pressed="' + (S.trange === r[0]) + '">' + r[1] + '</button>'; }).join('') + '</div>' +
       '<div class="label">Cycle and period</div><p class="explainer explainer--tight">One column per cycle.</p>' +
       '<div class="card"><p class="sub tight0"><b class="c-ink">Cycle length</b> · days between periods</p>' +
-      '<svg class="chart" viewBox="0 0 ' + W + ' 130" aria-label="Cycle length, six cycles, ' + cl.join(', ') + ' days"><rect x="20" y="' + y(38).toFixed(1) + '" width="' + (W - 30) + '" height="' + (y(24) - y(38)).toFixed(1) + '" class="c-typical"/><text class="c-label" x="2" y="' + (y(38) + 4).toFixed(1) + '">38</text><text class="c-label" x="2" y="' + (y(24) + 4).toFixed(1) + '">24</text><path d="' + line + '" fill="none" class="c-line" stroke-width="2.5" stroke-linejoin="round"/>' + pts + '<text class="c-label c-label--s" x="30" y="' + (y(24) - 2).toFixed(1) + '">Typical 24–38</text></svg>' +
+      '<svg class="chart" viewBox="0 0 ' + W + ' 130" aria-label="Cycle length, six cycles, ' + cl.join(', ') + ' days"><text class="c-label" x="2" y="' + (y(38) + 4).toFixed(1) + '">38</text><text class="c-label" x="2" y="' + (y(24) + 4).toFixed(1) + '">24</text><path d="' + line + '" fill="none" class="c-line" stroke-width="2.5" stroke-linejoin="round"/>' + pts + '</svg>' +
       '<p class="sub tight12"><b class="c-ink">Period length</b> · how many days it lasted</p>' +
       '<svg class="chart" viewBox="0 0 ' + W + ' 124" aria-label="Period length, six cycles, ' + pl.join(', ') + ' days">' + bars + labels + '<line class="c-axis" x1="16" x2="' + W + '" y1="100" y2="100"/></svg>' +
       '<p class="muted">' + cl.length + ' cycles</p></div>' +

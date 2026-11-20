@@ -57,7 +57,6 @@
     var x = function (i) { return 60 + i * 480 / (cl.length - 1); };
     var y = function (v) { return 110 + (hi - v) / (hi - lo) * 180; };
     var parts = ['<text class="ch-title" x="40" y="60">Cycle length</text><text class="ch-sub" x="150" y="60">· days between periods</text>'];
-    parts.push('<rect class="ch-band" x="40" y="' + y(38) + '" width="520" height="' + (y(24) - y(38)) + '"/>');
     parts.push('<text class="ch-label" x="22" y="' + (y(38) + 4) + '">38</text><text class="ch-label" x="22" y="' + (y(24) + 4) + '">24</text>');
     parts.push('<path class="ch-line" d="' + cl.map(function (v, i) { return (i ? 'L' : 'M') + x(i).toFixed(1) + ' ' + y(v).toFixed(1); }).join(' ') + '"/>');
     cl.forEach(function (v, i) { parts.push('<circle class="ch-dot" cx="' + x(i).toFixed(1) + '" cy="' + y(v).toFixed(1) + '" r="6"/>'); });
@@ -155,7 +154,7 @@
   var air = document.getElementById('airplane'), airStatus = document.getElementById('air-status'), airNote = document.getElementById('air-note');
   if (air) air.addEventListener('change', function () {
     airStatus.innerHTML = air.checked ? '<span aria-label="Airplane mode on">✈</span>' : '<span class="mini__signal">●●●●</span>';
-    airNote.textContent = air.checked ? 'Still cycle day 15, still Nov 12–18, still every note and every chart. There is no network code in Dottie to miss the network.' : 'Flip it. Nothing changes, because there is no network code in Dottie to miss the network. No account, no sync, no analytics, no crash reports.';
+    airNote.textContent = air.checked ? 'Still cycle day 15, still Nov 12–18, still every note and every chart. Your records never use the network.' : 'Flip it. Everything you track carries on, because your records never use the network. No account, no sync, no analytics, no crash reports. Only buying or restoring Plus needs a connection, and that goes through the App Store.';
   });
 
   var del = document.getElementById('del');
