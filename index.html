@@ -35,19 +35,23 @@
   <nav class="nav" aria-label="Sections of this page">
     <a class="nav__brand" href="#top">Dottie</a>
     <ul class="nav__list">
-      <li><a href="#cycle">How it works</a></li>
+      <li class="nav__more"><a href="#cycle">How it works</a></li>
       <li><a href="#explore">Try it</a></li>
-      <li><a href="#stages">Every stage</a></li>
-      <li><a href="#parents">For parents</a></li>
-      <li><a href="#safety">Safety</a></li>
+      <li><a href="#stages"><span class="nav__long">Every stage</span><span class="nav__short">Stages</span></a></li>
+      <li class="nav__more"><a href="#parents">For parents</a></li>
+      <li class="nav__more"><a href="#safety">Safety</a></li>
       <li><a href="#private">Privacy</a></li>
-      <li><a href="#download">Questions</a></li>
+      <li><a href="#plus">Free and Plus</a></li>
+      <li class="nav__more"><a href="#download">Questions</a></li>
     </ul>
   </nav>
 
   <!-- 1 · the night -->
   <header class="hero night" id="top">
-    <div class="hero__ring"><div class="ring" id="hero-ring"></div></div>
+    <div class="hero__ring" role="img" aria-label="Dottie's ring on cycle day 15, in the follicular phase">
+      <div class="ring" id="hero-ring"></div>
+      <div class="hero__center" aria-hidden="true"><span class="ring__day">Cycle day 15</span><span class="ring__word">Follicular</span></div>
+    </div>
     <div class="hero__copy">
       <p class="wordmark">Dottie</p>
       <h1>Private, from first&nbsp;period to&nbsp;last.</h1>
@@ -60,6 +64,28 @@
       <p class="note__text js-note"></p>
     </aside>
   </header>
+
+  <!-- 1b · the short version: four facts, and why Dottie exists -->
+  <section class="intro night" id="intro" aria-label="The short version">
+    <div class="intro__inner">
+      <div class="intro__facts">
+        <dl class="facts">
+          <div class="fact"><dt>Account</dt><dd>None</dd></div>
+          <div class="fact"><dt>Cloud</dt><dd>None</dd></div>
+          <div class="fact"><dt>Analytics</dt><dd>None</dd></div>
+          <div class="fact"><dt>Cookies, on this site</dt><dd>None</dd></div>
+        </dl>
+        <p class="intro__more"><a href="#private">What “private” means here ↓</a></p>
+      </div>
+      <figure class="excerpt">
+        <blockquote>
+          <p>Dottie started with someone very close to me.</p>
+          <p>I wanted to make something calm and simple, where she could track what was happening without feeling overwhelmed, and where her personal information stayed personal.</p>
+        </blockquote>
+        <figcaption>— Rob <a href="#about">Read the whole note ↓</a></figcaption>
+      </figure>
+    </div>
+  </section>
 
   <!-- 2 · the ring becomes her cycle, her calendar, her patterns -->
   <section class="cycle night" id="cycle" aria-labelledby="cycle-title">
@@ -81,14 +107,17 @@
       <div class="steps">
         <div class="step" data-goto="ring">
           <h2 id="cycle-title">Today, the ring is your cycle.</h2>
-          <p>The stardust is your cycle so far. The soft band is your expected period. Under the ring, a line for the day: one of Dottie's own notes, chosen by the date, the same note all day.</p>
+          <p>The stardust is your cycle so far. The soft band is the days your next period is predicted to cover. Under the ring, a line for the day: one of Dottie's own notes, chosen by the date, the same note all day.</p>
         </div>
         <div class="step" data-goto="calendar">
-          <h2>On the calendar, the same window.</h2>
-          <p>Period days you logged, the window when your period may start drawn as a range, and the phases between. Tap any past or today's date to log it. Future dates are read-only.</p>
+          <div class="step__visual" id="step-calendar" aria-hidden="true"></div>
+          <h2>On the calendar, the month ahead.</h2>
+          <p>Period days you logged are solid. The dashed days are the window your next period may start in, and the soft rose days are the ones it is likely to cover. The other colors are your phases. Tap any past or today's date to log it. Future dates are read-only.</p>
           <p class="step__quote">Expected: the window when your period may start.</p>
+          <p class="step__quote">Menstrual: days your period is likely.</p>
         </div>
         <div class="step" data-goto="chart">
+          <div class="step__visual" id="step-chart" aria-hidden="true"></div>
           <h2>Over months, your patterns.</h2>
           <p>Cycle length, period length, the symptoms that keep company with each phase. Your patterns are calculated on this device and never uploaded.</p>
           <p class="step__quote">Average cycle 31d · Full spread 4d · Typical period 5d</p>
@@ -109,12 +138,13 @@
         </div>
         <div class="real">
           <p class="small-label small-label--accent">What Dottie says</p>
-          <p class="real__head">Period likely Nov 12–18</p>
-          <p class="real__sub">Based on your last 6 cycles · usually within 3 days</p>
-          <div class="days" aria-label="November 10 to 20, with the expected window on 12 to 18">
-            <span>10</span><span>11</span><span class="w">12</span><span class="w">13</span><span class="w">14</span><span class="w">15</span><span class="w">16</span><span class="w">17</span><span class="w">18</span><span>19</span><span>20</span>
+          <p class="real__head">Period likely Nov 12–16</p>
+          <p class="real__sub">Based on your last 6 cycles · your cycles vary by about 4 days</p>
+          <div class="days" role="img" aria-label="November 10 to 20. The window the period may start in is the 12th to the 16th. The days it is likely to cover are the 14th to the 18th.">
+            <span>10</span><span>11</span><span class="w">12</span><span class="w">13</span><span class="w p">14</span><span class="w p">15</span><span class="w p">16</span><span class="p">17</span><span class="p">18</span><span>19</span><span>20</span>
           </div>
-          <p class="real__foot">The soft band on the ring and the dashed days on the calendar are the same window. When cycles vary, the range widens, and Dottie says so. A late day gets calm, neutral information, never a conclusion.</p>
+          <p class="days__key"><span><i class="k k--w"></i>The window it may start in</span><span><i class="k k--p"></i>The days it is likely to cover</span></p>
+          <p class="real__foot">The dashes are where your period may start. The soft days, and the soft band on the ring, are the days it is predicted to cover. When your cycles vary more, the window widens and Dottie says “Period could start Nov 10–18” instead. A late day gets calm, neutral information, never a conclusion.</p>
         </div>
       </div>
     </div>
@@ -125,7 +155,7 @@
     <div class="explore__inner">
       <div class="explore__copy">
         <h2 id="explore-title">Tap around. It's a working recreation, with made-up data.</h2>
-        <p>Move between Today, Calendar and Insights. Open the log, tap a symptom, press Done, then look for it under Insights. Log Light, Medium or Heavy flow and watch the ring, the headline and the calendar agree. Nothing you tap is stored anywhere.</p>
+        <p>Move between Today, Calendar and Insights. Open the log, pick a symptom and press Done, then find it on Today and marked on the calendar. Log Light flow or heavier and watch the ring, the headline and the calendar agree. Nothing you tap is stored anywhere.</p>
         <p class="explore__hint" id="hint" aria-live="polite">Try: Log how you feel, then Symptoms, then Cramps.</p>
         <p><button class="link" type="button" id="reset">Start over</button></p>
       </div>
@@ -134,6 +164,12 @@
           <div class="phone" id="phone" role="region" aria-label="A demo of the Dottie app">
             <div class="phone__screen"><div class="screen" id="screen"></div></div>
           </div>
+        </div>
+        <div class="theme-dots" role="group" aria-label="Theme for this page and the demo">
+          <button type="button" class="theme-dot" data-theme="clay" aria-pressed="true"><i></i>Clay</button>
+          <button type="button" class="theme-dot" data-theme="lagoon" aria-pressed="false"><i></i>Lagoon</button>
+          <button type="button" class="theme-dot" data-theme="orchid" aria-pressed="false"><i></i>Orchid</button>
+          <button type="button" class="theme-dot" data-theme="midnight" aria-pressed="false"><i></i>Midnight</button>
         </div>
       </div>
     </div>
@@ -145,10 +181,10 @@
       <h2 id="yours-title">Pick your vibe.</h2>
       <p class="section-lede">You can change this anytime in Settings. Four palettes, and light or dark with your device. Themes change color only, never layout. This page and the demo follow your pick.</p>
       <div class="vibes" role="group" aria-label="Theme">
-        <button type="button" class="vibe" data-theme="clay" aria-pressed="true"><span class="vibe__face"><span class="vibe__ring" data-vibe="clay"></span><span class="vibe__word">Follicular</span></span><span class="vibe__name">Clay</span></button>
-        <button type="button" class="vibe" data-theme="lagoon" aria-pressed="false"><span class="vibe__face"><span class="vibe__ring" data-vibe="lagoon"></span><span class="vibe__word">Follicular</span></span><span class="vibe__name">Lagoon</span></button>
-        <button type="button" class="vibe" data-theme="orchid" aria-pressed="false"><span class="vibe__face"><span class="vibe__ring" data-vibe="orchid"></span><span class="vibe__word">Follicular</span></span><span class="vibe__name">Orchid</span></button>
-        <button type="button" class="vibe" data-theme="midnight" aria-pressed="false"><span class="vibe__face"><span class="vibe__ring" data-vibe="midnight"></span><span class="vibe__word">Follicular</span></span><span class="vibe__name">Midnight</span></button>
+        <button type="button" class="vibe" data-theme="clay" aria-pressed="true"><span class="vibe__face"><span class="vibe__ring mini-ring" data-size="tiny" data-p="0.26" data-band="0.99,0.16"></span><span class="vibe__word">Day 8</span></span><span class="vibe__name">Clay</span></button>
+        <button type="button" class="vibe" data-theme="lagoon" aria-pressed="false"><span class="vibe__face"><span class="vibe__ring mini-ring" data-size="tiny" data-p="0.26" data-band="0.99,0.16"></span><span class="vibe__word">Day 8</span></span><span class="vibe__name">Lagoon</span></button>
+        <button type="button" class="vibe" data-theme="orchid" aria-pressed="false"><span class="vibe__face"><span class="vibe__ring mini-ring" data-size="tiny" data-p="0.26" data-band="0.99,0.16"></span><span class="vibe__word">Day 8</span></span><span class="vibe__name">Orchid</span></button>
+        <button type="button" class="vibe" data-theme="midnight" aria-pressed="false"><span class="vibe__face"><span class="vibe__ring mini-ring" data-size="tiny" data-p="0.26" data-band="0.99,0.16"></span><span class="vibe__word">Day 8</span></span><span class="vibe__name">Midnight</span></button>
       </div>
       <div class="seg seg--page" role="group" aria-label="Appearance">
         <button type="button" class="chip" data-scheme="auto" aria-pressed="true">Automatic</button>
@@ -164,12 +200,20 @@
     <div class="stages__inner">
       <h2 id="stages-title">Every stage of life, one app.</h2>
       <p class="section-lede">Dottie changes what it says, not who it is. You choose the mode when you set it up, and you can change it in Settings when life changes.</p>
-      <div class="stage-grid">
+      <div class="stage-pick" role="group" aria-label="Choose a stage">
+        <button type="button" class="chip" data-stage="first" aria-pressed="false">First cycles</button>
+        <button type="button" class="chip" data-stage="everyday" aria-pressed="true">Everyday</button>
+        <button type="button" class="chip" data-stage="ttc" aria-pressed="false">Trying to conceive</button>
+        <button type="button" class="chip" data-stage="pregnant" aria-pressed="false">Pregnancy</button>
+        <button type="button" class="chip" data-stage="after" aria-pressed="false">After a pregnancy</button>
+        <button type="button" class="chip" data-stage="changing" aria-pressed="false">Changing cycles</button>
+      </div>
+      <div class="stage-grid" id="stage-grid" data-pick="everyday">
 
-        <article class="stage-card" id="stage-first">
+        <article class="stage-card" id="stage-first" data-stage="first">
           <div class="tile">
-            <div class="mini-ring" data-p="0.3" data-band="0.55,0.42" aria-hidden="true"></div>
-            <div class="tile__text" aria-hidden="true"><span class="tile__top">Cycle day 9</span><span class="tile__main">Follicular</span></div>
+            <div class="mini-ring" data-resting aria-hidden="true"></div>
+            <div class="tile__text" aria-hidden="true"><span class="tile__main">No cycle yet</span></div>
           </div>
           <p class="tile__line">“Log a few periods and Dottie can start showing you what to expect”</p>
           <h3>First Cycles</h3>
@@ -178,61 +222,66 @@
           <p class="stage-card__more"><a href="#parents">For parents ↓</a></p>
         </article>
 
-        <article class="stage-card" id="stage-everyday">
+        <article class="stage-card" id="stage-everyday" data-stage="everyday">
           <div class="tile">
-            <div class="mini-ring" data-p="0.48" data-band="0.935,0.226" aria-hidden="true"></div>
+            <div class="mini-ring" data-p="0.478" data-band="0.987,0.159" aria-hidden="true"></div>
             <div class="tile__text" aria-hidden="true"><span class="tile__top">Cycle day 15</span><span class="tile__main">Follicular</span></div>
           </div>
-          <p class="tile__line">“Period likely Nov 12–18 · Based on your last 6 cycles”</p>
+          <p class="tile__line">“Period likely Nov 12–16 · Based on your last 6 cycles”</p>
           <h3>Everyday cycle tracking</h3>
           <p class="stage-card__for">For knowing where you are in your cycle, and what tends to come with it.</p>
-          <p>Log a period in two taps. Your expected period shows as a range with what it rests on, and over time your symptoms sort themselves by phase. On the combined pill, ring or patch, Dottie counts from your pack schedule instead of guessing. On the mini-pill, a hormonal IUD, an implant or the shot it makes no period prediction and watches for changes instead.</p>
+          <p>Log a period in two taps, with flow from spotting to flooding. Your next period shows as a range with what it rests on, and over time your symptoms sort themselves by phase.</p>
+          <p>Tell Dottie when you start or stop a birth control method and it keeps a history of each one. On the combined pill, ring or patch, it counts from your pack schedule instead of guessing. On the mini-pill, a hormonal IUD or an implant it makes no period prediction, and if your bleeding becomes regular it offers to predict when that starts next. On the shot it predicts nothing and watches for changes instead.</p>
         </article>
 
-        <article class="stage-card" id="stage-ttc">
+        <article class="stage-card" id="stage-ttc" data-stage="ttc">
           <div class="tile">
-            <div class="mini-ring" data-p="0.42" data-band="0.26,0.19" data-band-outline="1" aria-hidden="true"></div>
-            <div class="tile__text" aria-hidden="true"><span class="tile__top">Cycle day 13</span><span class="tile__main">Ovulation</span></div>
+            <div class="mini-ring" data-p="0.478" data-band="0.987,0.159" aria-hidden="true"></div>
+            <div class="tile__text" aria-hidden="true"><span class="tile__top">Cycle day 15</span><span class="tile__main">Follicular</span></div>
           </div>
-          <p class="tile__line">“An estimate for timing, not birth control.”</p>
+          <p class="tile__line">“Fertile window · day 3 of 7”</p>
           <h3>Trying to conceive <span class="plus-tag">Plus</span></h3>
           <p class="stage-card__for">For when you want to time things.</p>
-          <p>Dottie centers your fertile window, adds LH and test logging, and estimates ovulation from temperature read from Apple Health. The window appears after three logged cycles. It is an estimate for timing, not birth control.</p>
+          <p>Dottie centers your fertile window, adds LH and test logging, and estimates ovulation from your temperature, typed in or read from Apple Health. The window appears after three logged cycles.</p>
+          <p class="stage-card__quote">“An estimate for timing, not birth control.”</p>
         </article>
 
-        <article class="stage-card" id="stage-pregnant">
+        <article class="stage-card" id="stage-pregnant" data-stage="pregnant">
           <div class="tile">
-            <div class="mini-ring" data-p="1" aria-hidden="true"></div>
-            <div class="tile__text" aria-hidden="true"><span class="tile__top">Week 20</span><span class="tile__main">Pregnant</span></div>
+            <div class="mini-ring" data-p="0.5" aria-hidden="true"></div>
+            <div class="tile__text" aria-hidden="true"><span class="tile__main">Pregnant</span></div>
           </div>
           <p class="tile__line">“Week 20 · due around Mar 17”</p>
           <h3>Pregnancy</h3>
           <p class="stage-card__for">For when you are pregnant.</p>
-          <p>A week counter, and a due date you can update if your care provider gives you a different one. Your records, a short note for each week, and the doctor visit summary. No development content and no new app. If the pregnancy ends, one line turns everything pregnancy related off, and you choose whether to resume cycle tracking now or pause for a while.</p>
+          <p>A week counter, and a due date you can update if your care provider gives you a different one. Your records, a short note for each week, and the doctor visit summary. No development content and no new app.</p>
+          <p>If you log bleeding, Dottie says the same day that it should be checked. If you turned pregnancy on by mistake, you can undo it. If the pregnancy ends, one line turns everything pregnancy related off, and you choose whether to resume cycle tracking now or pause for a while.</p>
           <p class="stage-card__quote">“Take whatever time you need. Dottie will be here, exactly as you left it.”</p>
         </article>
 
-        <article class="stage-card" id="stage-after">
+        <article class="stage-card" id="stage-after" data-stage="after">
           <div class="tile">
-            <div class="mini-ring" data-p="0" aria-hidden="true"></div>
-            <div class="tile__text" aria-hidden="true"><span class="tile__top">Cycle tracking</span><span class="tile__main">Paused</span></div>
+            <div class="mini-ring" data-resting aria-hidden="true"></div>
+            <div class="tile__text" aria-hidden="true"><span class="tile__main">Tracking</span></div>
           </div>
           <p class="tile__line">“Predictions stay off until a new period is logged.”</p>
           <h3>After a pregnancy</h3>
           <p class="stage-card__for">For the months after a pregnancy, however it ended.</p>
-          <p>Predictions stay off until you log a new period. When cycles come back, Dottie shows ranges that narrow as new ones are logged. There is no schedule your body is meant to keep.</p>
+          <p>For the first six weeks, bleeding is recorded as bleeding after pregnancy, not as a period, and if it is heavy Dottie tells you when to get medical help. Predictions stay off until you log a new period. If none has come after three months, Dottie mentions once that it is worth checking with a doctor.</p>
+          <p>When cycles come back, Dottie shows ranges that narrow as new ones are logged. There is no schedule your body is meant to keep.</p>
           <p class="stage-card__quote">“Cycles coming back after a pregnancy often vary. The range narrows as new ones are logged.”</p>
         </article>
 
-        <article class="stage-card" id="stage-changing">
+        <article class="stage-card" id="stage-changing" data-stage="changing">
           <div class="tile">
-            <div class="mini-ring" data-p="1" data-band="0.0,0.5" aria-hidden="true"></div>
-            <div class="tile__text" aria-hidden="true"><span class="tile__top">Cycle day 41</span><span class="tile__main">Running long</span></div>
+            <div class="mini-ring" data-p="1" aria-hidden="true"></div>
+            <div class="tile__text" aria-hidden="true"><span class="tile__top">Cycle day 41</span><span class="tile__main">Changing</span></div>
           </div>
-          <p class="tile__line">“Likely within the next 1–4 weeks.”</p>
+          <p class="tile__line">“Could start within the next 1–4 weeks.”</p>
           <h3>Changing cycles</h3>
           <p class="stage-card__for">For perimenopause and menopause.</p>
-          <p>When cycles vary, Dottie shows a range of weeks instead of a date, and says why. Hot flashes and the other transition symptoms have their own place in the log. A quiet counter keeps the months since your last period, and if bleeding returns after 12 months, Dottie says plainly that doctors recommend getting it checked. Plus adds dated ranges and a monthly symptoms score.</p>
+          <p>When cycles vary a lot, Dottie shows a range of weeks instead of a date, and says why. Hot flashes and the other transition symptoms have their own place in the log. A quiet counter keeps the days since your last period, and if bleeding returns after 12 months, Dottie says plainly that doctors recommend getting it checked.</p>
+          <p><span class="plus-tag">Plus</span> shows that range as dates, and adds a card counting the days you logged each transition symptom, this month and last.</p>
           <p class="stage-card__quote">“12 months without a recorded period.”</p>
         </article>
 
@@ -247,8 +296,8 @@
         <h2 id="parents-title">For parents</h2>
         <p class="section-lede">If someone in your family has just started her periods, this is the part of Dottie written for her, and here is what it is and isn't.</p>
         <div class="parents__ring" aria-hidden="true">
-          <div class="mini-ring mini-ring--large" data-p="0.3" data-band="0.55,0.42"></div>
-          <p class="parents__ring-cap">A wide band is an honest one. First Cycles keeps it wide while her cycles settle.</p>
+          <div class="mini-ring mini-ring--large" data-p="0.3" data-band="0.99,0.16"></div>
+          <p class="parents__ring-cap">“Period could start Nov 20 – Dec 8”. A wide range is an honest one. First Cycles keeps it wide while her cycles settle.</p>
         </div>
       </div>
       <dl class="parents__list">
@@ -313,12 +362,12 @@
         <li class="safe">
           <span class="safe__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6.5 16.5v-5.3a5.5 5.5 0 0 1 11 0v5.3l1.5 1.5h-14z"/><path d="M10 20.3a2 2 0 0 0 4 0"/></svg></span>
           <h3>Reminders that keep quiet</h3>
-          <p>Reminders are made on your device. The lock screen shows the word “Reminder” and a plain line like “A quick check-in for today?”. Nothing on it says what you track.</p>
+          <p>Reminders are made on your device. The lock screen shows the word “Reminder” and a plain line like “A quick check-in for today?”. The one the day before a symptom usually starts says only “Tomorrow may be worth a note.” Nothing on it says what you track.</p>
         </li>
         <li class="safe">
           <span class="safe__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 11v5.5M12 7.8v.4"/></svg></span>
           <h3>Not a medical device</h3>
-          <p>Dottie is not a medical device. It offers information only, not medical advice or contraception. It doesn't diagnose, and a late day gets calm, neutral information rather than a conclusion.</p>
+          <p>Dottie is not a medical device. It offers information only, not medical advice or contraception. It doesn't diagnose, and a late day gets calm, neutral information rather than a conclusion. On eight subjects, such as bleeding in pregnancy or flooding, it says plainly that a doctor should hear about it.</p>
         </li>
       </ul>
 
@@ -330,8 +379,8 @@
             <div class="mini__body">
               <p class="mini__day">Cycle day 15</p>
               <p class="mini__word">Follicular</p>
-              <p class="mini__head">Period likely Nov 12–18</p>
-              <p class="mini__sub">Based on your last 6 cycles · usually within 3 days</p>
+              <p class="mini__head">Period likely Nov 12–16</p>
+              <p class="mini__sub">Based on your last 6 cycles · your cycles vary by about 4 days</p>
             </div>
           </div>
           <label class="switch"><input type="checkbox" id="airplane"><span class="switch__track" aria-hidden="true"></span><span>Airplane mode</span></label>
@@ -343,7 +392,7 @@
           <div class="lockshot" role="img" aria-label="An iPhone lock screen showing a reminder from Dottie that reads: Reminder. A quick check-in for today?">
             <p class="lockshot__time">9:41</p>
             <div class="lockshot__notif">
-              <span class="lockshot__icon"><img src="assets/img/icon.svg" alt="" width="34" height="34"></span>
+              <span class="lockshot__icon"><img src="assets/img/icon.svg" alt="" width="34" height="34"></span><!-- ICON PLACEHOLDER: assets/img/icon.svg is a stand-in until the new app icon is approved -->
               <span class="lockshot__body"><span class="lockshot__app">Dottie <small>now</small></span><span class="lockshot__title">Reminder</span><span class="lockshot__text">A quick check-in for today?</span></span>
             </div>
           </div>
@@ -397,8 +446,23 @@
           <dt>Cookies, on this site</dt>
           <dd><b>None.</b> No cookies and no trackers, and it loads nothing from anyone else.</dd>
         </div>
+        <div class="none">
+          <dt>Requests for your data</dt>
+          <dd><b>Nothing to give.</b> I can't hand over what I don't have. Your data exists only on your device and in any backups you made.</dd>
+        </div>
       </dl>
-      <p class="counter" id="req-counter" aria-live="polite">Counting what this page loaded…</p>
+
+      <div class="check" id="check">
+        <h3>Check it yourself.</h3>
+        <ol class="check__list">
+          <li><b>This page.</b> <span class="counter" id="req-counter" aria-live="polite">Counting what this page loaded…</span></li>
+          <li><b>Airplane mode.</b> Turn it on and use Dottie as usual. Everything you track keeps working, because your records never use the network.</li>
+          <li class="check__draft">
+            <p class="check__flag">Draft. Not tested on a device yet, so not ready to publish.</p>
+            <b>Your iPhone's own report.</b> In Settings, tap Privacy &amp; Security, then App Privacy Report, and turn it on. Use Dottie for a few days. Under App Network Activity, Dottie should have no domains listed. <a href="https://support.apple.com/en-us/102188" rel="noopener">Apple's guide to App Privacy Report</a>
+          </li>
+        </ol>
+      </div>
 
       <figure class="vault">
         <svg viewBox="0 0 720 300" role="img" aria-labelledby="vault-title">
@@ -423,12 +487,58 @@
     </div>
   </section>
 
+  <!-- 9b · what's free, what's Plus (the Plus list is the paywall's own, src/entitlement/paywallCopy.ts) -->
+  <section class="plus day" id="plus" aria-labelledby="plus-title">
+    <div class="plus__inner">
+      <h2 id="plus-title">What's free, and what's Plus.</h2>
+      <p class="section-lede">Tracking is free. Plus adds what Dottie learns from your logs, and it is what pays for Dottie, so there are no ads and nothing to sell.</p>
+      <div class="tiers">
+        <article class="tier">
+          <h3>Free</h3>
+          <ul class="tier__list">
+            <li>Everything you log, and your whole history</li>
+            <li>Predictions for the weeks ahead, on Today and on the calendar</li>
+            <li>Your cycle and period trends, and your symptoms by phase</li>
+            <li>The doctor visit summary</li>
+            <li>Every safety feature, from app lock to Delete all data</li>
+            <li>First Cycles, pregnancy, after a pregnancy and changing cycles</li>
+            <li>Your birth control history</li>
+            <li>A one-time import of your period history from Apple Health</li>
+            <li>A daily reminder, if you want one</li>
+            <li>Encrypted backups that you keep</li>
+          </ul>
+        </article>
+        <article class="tier tier--plus">
+          <h3>Plus <span class="plus-tag">Plus</span></h3>
+          <ul class="tier__list">
+            <li>A note on Today, and a reminder the day before, when a symptom is likely to start</li>
+            <li>Symptom patterns: when each one usually starts, with its days marked on the calendar</li>
+            <li>Twelve months of predictions on the calendar</li>
+            <li>Your next period as dates, even when your cycles vary a lot</li>
+            <li>A fuller doctor visit summary, with a cycle table and a day-by-day symptom map</li>
+            <li>Trying to conceive: fertile window, test logging, and ovulation estimated from your temperature. Not for birth control.</li>
+            <li>Apple Health sync: sleep, temperature, weight and blood pressure</li>
+            <li>The full library of plain-language reads on cycles, symptoms and the transition</li>
+            <li>A recap after every cycle, showing what changed in your own logs</li>
+          </ul>
+          <p class="tier__note">On the pill, ring or patch and on hormonal methods, the dated range and the recap don't apply, so Dottie doesn't offer them there.</p>
+        </article>
+      </div>
+      <dl class="tier-facts">
+        <div><dt>How Plus is sold</dt><dd>By the year or the month, or as a one-time purchase. Apple shows the price in your region.</dd></div>
+        <div><dt>If Plus ends</dt><dd>Nothing you logged or synced is lost. The Plus features pause, and they come back on if you rejoin.</dd></div>
+      </dl>
+      <p class="plus__promise">“Paid or not, your data stays on this device. Plus adds insight, not collection.”</p>
+    </div>
+  </section>
+
   <!-- 10 · the doctor visit summary -->
   <section class="doctor day" id="doctor" aria-labelledby="doctor-title">
     <div class="doctor__inner">
       <div class="doctor__copy">
         <h2 id="doctor-title">A summary you could hand over.</h2>
         <p class="section-lede">A PDF of your cycle history and symptom patterns, created on this device from your own data.</p>
+        <p>Heavy flow and flooding are listed by date, one line for each period, and each birth control method has a line of its own.</p>
         <p>It has to be readable by your doctor, so the PDF isn't encrypted. Dottie deletes its copy after you share it. Any copies you save or send are under your control. You can add your name and a note when you create it, and nothing you type there is saved.</p>
         <p class="plus-line"><span class="plus-tag">Plus</span> adds a cycle table, flagged patterns, a day-by-day symptom map and health details you can type in, such as conditions and medications.</p>
       </div>
@@ -436,23 +546,27 @@
         <h3>Doctor visit summary</h3>
         <p class="paper__meta">Generated on Oct 28, 2026 from data logged in Dottie.</p>
         <h4>At a glance</h4>
-        <table><tr><th>Last period started</th><td>Oct 14, 2026</td><th>Cycles tracked (total)</th><td>7</td></tr><tr><th>Date range</th><td>Apr 15, 2026 to Oct 28, 2026</td><th>Statistics based on</th><td>your last 6 completed cycles</td></tr></table>
+        <table class="paper__kv"><tr><th>Last period started</th><td>Oct 14, 2026</td></tr><tr><th>Cycles tracked (total)</th><td>6</td></tr><tr><th>Date range</th><td>Apr 11, 2026 to Oct 28, 2026</td></tr><tr><th>Birth control</th><td>Copper IUD: Jun 22, 2026 to now</td></tr><tr><th></th><td>No birth control: Apr 11, 2026 to Jun 21, 2026</td></tr><tr><th>Statistics based on</th><td>your last 6 completed cycles</td></tr></table>
         <h4>Cycle statistics</h4>
         <p class="paper__note">Based on your last 6 completed cycles.</p>
-        <table><tr><th>Average cycle</th><td>31 days (6 cycles)</td><th>Range</th><td>29–33 days</td></tr><tr><th>Variation</th><td>4 days</td><th>Most common</th><td>31 days</td></tr><tr><th>Shortest</th><td>29 days (from Apr 15, 2026)</td><th>Longest</th><td>33 days (from Sep 11, 2026)</td></tr></table>
+        <table class="paper__kv"><tr><th>Average cycle</th><td>31 days</td></tr><tr><th>Range</th><td>29–33 days</td></tr><tr><th>Variation</th><td>4 days</td></tr><tr><th>Most common</th><td>29–31d (4 cycles)</td></tr><tr><th>Shortest</th><td>29 days (from Apr 11, 2026)</td></tr><tr><th>Longest</th><td>33 days (from Sep 11, 2026)</td></tr></table>
         <h4>Status</h4>
-        <table><tr><th>Status</th><td>Regular</td><th></th><td>Usual variation</td></tr></table>
+        <table class="paper__kv"><tr><th>Regularity (FIGO)</th><td>Regular</td></tr><tr><th>Last 6 months</th><td>Shortest 30 days · longest 33 days · range 3 days (5 cycles, May 10, 2026 to Oct 13, 2026)</td></tr><tr><th>Regular range</th><td>Up to 7 days (age not recorded)</td></tr></table>
         <h4>Periods</h4>
-        <p class="paper__note">Based on your last 6 completed periods.</p>
-        <table><tr><th>Typical period length</th><td>5 days</td><th>Heavy days per period (avg)</th><td>1.5</td></tr></table>
+        <table class="paper__kv"><tr><th>Typical period length</th><td>5 days</td></tr><tr><th></th><td>Based on your last 7 completed periods.</td></tr><tr><td colspan="2">Heavy flow in 6 of the last 6 cycles</td></tr><tr><td colspan="2">Flooding in 1 of the last 6 cycles</td></tr><tr><th>Heavy and flooding days in those periods</th><td>usually 2 days (1 to 2)</td></tr><tr><th></th><td>Apr 12–13, 2026 (2 days)</td></tr><tr><th></th><td>May 11, 2026 (1 day)</td></tr><tr><th></th><td>Jun 11–12, 2026 (2 days)</td></tr><tr><th></th><td>Jul 11, 2026 (1 day)</td></tr><tr><th></th><td>Aug 12–13, 2026 (2 days, flooding on Aug 12)</td></tr><tr><th></th><td>Sep 12, 2026 (1 day)</td></tr></table>
         <h4>Flagged cycles</h4>
-        <p class="paper__note">No cycles flagged.</p>
+        <table class="paper__list"><tr><th>Cycle starting</th><th>Flag</th></tr><tr><td>Aug 11, 2026</td><td>heavy (flooding logged on 1 day)</td></tr></table>
         <h4>Symptoms</h4>
         <p class="paper__note">Based on your last 6 completed cycles. Each percentage counts only the cycles that reached that phase.</p>
-        <table class="paper__list"><tr><th>Symptom</th><th>Timing</th><th>Logged in</th></tr><tr><td>Cramps</td><td>Menstrual</td><td>6 of 6 cycles · 100%</td></tr><tr><td>Fatigue</td><td>Menstrual</td><td>5 of 6 cycles · 83%</td></tr><tr><td>Tender breasts</td><td>Luteal</td><td>4 of 5 cycles · 80%</td></tr><tr><td>Headache</td><td>Menstrual</td><td>4 of 6 cycles · 67%</td></tr></table>
+        <p class="paper__group">Pain</p>
+        <table class="paper__list"><tr><th>Symptom</th><th>Timing</th><th>Logged in</th></tr><tr><td>Cramps</td><td>Menstrual</td><td>7 of 7 cycles · 100%</td></tr><tr><td>Tender breasts</td><td>Luteal</td><td>4 of 6 cycles · 67%</td></tr><tr><td>Headache</td><td>Menstrual</td><td>4 of 7 cycles · 57%</td></tr></table>
+        <p class="paper__group">Sleep &amp; energy</p>
+        <table class="paper__list"><tr><th>Symptom</th><th>Timing</th><th>Logged in</th></tr><tr><td>Fatigue</td><td>Menstrual</td><td>5 of 7 cycles · 71%</td></tr></table>
+        <p class="paper__group">Digestive</p>
+        <table class="paper__list"><tr><th>Symptom</th><th>Timing</th><th>Logged in</th></tr><tr><td>Bloating</td><td>Luteal</td><td>2 of 6 cycles · 33%</td></tr></table>
         <h4>Symptom patterns</h4>
-        <p class="paper__note">Learned over the last 6 cycles. Onset is anchored where it clusters tightest (before the next period, by cycle day, or around ovulation).</p>
-        <table class="paper__list"><tr><th>Symptom</th><th>Typical onset</th><th>Spread</th><th>How often</th><th>Duration</th></tr><tr><td>Cramps</td><td>~cycle day 1</td><td>±1 day</td><td>6 of 6 · 100%</td><td>2 days</td></tr><tr><td>Tender breasts</td><td>~4 days before</td><td>±2 days</td><td>4 of 5 · 80%</td><td>3 days</td></tr></table>
+        <p class="paper__note">Learned over the last 7 cycles. Onset is anchored where it clusters tightest (before the next period, by cycle day, or around ovulation).</p>
+        <table class="paper__list"><tr><th>Symptom</th><th>Typical onset</th><th>Spread</th><th>How often</th><th>Duration</th></tr><tr><td>Cramps</td><td>~cycle day 1</td><td>±0d</td><td>7 of 7 · 100%</td><td>~2d</td></tr><tr><td>Fatigue</td><td>~cycle day 1</td><td>±0d</td><td>5 of 7 · 71%</td><td>~2d</td></tr><tr><td>Tender breasts</td><td>~3 days before period</td><td>±0d</td><td>4 of 6 · 67%</td><td>~3d</td></tr><tr><td>Headache</td><td>~cycle day 2</td><td>±0d</td><td>4 of 7 · 57%</td><td>~1d</td></tr></table>
         <h4>How these estimates were made</h4>
         <p class="paper__note">Estimates come from the pattern of your own logged cycles.</p>
         <p class="paper__foot">This summary records what was logged in Dottie; it is not a medical assessment and Dottie does not diagnose. All figures were computed on the device from 6 completed cycles. No data left the device.</p>
@@ -486,10 +600,11 @@
       <p class="cta cta--day"><span class="js-appstore cta__main">Coming soon to the App Store</span></p>
       <div class="faq">
         <details><summary>What does Dottie collect?</summary><p>Nothing. There is no account, no server and no analytics. This website is the same: no cookies, no trackers, no third-party scripts or fonts.</p></details>
-        <details><summary>What is free, and what is Plus?</summary><p>Logging, the calendar for this month and the next, predictions, every safety feature, pregnancy mode, changing cycles, first cycles and the doctor visit summary are free. Your own history is free to see. Plus adds symptom patterns and a reminder the day before a symptom is likely to start, twelve months on the calendar, a fuller doctor visit summary, trying to conceive, Apple Health sync, the full library and a recap after each cycle. Two library articles about bleeding are free for everyone, and the recap isn't made while you're on hormonal birth control. Apple shows the price in your region.</p></details>
+        <details><summary>What is free, and what is Plus?</summary><p>Logging, predictions for the weeks ahead, your whole history, the doctor visit summary and every safety feature are free. Plus adds what Dottie learns from your logs, such as symptom patterns and a recap after each cycle. Both lists are in <a href="#plus">What's free, and what's Plus</a>. Apple shows the price in your region.</p></details>
+        <details><summary>What happens if I stop paying for Plus?</summary><p>Nothing you logged or synced is lost. The Plus features pause, and they come back on if you rejoin. Everything that was free stays as it was.</p></details>
         <details><summary>Can my teenager use Dottie?</summary><p>Yes, from 13 up. First Cycles is the mode for periods that started recently, and all of it is free with nothing for sale inside. There is more in <a href="#parents">For parents</a>.</p></details>
         <details><summary>What if I lose my device?</summary><p>Export an encrypted backup whenever you like, with a passphrase you choose, and keep it where you keep your own files. Restore it on a new device from Settings or from the lock screen. If you forget the passphrase, the file is gone. There is no reset, because there is no server.</p></details>
-        <details><summary>Can I bring my history from another app?</summary><p>If it is in Apple Health, yes: a one-time import of menstrual flow and spotting, read on the device. Days you've already logged stay as they are. Dottie never writes to Apple Health.</p></details>
+        <details><summary>Can I bring my history from another app?</summary><p>If it is in Apple Health, yes: a one-time import of menstrual flow and spotting, read on the device. Days you've already logged stay as they are. Dottie never writes to Apple Health. The import is free. Reading your sleep, temperature, weight and blood pressure from Apple Health as you go is part of Plus.</p></details>
         <details><summary>Does Dottie prevent pregnancy?</summary><p>No. Dottie is information only. It is not medical advice or contraception. Fertile-window estimates are for awareness only, and they stay off on hormonal methods.</p></details>
         <details><summary>Is Dottie a medical device?</summary><p>No. Dottie is not a medical device. It offers information only, not medical advice or contraception. It only knows what you log, so it can miss things. If something doesn't feel right, trust that and get it checked.</p></details>
         <details><summary>Who made Dottie?</summary><p>Just me, Rob. Dottie is a one-person project. It's paid for by the people who choose Plus, not by advertisers, so there's nothing to sell.</p></details>
