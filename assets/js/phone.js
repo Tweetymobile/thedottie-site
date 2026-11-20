@@ -142,7 +142,8 @@
       sub = 'Based on your last ' + D.cycleLengths.length + ' cycles · your cycles vary by about ' + D.spread + ' days';
     }
     var control;
-    if (S.confirm) control = '<div class="confirm"><span>' + esc(S.confirm) + '</span>' + (S.confirmUndo ? '<button type="button" data-act="undo">Undo</button>' : '') + '<button type="button" class="confirm__x" data-act="hide-confirm" aria-label="Hide this note">✕</button></div>';
+    // Beside "Undo" the way to put the line away is the word "Dismiss", never a ✕ (the app's item 440).
+    if (S.confirm) control = '<div class="confirm"><span>' + esc(S.confirm) + '</span><button type="button" data-act="undo">Undo</button><button type="button" class="confirm__dismiss" data-act="hide-confirm">Dismiss</button></div>';
     else if (periodOpen()) control = '<button type="button" class="textlink" data-act="ended">My period ended →</button>';
     else control = '<button type="button" class="textlink" data-act="started">My period started →</button>';
     var log = S.logged && anythingLogged()
