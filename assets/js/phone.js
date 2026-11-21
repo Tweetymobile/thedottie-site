@@ -284,12 +284,20 @@
     var grid = [38, 31, 24].map(function (v) { return '<line class="c-axis" x1="24" x2="' + W + '" y1="' + y(v).toFixed(1) + '" y2="' + y(v).toFixed(1) + '"/><text class="c-label" x="2" y="' + (y(v) + 4).toFixed(1) + '">' + v + '</text>'; }).join('');
     var bars = pl.map(function (v, i) { var h = v * 12; return '<rect x="' + (x(i) - 12).toFixed(1) + '" y="' + (86 - h) + '" width="24" height="' + h + '" rx="5" class="c-secondary"/><text x="' + x(i).toFixed(1) + '" y="' + (86 - h - 6) + '" text-anchor="middle" class="c-num">' + v + '</text>'; }).join('');
     var labels = [0, 2, 3, 5].map(function (i) { return '<text x="' + x(i).toFixed(1) + '" y="104" text-anchor="middle" class="c-label">' + md(D.starts[i]) + '</text>'; }).join('');
+    // The app marks a change between methods that keep her natural cycle: a dashed line before the
+    // first cycle that started on or after the change, the method's name at its top on the upper
+    // chart, the line alone on the lower one (the app's switchMarks; the name is History's, item 450).
+    var at = -1;
+    for (var k = 0; k < cl.length; k++) if (D.starts[k] >= D.method.since) { at = k; break; }
+    var sx = at > 0 ? ((x(at - 1) + x(at)) / 2).toFixed(1) : null;
+    var markTop = sx ? '<line class="c-switch" x1="' + sx + '" x2="' + sx + '" y1="12" y2="112"/><text class="c-label c-switch-name" x="' + (+sx + 3).toFixed(1) + '" y="10">' + esc(D.method.now) + '</text>' : '';
+    var markLow = sx ? '<line class="c-switch" x1="' + sx + '" x2="' + sx + '" y1="0" y2="86"/>' : '';
     return chips('data-range', RANGES, S.trange) +
       '<div class="label">Cycle and period</div><p class="explainer explainer--tight">One column per cycle.</p>' +
       '<div class="card"><p class="sub tight0"><b class="c-ink">Cycle length</b> · days between periods ' + INFO + '</p>' +
-      '<svg class="chart" viewBox="0 0 ' + W + ' 112" role="img" aria-label="Cycle length, six cycles: ' + cl.join(', ') + ' days">' + grid + '<path d="' + line + '" fill="none" class="c-line" stroke-width="2.5" stroke-linejoin="round"/>' + pts + '</svg>' +
+      '<svg class="chart" viewBox="0 0 ' + W + ' 112" role="img" aria-label="Cycle length, six cycles: ' + cl.join(', ') + ' days">' + grid + '<path d="' + line + '" fill="none" class="c-line" stroke-width="2.5" stroke-linejoin="round"/>' + pts + markTop + '</svg>' +
       '<p class="sub tight12"><b class="c-ink">Period length</b> · days it lasted</p>' +
-      '<svg class="chart" viewBox="0 0 ' + W + ' 110" role="img" aria-label="Period length, six cycles: ' + pl.join(', ') + ' days">' + bars + '<line class="c-axis" x1="24" x2="' + W + '" y1="86" y2="86"/>' + labels + '</svg></div>' +
+      '<svg class="chart" viewBox="0 0 ' + W + ' 110" role="img" aria-label="Period length, six cycles: ' + pl.join(', ') + ' days">' + bars + '<line class="c-axis" x1="24" x2="' + W + '" y1="86" y2="86"/>' + markLow + labels + '</svg></div>' +
       '<div class="label"><span>Cycle spread ' + INFO + '</span></div><div class="card"><div class="kv"><div><b>' + D.usualVariation + '</b><span>Usual variation</span></div><div><b>' + (Math.max.apply(null, cl) - Math.min.apply(null, cl)) + 'd</b><span>Full spread</span></div><div><b>' + D.periodLen + 'd</b><span>Typical period</span></div></div><p class="muted">How far your cycles usually land from your average. One unusually long or short cycle moves it less than the full spread does.</p></div>';
   }
   function symptoms() {

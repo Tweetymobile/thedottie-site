@@ -446,7 +446,7 @@ h1 { font-size: clamp(44px, 8.5vw, 104px); line-height: 0.98; letter-spacing: -0
 .theme-dot[data-theme="midnight"] i { background: linear-gradient(135deg, var(--p-midnight-bg3) 50%, var(--p-midnight-accent) 50%); }
 .theme-dot[aria-pressed="true"] { border-color: #2A2433; background: rgba(255,255,255,0.85); }
 .explainer { color: var(--ink-soft); font-size: 13px; margin: 12px 20px 0; }
-.c-accent { fill: var(--accent); } .c-ink { color: var(--ink); } .c-secondary { fill: var(--secondary); } .c-line { stroke: var(--accent); } .c-axis { stroke: var(--divider); } .c-typical { fill: var(--tint-follicular); opacity: 0.5; } .c-label { fill: var(--ink-soft); font-size: 11px; } .c-num { fill: var(--ink); font-size: 11.5px; font-weight: 600; }
+.c-accent { fill: var(--accent); } .c-ink { color: var(--ink); } .c-secondary { fill: var(--secondary); } .c-line { stroke: var(--accent); } .c-axis { stroke: var(--divider); } .c-switch { stroke: var(--ink-soft); stroke-width: 1; stroke-dasharray: 3 3; } .c-switch-name { font-size: 10px; } .c-typical { fill: var(--tint-follicular); opacity: 0.5; } .c-label { fill: var(--ink-soft); font-size: 11px; } .c-num { fill: var(--ink); font-size: 11.5px; font-weight: 600; }
 
 /* ---- 5 · make it yours ---------------------------------------------------------- */
 .yours { padding: 72px 20px 88px; }
