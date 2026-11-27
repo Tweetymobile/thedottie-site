@@ -154,7 +154,7 @@
   var air = document.getElementById('airplane'), airStatus = document.getElementById('air-status'), airNote = document.getElementById('air-note');
   if (air) air.addEventListener('change', function () {
     airStatus.innerHTML = air.checked ? '<span aria-label="Airplane mode on">✈</span>' : '<span class="mini__signal">●●●●</span>';
-    airNote.textContent = air.checked ? 'Still cycle day 15, still Nov 12–16, still every note and every chart. Your records never use the network.' : 'Flip it. Everything you track carries on, because your records never use the network. No account, no sync, no analytics, no crash reports. Only buying or restoring Plus needs a connection, and that goes through the App Store.';
+    airNote.textContent = air.checked ? 'Still cycle day 15, still Nov 12–16, still every note and every chart. Your records never use the network.' : 'Flip it. Everything you track carries on, because your records never use the network. No account, no sync, no analytics, no crash reports. Only Plus needs a connection, to check its prices and to buy or restore it, and that goes through the App Store.';
   });
 
   var del = document.getElementById('del');
